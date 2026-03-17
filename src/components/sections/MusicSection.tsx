@@ -67,6 +67,20 @@ export default function MusicSection() {
             </a>
           </div>
 
+          {/* Band photo */}
+          <div className="relative w-full aspect-[16/7] overflow-hidden mb-10">
+            <Image
+              src="/Photos/4.jpg"
+              alt="Mr. Kind recording in the studio"
+              fill
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              className="object-cover object-center"
+            />
+            <p className="absolute bottom-3 right-4 font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-[10px] tracking-widest uppercase">
+              Mr. Kind · Studio Session
+            </p>
+          </div>
+
           {/* Single artist-level Spotify embed — includes Follow button */}
           <div className="mb-10">
             <iframe

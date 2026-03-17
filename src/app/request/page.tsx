@@ -20,18 +20,25 @@ import Link from "next/link";
 
 const SONGS = [
   "Al Green – Let's Stay Together",
+  "Amy Winehouse – Valerie",
   "Andrew Bird – Measuring Cups",
-  "Awake for the Sunrise – Flock of Dimes",
   "Beck – The Golden Age",
   "Bill Withers – Ain't No Sunshine",
+  "Bill Withers – Lean on Me",
   "Bob Dylan – Like a Rolling Stone",
-  "Bon Iver – Calgary",
+  "Bob Marley – No Woman No Cry",
   "Bon Iver – Skinny Love",
+  "Bright Eyes – First Day of My Life",
   "Bruce Springsteen – Dancing in the Dark",
   "Bruce Springsteen – I'm on Fire",
   "Coldplay – Clocks",
+  "Dave Matthews Band – Ants Marching",
   "David Gray – Babylon",
+  "Death Cab for Cutie – I Will Follow You Into the Dark",
+  "Donnie Hathaway – Jealous Guy",
   "Dr. Dog – Shadow People",
+  "Eagles – Hotel California",
+  "Edward Sharpe & The Magnetic Zeros – Home",
   "Elton John – Tiny Dancer",
   "Elton John – Your Song",
   "Elvis Presley – Can't Help Falling In Love With You",
@@ -41,45 +48,66 @@ const SONGS = [
   "Father John Misty – I'm Writing A Novel",
   "Feist – 1, 2, 3, 4",
   "Fleetwood Mac – Landslide",
+  "Flock of Dimes – Awake for the Sunrise",
+  "Foo Fighters – Everlong",
   "Geese – Cobra",
   "Goo Goo Dolls – Slide",
-  "Hall and Oates – You Make My Dreams Come True",
+  "Hall & Oates – You Make My Dreams Come True",
   "Jack Johnson – Better Together",
   "Jackson Browne – These Days",
+  "James Taylor – Fire and Rain",
   "James Taylor – How Sweet It Is",
-  "Jealous Guy – John Lennon / Donny Hathaway",
+  "Jason Mraz – I'm Yours",
+  "Jeff Buckley – Hallelujah",
+  "John Legend – All of Me",
+  "John Lennon – Imagine",
+  "John Mayer – Why Georgia",
+  "Johnny Cash – Folsom Prison Blues",
   "Johnny Cash – I Walk The Line",
   "Johnny Cash – Ring of Fire",
   "Josh Ritter – Girl in the War",
   "Josh Ritter – Monster Ballads",
   "Journey – Don't Stop Believin'",
+  "Judy Garland – Somewhere Over the Rainbow",
   "Kings of Leon – Use Somebody",
+  "Leonard Cohen – Hallelujah",
   "Lumineers – Ho Hey",
   "Matchbox 20 – 3AM",
-  "Modern English – I Melt with You",
+  "MGMT – Fated to Pretend",
+  "Modern English – Melt with You",
+  "Mumford & Sons – I Will Wait",
   "Neil Diamond – Sweet Caroline",
   "Neil Young – Harvest Moon",
   "Neil Young – Heart of Gold",
-  "Nothing Compares 2 U – Prince / Sinéad O'Connor",
+  "Neil Young – Out on the Weekend",
+  "Neutral Milk Hotel – In the Aeroplane Over the Sea",
+  "Noah Kahan – Orange Juice",
   "Oasis – Wonderwall",
   "Old Crow Medicine Show – Wagon Wheel",
   "Otis Redding – Sittin' On The Dock of the Bay",
-  "Out on the Weekend – Neil Young",
+  "Paul Simon – 50 Ways to Leave Your Lover",
+  "Paul Simon – The Sound of Silence",
   "Pearl Jam – Betterman",
+  "Prince – Nothing Compares 2 U",
   "Radiohead – Creep",
   "Radiohead – Fake Plastic Trees",
   "Radiohead – Karma Police",
+  "Ray LaMontagne – You Are the Best Thing",
+  "Red Hot Chili Peppers – Under the Bridge",
   "REM – Losing My Religion",
   "Roy Orbison – Pretty Woman",
+  "Sam Cooke – Wonderful World",
   "Sheryl Crow – Strong Enough",
-  "Simon and Garfunkel – Me and Julio Down by the Schoolyard",
+  "Simon & Garfunkel – Me and Julio Down by the Schoolyard",
+  "Smashing Pumpkins – Tonight Tonight",
   "Spoon – The Underdog",
-  "Steeler's Wheel – Stuck in the Middle With You",
+  "Stealers Wheel – Stuck in the Middle With You",
   "Tears for Fears – Everybody Wants to Rule the World",
   "The Band – The Weight",
   "The Beatles – Come Together",
   "The Beatles – Don't Let Me Down",
   "The Beatles – Here Comes The Sun",
+  "The Beatles – In My Life",
   "The Beatles – Yellow Submarine",
   "The National – Fake Empire",
   "The Postal Service – The District Sleeps Alone Tonight",
@@ -87,13 +115,46 @@ const SONGS = [
   "The Temptations – My Girl",
   "Tom Petty – Free Fallin'",
   "Tom Petty – I Won't Back Down",
+  "Tom Petty – Wildflowers",
   "Tracy Chapman – Gimme One Reason",
+  "U2 – With or Without You",
   "Vampire Weekend – I Stand Corrected",
+  "Van Morrison – Brown Eyed Girl",
   "Van Morrison – Into the Mystic",
   "Wilco – California Stars",
   "Wilco – Jesus, etc.",
   "Wilco – Kamera",
 ];
+
+const PHIL_SONGS = new Set([
+  "Al Green – Let's Stay Together",
+  "Beck – The Golden Age",
+  "Bon Iver – Skinny Love",
+  "Bruce Springsteen – Dancing in the Dark",
+  "Bruce Springsteen – I'm on Fire",
+  "Donnie Hathaway – Jealous Guy",
+  "Dr. Dog – Shadow People",
+  "Elton John – Tiny Dancer",
+  "Elton John – Your Song",
+  "Father John Misty – Fun Times in Babylon",
+  "Father John Misty – I'm Writing A Novel",
+  "Flock of Dimes – Awake for the Sunrise",
+  "Geese – Cobra",
+  "Jackson Browne – These Days",
+  "Johnny Cash – Ring of Fire",
+  "Kings of Leon – Use Somebody",
+  "Neil Young – Harvest Moon",
+  "Neil Young – Out on the Weekend",
+  "Prince – Nothing Compares 2 U",
+  "Radiohead – Fake Plastic Trees",
+  "Sheryl Crow – Strong Enough",
+  "The Beatles – Come Together",
+  "The Beatles – Don't Let Me Down",
+  "The Rolling Stones – Wild Horses",
+  "Tears for Fears – Everybody Wants to Rule the World",
+  "Tom Petty – I Won't Back Down",
+  "Wilco – California Stars",
+]);
 
 const TIP_AMOUNTS = [5, 10, 20];
 
@@ -102,8 +163,8 @@ const STRIPE_PAYMENT_LINK_URL = "https://buy.stripe.com/YOUR_PAYMENT_LINK";
 
 export default function RequestPage() {
   const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState<"all" | "phil">("all");
   const [selectedSong, setSelectedSong] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
   const [tipAmount, setTipAmount] = useState<number | null>(null);
   const [customTip, setCustomTip] = useState("");
   const [tipNote, setTipNote] = useState("");
@@ -111,31 +172,22 @@ export default function RequestPage() {
   const [requestSubmitted, setRequestSubmitted] = useState(false);
 
   const filtered = useMemo(() => {
-    if (!search) return SONGS;
+    const base = filter === "phil" ? SONGS.filter((s) => PHIL_SONGS.has(s)) : SONGS;
+    if (!search) return base;
     const q = search.toLowerCase();
-    return SONGS.filter((s) => s.toLowerCase().includes(q));
-  }, [search]);
+    return base.filter((s) => s.toLowerCase().includes(q));
+  }, [search, filter]);
 
   const effectiveTip = tipAmount ?? (customTip ? parseFloat(customTip) : null);
 
-  function handleSelectSong(song: string) {
-    setSelectedSong(song);
-    setSearch(song);
-    setShowDropdown(false);
+  function handleTipPay() {
+    if (!effectiveTip || effectiveTip < 1) return;
+    window.open(STRIPE_PAYMENT_LINK_URL, "_blank");
   }
 
   function handleRequestSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Actual submission handled by Formspree — this is for optimistic UI
     setRequestSubmitted(true);
-  }
-
-  function handleTipPay() {
-    if (!effectiveTip || effectiveTip < 1) return;
-    // Redirect to Stripe Payment Link
-    // In production, you could append ?prefilled_quantity=X or use Stripe Checkout Sessions
-    // for a more custom experience with Apple Pay / Google Pay.
-    window.open(STRIPE_PAYMENT_LINK_URL, "_blank");
   }
 
   return (
@@ -149,7 +201,6 @@ export default function RequestPage() {
           >
             Mr. Kind
           </Link>
-
           <div className="flex items-center justify-center gap-3 mb-3">
             <div className="h-px w-8 bg-[#b8832a]/40" />
             <div className="w-1.5 h-1.5 rounded-full bg-[#b8832a]" />
@@ -190,52 +241,89 @@ export default function RequestPage() {
               </button>
             </div>
           ) : (
-            /* Actual form — Formspree handles submission */
             <form
               action="https://formspree.io/f/YOUR_FORM_ID"
               method="POST"
               onSubmit={handleRequestSubmit}
               className="space-y-4"
             >
-              {/* Searchable song picker */}
-              <div className="relative">
-                <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-                  Song
-                </label>
-                <input
-                  type="text"
-                  name="song_request"
-                  value={search}
-                  onChange={(e) => {
-                    setSearch(e.target.value);
-                    setSelectedSong("");
-                    setShowDropdown(true);
-                  }}
-                  onFocus={() => setShowDropdown(true)}
-                  placeholder="Search artist or song title…"
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3.5 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-                  autoComplete="off"
-                />
+              <input type="hidden" name="song_request" value={selectedSong} />
 
-                {showDropdown && filtered.length > 0 && (
-                  <div className="absolute z-20 w-full bg-[#1e1c19] border border-[#ede8de]/10 border-t-0 max-h-56 overflow-y-auto shadow-xl">
-                    {filtered.map((song) => (
-                      <button
-                        key={song}
-                        type="button"
-                        onMouseDown={() => handleSelectSong(song)}
-                        className={`w-full text-left px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] transition-colors ${
-                          selectedSong === song
-                            ? "bg-[#b8832a]/20 text-[#b8832a]"
-                            : "text-[#ede8de]/70 hover:bg-[#b8832a]/10 hover:text-[#ede8de]"
-                        }`}
-                      >
-                        {song}
-                      </button>
-                    ))}
+              {/* Filter toggle */}
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => { setFilter("all"); setSelectedSong(""); setSearch(""); }}
+                  className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
+                    filter === "all"
+                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                      : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
+                  }`}
+                >
+                  Mr. Kind Solo
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setFilter("phil"); setSelectedSong(""); setSearch(""); }}
+                  className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
+                    filter === "phil"
+                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                      : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
+                  }`}
+                >
+                  With Phil on Keys
+                </button>
+              </div>
+
+              {/* Search */}
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => { setSearch(e.target.value); setSelectedSong(""); }}
+                placeholder="Filter by artist or song…"
+                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+                autoComplete="off"
+              />
+
+              {/* Browsable song grid */}
+              <div className="h-64 overflow-y-auto border border-[#ede8de]/10 bg-[#181614]">
+                {filtered.length === 0 ? (
+                  <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/25 text-xs py-10">
+                    No matches
+                  </p>
+                ) : (
+                  <div className="grid grid-cols-2 gap-px bg-[#ede8de]/5">
+                    {filtered.map((song) => {
+                      const [artist, title] = song.split(" – ");
+                      return (
+                        <button
+                          key={song}
+                          type="button"
+                          onClick={() => { setSelectedSong(song); setSearch(song); }}
+                          className={`text-left px-3 py-2.5 transition-colors bg-[#181614] ${
+                            selectedSong === song
+                              ? "bg-[#b8832a]/20 border-l-2 border-[#b8832a]"
+                              : "hover:bg-[#252220]"
+                          }`}
+                        >
+                          <p className={`font-[family-name:var(--font-dm-sans)] text-[10px] tracking-widest uppercase truncate leading-tight mb-0.5 ${selectedSong === song ? "text-[#b8832a]" : "text-[#8aaa9e]"}`}>
+                            {artist}
+                          </p>
+                          <p className={`font-[family-name:var(--font-source-sans)] text-xs truncate leading-snug ${selectedSong === song ? "text-[#b8832a]" : "text-[#ede8de]/70"}`}>
+                            {title}
+                          </p>
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
               </div>
+
+              {selectedSong && (
+                <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
+                  ✓ {selectedSong}
+                </p>
+              )}
 
               {/* Note */}
               <div>
@@ -291,10 +379,7 @@ export default function RequestPage() {
               <button
                 key={amount}
                 type="button"
-                onClick={() => {
-                  setTipAmount(amount);
-                  setCustomTip("");
-                }}
+                onClick={() => { setTipAmount(amount); setCustomTip(""); }}
                 className={`py-4 font-[family-name:var(--font-playfair)] text-2xl transition-all border ${
                   tipAmount === amount
                     ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
@@ -320,10 +405,7 @@ export default function RequestPage() {
                 min="1"
                 step="1"
                 value={customTip}
-                onChange={(e) => {
-                  setCustomTip(e.target.value);
-                  setTipAmount(null);
-                }}
+                onChange={(e) => { setCustomTip(e.target.value); setTipAmount(null); }}
                 placeholder="Other amount"
                 className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 pl-8 pr-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
               />
@@ -345,16 +427,6 @@ export default function RequestPage() {
             />
           </div>
 
-          {/*
-            STRIPE HERE
-            This button redirects to a Stripe Payment Link.
-            Stripe handles Apple Pay, Google Pay, and card payments automatically.
-
-            For a more embedded experience with custom amount:
-              - Use Stripe Checkout Sessions via a Vercel Edge Function
-              - POST { amount, note } → create session → redirect to session.url
-              - See: https://stripe.com/docs/payments/checkout
-          */}
           <button
             type="button"
             onClick={handleTipPay}
