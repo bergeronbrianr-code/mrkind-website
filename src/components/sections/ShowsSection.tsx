@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 export default function ShowsSection() {
   return (
     <section id="shows" className="py-28 px-6 bg-[#f5f0e8]">
@@ -14,27 +16,16 @@ export default function ShowsSection() {
         </div>
 
         {/* Bandsintown widget */}
-        <div className="mb-10 bg-[#1c1a17] border border-[#b8832a]/20 p-10 flex flex-col items-center justify-center min-h-[300px] gap-4">
-          {/*
-            BANDSINTOWN WIDGET HERE
-            1. Claim/create your artist page at bandsintown.com
-            2. Replace YOUR_ARTIST_NAME below with your Bandsintown artist name
-            3. Shows auto-update from your Bandsintown dashboard — no code changes needed
-
-            <a class="bandsintown-link" href="https://bandsintown.com/a/YOUR_ARTIST_NAME">
-              Check out Mr. Kind on Bandsintown
-            </a>
-            <script src="https://widget.bandsintown.com/main.min.js" charset="utf-8"></script>
-          */}
-          <div className="w-10 h-10 border border-[#b8832a]/40 rounded-full flex items-center justify-center mb-2">
-            <span className="text-[#b8832a] text-lg leading-none">♪</span>
-          </div>
-          <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-xs tracking-widest uppercase text-center">
-            Bandsintown widget — shows auto-update from your dashboard
-          </p>
-          <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/20 text-xs text-center max-w-xs">
-            Claim your artist page at bandsintown.com, then paste the widget code above this comment.
-          </p>
+        <div className="mb-10">
+          <a
+            className="bit-widget-initializer"
+            data-artist-name="id_2979862"
+            data-app-id="8fa2a55cea34338859aa4e78dc01a464"
+          />
+          <Script
+            src="https://widgetv3.bandsintown.com/main.min.js"
+            strategy="lazyOnload"
+          />
         </div>
 
         {/* Sub-CTA */}
