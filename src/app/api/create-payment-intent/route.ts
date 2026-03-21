@@ -2,7 +2,12 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json({ error: "STRIPE_SECRET_KEY is not set" }, { status: 500 });
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
   try {
     const { amount, song, name } = await req.json();
 

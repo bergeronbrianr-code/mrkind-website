@@ -342,7 +342,8 @@ export default function RequestPage() {
             name: name || undefined,
           }),
         });
-        const data = await res.json();
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : { error: `Server error (${res.status})` };
         if (data.error) throw new Error(data.error);
         setClientSecret(data.clientSecret);
         setPhase("payment");
