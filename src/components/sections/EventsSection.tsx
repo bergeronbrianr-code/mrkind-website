@@ -66,19 +66,7 @@ export default function EventsSection() {
               </ul>
             </div>
 
-            {/* Photo placeholder */}
-            <div
-              className="aspect-video flex items-center justify-center border border-[#1c1a17]/10"
-              style={{ backgroundColor: "#b8832a18" }}
-            >
-              <div className="text-center opacity-30">
-                <div className="w-16 h-16 border border-[#1c1a17]/30 rounded-full mx-auto mb-2" />
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#1c1a17] text-xs tracking-widest uppercase">
-                  Event / Performance Photo
-                  {/* PERFORMANCE PHOTO HERE */}
-                </p>
-              </div>
-            </div>
+            {/* PERFORMANCE PHOTO — add when ready */}
           </div>
         </div>
       </div>
