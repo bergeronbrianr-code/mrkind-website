@@ -1,8 +1,34 @@
+"use client";
+
 // Form powered by Formspree — replace YOUR_FORM_ID with your actual form ID.
 // Get a free form ID at https://formspree.io
-// Once you have one, change the action below to: https://formspree.io/f/YOUR_FORM_ID
+
+import { useState } from "react";
+
+const MAILCHIMP_URL =
+  "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
+
+async function subscribeToMailchimp(email: string, name?: string) {
+  const data = new FormData();
+  data.append("EMAIL", email);
+  if (name) data.append("FNAME", name.split(" ")[0]);
+  data.append("b_90a8ab0567da6cacd07d0ffc6_7e20313e43", ""); // honeypot — do not remove
+  await fetch(MAILCHIMP_URL, { method: "POST", body: data, mode: "no-cors" });
+}
 
 export default function ContactSection() {
+  const [subscribeChecked, setSubscribeChecked] = useState(false);
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    if (subscribeChecked) {
+      const form = e.currentTarget;
+      const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+      const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+      subscribeToMailchimp(email, name);
+    }
+    // form continues to Formspree normally
+  }
+
   return (
     <section id="contact" className="py-28 px-6 bg-[#1c1a17]">
       <div className="max-w-6xl mx-auto">
@@ -47,8 +73,8 @@ export default function ContactSection() {
                   <a
                     key={social.label}
                     href={social.href}
-                    target={social.href.startsWith("http") ? "_blank" : undefined}
-                    rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="font-[family-name:var(--font-dm-sans)] text-sm text-[#ede8de]/40 hover:text-[#b8832a] transition-colors"
                   >
                     {social.label}
@@ -60,10 +86,10 @@ export default function ContactSection() {
 
           {/* Right: form */}
           <div>
-            {/* FORMSPREE FORM — replace action URL with your Formspree endpoint */}
             <form
               action="https://formspree.io/f/YOUR_FORM_ID"
               method="POST"
+              onSubmit={handleSubmit}
               className="space-y-5"
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -131,6 +157,28 @@ export default function ContactSection() {
                 />
               </div>
 
+              {/* Mailing list opt-in */}
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <div className="relative mt-0.5 shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={subscribeChecked}
+                    onChange={(e) => setSubscribeChecked(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div className={`w-4 h-4 border transition-colors ${subscribeChecked ? "border-[#b8832a] bg-[#b8832a]" : "border-[#ede8de]/20 bg-[#252220] group-hover:border-[#ede8de]/40"}`}>
+                    {subscribeChecked && (
+                      <svg className="w-4 h-4 text-[#1c1a17]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-xs leading-relaxed group-hover:text-[#ede8de]/60 transition-colors">
+                  Keep me posted on upcoming shows and house concerts
+                </span>
+              </label>
+
               <button
                 type="submit"
                 className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200"
@@ -148,43 +196,6 @@ export default function ContactSection() {
                 </a>
               </p>
             </form>
-
-            {/* ── Stay in the Loop signup ───────────────────────────── */}
-            {/* EMAIL LIST: replace action with your Mailchimp/ConvertKit/Formspree endpoint */}
-            {/* TEXT LIST: wire phone field to SimpleTexting, EZTexting, or similar SMS service */}
-            <div className="mt-10 pt-10 border-t border-[#ede8de]/10">
-              <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] tracking-[0.2em] uppercase text-xs mb-2">
-                Stay in the Loop
-              </p>
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/40 text-sm mb-5 leading-relaxed">
-                Get notified about upcoming shows and house concert dates.
-              </p>
-              <form
-                action="https://formspree.io/f/YOUR_LIST_FORM_ID"
-                method="POST"
-                className="space-y-3"
-              >
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="your@email.com"
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone number (for text updates, optional)"
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="w-full py-3 border border-[#b8832a] text-[#b8832a] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-xs hover:bg-[#b8832a] hover:text-[#1c1a17] transition-colors duration-200"
-                >
-                  Sign Me Up
-                </button>
-              </form>
-            </div>
           </div>
         </div>
       </div>

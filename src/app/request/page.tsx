@@ -18,6 +18,16 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 
+const MAILCHIMP_URL =
+  "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
+
+async function subscribeToMailchimp(email: string) {
+  const data = new FormData();
+  data.append("EMAIL", email);
+  data.append("b_90a8ab0567da6cacd07d0ffc6_7e20313e43", ""); // honeypot — do not remove
+  await fetch(MAILCHIMP_URL, { method: "POST", body: data, mode: "no-cors" });
+}
+
 const SONGS = [
   "Al Green – Let's Stay Together",
   "Amy Winehouse – Valerie",
@@ -170,6 +180,9 @@ export default function RequestPage() {
   const [tipNote, setTipNote] = useState("");
   const [requestNote, setRequestNote] = useState("");
   const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [listEmail, setListEmail] = useState("");
+  const [listChecked, setListChecked] = useState(false);
+  const [listSubmitted, setListSubmitted] = useState(false);
 
   const filtered = useMemo(() => {
     const base = filter === "phil" ? SONGS.filter((s) => PHIL_SONGS.has(s)) : SONGS;
@@ -441,6 +454,64 @@ export default function RequestPage() {
           <p className="mt-3 text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
             Powered by Stripe · Apple Pay &amp; Google Pay accepted
           </p>
+        </section>
+
+        {/* ── Stay in the Loop ──────────────────────────────────────── */}
+        <section className="mb-10 pt-8 border-t border-[#ede8de]/10">
+          <h2 className="font-[family-name:var(--font-playfair)] text-2xl text-[#ede8de] mb-1">
+            Stay in the Loop
+          </h2>
+          <div className="w-8 h-px bg-[#b8832a] mb-4" />
+          <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
+            Get notified about upcoming shows and house concert dates.
+          </p>
+
+          {listSubmitted ? (
+            <p className="font-[family-name:var(--font-playfair)] text-[#8aaa9e] text-base italic">
+              You&apos;re on the list.
+            </p>
+          ) : (
+            <div className="space-y-3">
+              <input
+                type="email"
+                value={listEmail}
+                onChange={(e) => setListEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+              />
+              <label className="flex items-start gap-3 cursor-pointer group">
+                <div className="relative mt-0.5 shrink-0">
+                  <input
+                    type="checkbox"
+                    checked={listChecked}
+                    onChange={(e) => setListChecked(e.target.checked)}
+                    className="sr-only"
+                  />
+                  <div className={`w-4 h-4 border transition-colors ${listChecked ? "border-[#b8832a] bg-[#b8832a]" : "border-[#ede8de]/20 bg-[#252220] group-hover:border-[#ede8de]/40"}`}>
+                    {listChecked && (
+                      <svg className="w-4 h-4 text-[#1c1a17]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-xs leading-relaxed group-hover:text-[#ede8de]/60 transition-colors">
+                  Yes, keep me posted on upcoming shows
+                </span>
+              </label>
+              <button
+                type="button"
+                disabled={!listChecked || !listEmail}
+                onClick={async () => {
+                  await subscribeToMailchimp(listEmail);
+                  setListSubmitted(true);
+                }}
+                className="w-full py-3 border border-[#b8832a] text-[#b8832a] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-xs hover:bg-[#b8832a] hover:text-[#1c1a17] transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                Sign Me Up
+              </button>
+            </div>
+          )}
         </section>
 
         {/* Back link */}
