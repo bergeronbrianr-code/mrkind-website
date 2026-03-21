@@ -122,6 +122,7 @@ const SONGS = [
   "Van Morrison – Brown Eyed Girl",
   "Van Morrison – Into the Mystic",
   "Wilco – California Stars",
+  "Wilco – I'm the Man Who Loves You",
   "Wilco – Jesus, etc.",
   "Wilco – Kamera",
 ];
