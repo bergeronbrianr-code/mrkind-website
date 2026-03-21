@@ -13,8 +13,7 @@ const navLinks = [
 const socials = [
   { label: "Spotify", href: "https://open.spotify.com/artist/1XvF6CpuKjhuvUEbI8B8AZ" },
   { label: "Bandcamp", href: "https://meetmrkind.bandcamp.com" },
-  { label: "Facebook", href: "#" },   // REPLACE WITH REAL URL
-  { label: "Instagram", href: "#" },  // REPLACE WITH REAL URL
+  { label: "Facebook", href: "https://www.facebook.com/meetmrkind" },
 ];
 
 export default function Footer() {
