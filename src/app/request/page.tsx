@@ -141,7 +141,6 @@ const PHIL_SONGS = new Set([
   "Radiohead – Fake Plastic Trees",
   "Sheryl Crow – Strong Enough",
   "The Beatles – Come Together",
-  "The Beatles – Don't Let Me Down",
   "The Rolling Stones – Wild Horses",
   "Tears for Fears – Everybody Wants to Rule the World",
   "Wilco – Jesus, etc.",
