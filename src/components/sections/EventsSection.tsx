@@ -1,5 +1,5 @@
 const highlights = [
-  "200+ song repertoire spanning classic rock, folk, indie, soul, and pop",
+  "100+ song repertoire spanning classic rock, folk, indie, soul, and pop",
   "Professional compact setup — suitable for offices, rooftops, private venues",
   "Available solo or with additional musicians",
   "Cocktail hours and corporate events (wedding cocktail hours considered on a case-by-case basis)",
@@ -27,7 +27,7 @@ export default function EventsSection() {
 
             <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#1c1a17]/70 text-[1.05rem] leading-relaxed mb-10">
               <p>
-                With a repertoire of 200+ songs spanning five decades, Brian brings a polished,
+                With a repertoire of 100+ songs spanning five decades, Brian brings a polished,
                 professional performance to corporate functions, cocktail hours, and private
                 celebrations. Setup is compact and self-contained — no soundcheck drama, no rider
                 demands.
