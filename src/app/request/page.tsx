@@ -1,11 +1,22 @@
 "use client";
 
-// SETUP REQUIRED:
-// 1. Formspree (free at formspree.io) — replace YOUR_FORM_ID below
-// 2. Stripe Payment Link — replace YOUR_PAYMENT_LINK below
+// SETUP REQUIRED — add to .env.local:
+//   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...
+//   STRIPE_SECRET_KEY=sk_live_...
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
+
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 const SONGS = [
   "Al Green – Let's Stay Together",
@@ -146,9 +157,31 @@ const PHIL_SONGS = new Set([
 ]);
 
 const TIP_AMOUNTS = [5, 10, 20];
-const STRIPE_PAYMENT_LINK_URL = "https://buy.stripe.com/YOUR_PAYMENT_LINK";
+
 const MAILCHIMP_URL =
   "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
+
+const STRIPE_APPEARANCE = {
+  theme: "night" as const,
+  variables: {
+    colorPrimary: "#b8832a",
+    colorBackground: "#252220",
+    colorText: "#ede8de",
+    colorTextSecondary: "#ede8de99",
+    colorTextPlaceholder: "#ede8de40",
+    colorDanger: "#e07070",
+    fontFamily: "DM Sans, sans-serif",
+    borderRadius: "0px",
+    spacingUnit: "4px",
+  },
+  rules: {
+    ".Input": { border: "1px solid rgba(237,232,222,0.1)", padding: "12px 16px" },
+    ".Input:focus": { border: "1px solid rgba(184,131,42,0.5)", boxShadow: "none" },
+    ".Label": { color: "rgba(237,232,222,0.4)", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase" },
+    ".Tab": { border: "1px solid rgba(237,232,222,0.1)", backgroundColor: "#252220" },
+    ".Tab--selected": { border: "1px solid #b8832a", backgroundColor: "#b8832a18" },
+  },
+};
 
 async function subscribeToMailchimp(email: string, name?: string) {
   const data = new FormData();
@@ -158,6 +191,112 @@ async function subscribeToMailchimp(email: string, name?: string) {
   await fetch(MAILCHIMP_URL, { method: "POST", body: data, mode: "no-cors" });
 }
 
+// ── Stripe payment form (rendered inside <Elements>) ─────────────────────────
+function PaymentForm({
+  amount,
+  song,
+  name,
+  email,
+  note,
+  notifyChecked,
+  onSuccess,
+  onBack,
+}: {
+  amount: number;
+  song: string;
+  name: string;
+  email: string;
+  note: string;
+  notifyChecked: boolean;
+  onSuccess: () => void;
+  onBack: () => void;
+}) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [paying, setPaying] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handlePay(e: React.FormEvent) {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+    setPaying(true);
+    setError("");
+
+    const { error: submitErr } = await elements.submit();
+    if (submitErr) {
+      setError(submitErr.message ?? "Payment failed.");
+      setPaying(false);
+      return;
+    }
+
+    // Submit song request to Formspree (fire and forget)
+    if (song || note) {
+      fetch("https://formspree.io/f/mbdzejjy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, song, note }),
+      }).catch(() => {});
+    }
+
+    // Mailchimp opt-in
+    if (notifyChecked && email) {
+      subscribeToMailchimp(email, name).catch(() => {});
+    }
+
+    const { error: confirmErr } = await stripe.confirmPayment({
+      elements,
+      confirmParams: { return_url: window.location.href },
+      redirect: "if_required",
+    });
+
+    if (confirmErr) {
+      setError(confirmErr.message ?? "Payment failed.");
+      setPaying(false);
+    } else {
+      onSuccess();
+    }
+  }
+
+  return (
+    <form onSubmit={handlePay} className="space-y-6">
+      <div className="flex items-center justify-between mb-2">
+        <button
+          type="button"
+          onClick={onBack}
+          className="font-[family-name:var(--font-dm-sans)] text-xs text-[#ede8de]/30 hover:text-[#ede8de]/60 tracking-widest uppercase transition-colors"
+        >
+          ← Back
+        </button>
+        <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase">
+          Tipping ${amount}
+          {song ? ` · ${song.split(" – ")[1]}` : ""}
+        </p>
+      </div>
+
+      <PaymentElement />
+
+      {error && (
+        <p className="font-[family-name:var(--font-dm-sans)] text-[#e07070] text-xs text-center">
+          {error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={!stripe || paying}
+        className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200 disabled:opacity-40"
+      >
+        {paying ? "Processing…" : `Pay $${amount} →`}
+      </button>
+
+      <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
+        Secured by Stripe · Apple Pay &amp; Google Pay accepted
+      </p>
+    </form>
+  );
+}
+
+// ── Main page ─────────────────────────────────────────────────────────────────
 export default function RequestPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "phil">("all");
@@ -168,8 +307,11 @@ export default function RequestPage() {
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [notifyChecked, setNotifyChecked] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+
+  const [phase, setPhase] = useState<"form" | "payment" | "success">("form");
+  const [clientSecret, setClientSecret] = useState("");
+  const [loadingPayment, setLoadingPayment] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const filtered = useMemo(() => {
     const base = filter === "phil" ? SONGS.filter((s) => PHIL_SONGS.has(s)) : SONGS;
@@ -179,35 +321,54 @@ export default function RequestPage() {
   }, [search, filter]);
 
   const effectiveTip = tipAmount ?? (customTip ? parseFloat(customTip) : null);
+  const hasTip = !!effectiveTip && effectiveTip >= 1;
+  const hasRequest = !!selectedSong || !!note;
+  const canSubmit = hasTip || hasRequest;
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
+    setSubmitError("");
 
-    // Submit song request to Formspree
-    if (selectedSong || note) {
-      await fetch("https://formspree.io/f/mbdzejjy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, song: selectedSong, note }),
-      }).catch(() => {}); // silent fail — don't block the user
+    if (hasTip) {
+      // Go to Stripe payment screen
+      setLoadingPayment(true);
+      try {
+        const res = await fetch("/api/create-payment-intent", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: effectiveTip,
+            song: selectedSong || undefined,
+            name: name || undefined,
+          }),
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+        setClientSecret(data.clientSecret);
+        setPhase("payment");
+      } catch {
+        setSubmitError("Couldn't set up payment. Try again.");
+      } finally {
+        setLoadingPayment(false);
+      }
+    } else {
+      // No tip — just submit request and go to success
+      if (hasRequest) {
+        fetch("https://formspree.io/f/mbdzejjy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, song: selectedSong, note }),
+        }).catch(() => {});
+      }
+      if (notifyChecked && email) {
+        subscribeToMailchimp(email, name).catch(() => {});
+      }
+      setPhase("success");
     }
+  }, [hasTip, effectiveTip, selectedSong, name, email, note, notifyChecked, hasRequest]);
 
-    // Subscribe to Mailchimp if opted in
-    if (notifyChecked && email) {
-      await subscribeToMailchimp(email, name);
-    }
-
-    // Open Stripe for tip
-    if (effectiveTip && effectiveTip >= 1) {
-      window.open(STRIPE_PAYMENT_LINK_URL, "_blank");
-    }
-
-    setSubmitted(true);
-    setSubmitting(false);
-  }
-
-  if (submitted) {
+  // ── Success screen
+  if (phase === "success") {
     return (
       <main className="min-h-screen bg-[#1c1a17] flex items-center justify-center px-5">
         <div className="text-center max-w-sm">
@@ -221,17 +382,14 @@ export default function RequestPage() {
           </p>
           <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base italic mb-8">
             {selectedSong
-              ? `Request for "${selectedSong.split(" – ")[1]}" sent. Brian will do his best to work it in.`
+              ? `Request for "${selectedSong.split(" – ")[1]}" sent.`
               : "You're all set."}
           </p>
           <button
             onClick={() => {
-              setSubmitted(false);
-              setSelectedSong("");
-              setSearch("");
-              setNote("");
-              setTipAmount(null);
-              setCustomTip("");
+              setPhase("form");
+              setSelectedSong(""); setSearch(""); setNote("");
+              setTipAmount(null); setCustomTip(""); setClientSecret("");
             }}
             className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#b8832a] hover:underline"
           >
@@ -242,16 +400,43 @@ export default function RequestPage() {
     );
   }
 
+  // ── Payment screen
+  if (phase === "payment" && clientSecret) {
+    return (
+      <main className="min-h-screen bg-[#1c1a17] pt-20 pb-16">
+        <div className="max-w-lg mx-auto px-5">
+          <div className="py-10 text-center">
+            <Link href="/" className="font-[family-name:var(--font-playfair)] text-[#b8832a] text-xl block mb-8">
+              Mr. Kind
+            </Link>
+          </div>
+          <Elements
+            stripe={stripePromise}
+            options={{ clientSecret, appearance: STRIPE_APPEARANCE }}
+          >
+            <PaymentForm
+              amount={effectiveTip!}
+              song={selectedSong}
+              name={name}
+              email={email}
+              note={note}
+              notifyChecked={notifyChecked}
+              onSuccess={() => setPhase("success")}
+              onBack={() => setPhase("form")}
+            />
+          </Elements>
+        </div>
+      </main>
+    );
+  }
+
+  // ── Form screen
   return (
     <main className="min-h-screen bg-[#1c1a17] pt-20 pb-16">
       <div className="max-w-lg mx-auto px-5">
 
-        {/* Header */}
         <div className="py-10 text-center">
-          <Link
-            href="/"
-            className="font-[family-name:var(--font-playfair)] text-[#b8832a] text-xl block mb-8"
-          >
+          <Link href="/" className="font-[family-name:var(--font-playfair)] text-[#b8832a] text-xl block mb-8">
             Mr. Kind
           </Link>
           <div className="flex items-center justify-center gap-3 mb-3">
@@ -266,12 +451,10 @@ export default function RequestPage() {
 
         <form onSubmit={handleSubmit} className="space-y-10">
 
-          {/* ── 1. Tip (optional) ─────────────────────────────────── */}
+          {/* ── 1. Tip ──────────────────────────────────────────────── */}
           <section>
             <div className="mb-5">
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
-                Leave a Tip
-              </h2>
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Leave a Tip</h2>
               <div className="w-8 h-px bg-[#b8832a]" />
             </div>
             <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
@@ -296,9 +479,7 @@ export default function RequestPage() {
             </div>
 
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">
-                $
-              </span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">$</span>
               <input
                 type="number"
                 min="1"
@@ -310,49 +491,38 @@ export default function RequestPage() {
               />
             </div>
 
-            {effectiveTip && effectiveTip >= 1 ? (
+            {hasTip && (
               <p className="mt-3 font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
-                ✓ ${effectiveTip} tip selected · paid via Stripe on submit
+                ✓ ${effectiveTip} tip selected
               </p>
-            ) : null}
+            )}
           </section>
 
-          {/* ── 2. Song Request ───────────────────────────────────── */}
+          {/* ── 2. Song Request ─────────────────────────────────────── */}
           <section>
             <div className="mb-5">
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
-                Request a Song
-              </h2>
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Request a Song</h2>
               <div className="w-8 h-px bg-[#b8832a]" />
             </div>
             <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
               Optional — skip if you just want to leave a tip.
             </p>
 
-            {/* Filter toggle */}
             <div className="flex gap-2 mb-3">
-              <button
-                type="button"
-                onClick={() => { setFilter("all"); setSelectedSong(""); setSearch(""); }}
-                className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
-                  filter === "all"
-                    ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
-                    : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
-                }`}
-              >
-                Mr. Kind Solo
-              </button>
-              <button
-                type="button"
-                onClick={() => { setFilter("phil"); setSelectedSong(""); setSearch(""); }}
-                className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
-                  filter === "phil"
-                    ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
-                    : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
-                }`}
-              >
-                With Phil on Keys
-              </button>
+              {(["all", "phil"] as const).map((f) => (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => { setFilter(f); setSelectedSong(""); setSearch(""); }}
+                  className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
+                    filter === f
+                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                      : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
+                  }`}
+                >
+                  {f === "all" ? "Mr. Kind Solo" : "With Phil on Keys"}
+                </button>
+              ))}
             </div>
 
             <input
@@ -366,9 +536,7 @@ export default function RequestPage() {
 
             <div className="h-64 overflow-y-auto border border-[#ede8de]/10 bg-[#181614] mb-3">
               {filtered.length === 0 ? (
-                <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/25 text-xs py-10">
-                  No matches
-                </p>
+                <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/25 text-xs py-10">No matches</p>
               ) : (
                 <div className="grid grid-cols-2 gap-px bg-[#ede8de]/5">
                   {filtered.map((song) => {
@@ -379,9 +547,7 @@ export default function RequestPage() {
                         type="button"
                         onClick={() => { setSelectedSong(song); setSearch(song); }}
                         className={`text-left px-3 py-2.5 transition-colors bg-[#181614] ${
-                          selectedSong === song
-                            ? "bg-[#b8832a]/20 border-l-2 border-[#b8832a]"
-                            : "hover:bg-[#252220]"
+                          selectedSong === song ? "bg-[#b8832a]/20 border-l-2 border-[#b8832a]" : "hover:bg-[#252220]"
                         }`}
                       >
                         <p className={`font-[family-name:var(--font-dm-sans)] text-[10px] tracking-widest uppercase truncate leading-tight mb-0.5 ${selectedSong === song ? "text-[#b8832a]" : "text-[#8aaa9e]"}`}>
@@ -405,8 +571,7 @@ export default function RequestPage() {
 
             <div>
               <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-                Note for Brian{" "}
-                <span className="normal-case tracking-normal text-[#ede8de]/25">(optional)</span>
+                Note for Brian <span className="normal-case tracking-normal text-[#ede8de]/25">(optional)</span>
               </label>
               <textarea
                 value={note}
@@ -418,15 +583,12 @@ export default function RequestPage() {
             </div>
           </section>
 
-          {/* ── 3. Your Info ──────────────────────────────────────── */}
+          {/* ── 3. Your Info ────────────────────────────────────────── */}
           <section>
             <div className="mb-5">
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
-                Your Info
-              </h2>
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Your Info</h2>
               <div className="w-8 h-px bg-[#b8832a]" />
             </div>
-
             <div className="space-y-3">
               <input
                 type="text"
@@ -442,7 +604,6 @@ export default function RequestPage() {
                 placeholder="Email (optional)"
                 className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
               />
-
               <label className="flex items-start gap-3 cursor-pointer group pt-1">
                 <div className="relative mt-0.5 shrink-0">
                   <input
@@ -466,30 +627,29 @@ export default function RequestPage() {
             </div>
           </section>
 
-          {/* ── Submit ────────────────────────────────────────────── */}
+          {/* ── Submit ──────────────────────────────────────────────── */}
           <div className="pb-4">
+            {submitError && (
+              <p className="font-[family-name:var(--font-dm-sans)] text-[#e07070] text-xs text-center mb-3">
+                {submitError}
+              </p>
+            )}
             <button
               type="submit"
-              disabled={submitting || (!selectedSong && !note && !(effectiveTip && effectiveTip >= 1))}
+              disabled={!canSubmit || loadingPayment}
               className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
             >
-              {submitting
-                ? "Sending…"
-                : effectiveTip && effectiveTip >= 1
-                ? `Send${selectedSong ? " Request" : ""} & Tip $${effectiveTip} →`
+              {loadingPayment
+                ? "Setting up payment…"
+                : hasTip
+                ? `Continue to Pay $${effectiveTip} →`
                 : "Send Request →"}
             </button>
             <p className="mt-3 text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
-              {effectiveTip && effectiveTip >= 1
-                ? "Tip paid securely via Stripe · Apple Pay & Google Pay accepted"
-                : "Nothing to pay — just hit send"}
+              {hasTip ? "Paid securely via Stripe · Apple Pay & Google Pay accepted" : "Nothing to pay — just hit send"}
             </p>
-
             <div className="text-center pt-6">
-              <Link
-                href="/"
-                className="font-[family-name:var(--font-dm-sans)] text-xs text-[#ede8de]/25 hover:text-[#ede8de]/50 tracking-widest uppercase transition-colors"
-              >
+              <Link href="/" className="font-[family-name:var(--font-dm-sans)] text-xs text-[#ede8de]/25 hover:text-[#ede8de]/50 tracking-widest uppercase transition-colors">
                 ← Back to mrkindmusic.com
               </Link>
             </div>
