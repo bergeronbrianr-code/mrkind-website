@@ -1,7 +1,7 @@
 import HouseConcertsAccordion from "@/components/HouseConcertsAccordion";
 
 const showDetails = [
-  "Up to 90 minutes of indie and folk-Americana — covers and originals",
+  "Up to 90 minutes — a mix of covers and originals",
   "Minimum 10 guests",
   "Compact sound system provided — no venue required",
   "Song requests welcome in advance",
@@ -29,16 +29,10 @@ export default function HouseConcertsSection() {
 
         {/* Pitch */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mt-14 mb-16">
-          <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-lg leading-relaxed">
-            <p>
-              Up to 90 minutes of indie and folk-Americana — a mix of covers and originals.
-              Minimum 10 guests.
-            </p>
-            <p>
-              Brian has performed in over 1,000 venues of all shapes and sizes, and loves these
-              intimate settings most. Every guest receives a custom souvenir — it&apos;s a surprise.
-            </p>
-          </div>
+          <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-lg leading-relaxed">
+            Brian has performed in over 1,000 venues of all shapes and sizes, and loves these
+            intimate settings most. Every guest receives a custom souvenir — it&apos;s a surprise.
+          </p>
 
           {/* Show details */}
           <div>

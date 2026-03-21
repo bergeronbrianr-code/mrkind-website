@@ -1,33 +1,11 @@
 "use client";
 
-// Song Request + Tip page — QR code destination for live shows.
-// Mobile-first. Loads fast on phones.
-//
-// STRIPE SETUP:
-//   1. Create a free account at stripe.com
-//   2. Get your Publishable Key from the Stripe Dashboard
-//   3. Replace STRIPE_PLACEHOLDER_KEY below with your actual key (starts with pk_live_ or pk_test_)
-//   4. Create a Payment Link at dashboard.stripe.com/payment-links
-//   5. Replace STRIPE_PAYMENT_LINK_URL with that URL
-//
-// FORMSPREE SETUP (song requests):
-//   1. Create a free account at formspree.io
-//   2. Create a new form, copy the form ID
-//   3. Replace YOUR_FORM_ID in the form action below
+// SETUP REQUIRED:
+// 1. Formspree (free at formspree.io) — replace YOUR_FORM_ID below
+// 2. Stripe Payment Link — replace YOUR_PAYMENT_LINK below
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-
-const MAILCHIMP_URL =
-  "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
-
-async function subscribeToMailchimp(email: string, name?: string) {
-  const data = new FormData();
-  data.append("EMAIL", email);
-  if (name) data.append("FNAME", name.split(" ")[0]);
-  data.append("b_90a8ab0567da6cacd07d0ffc6_7e20313e43", ""); // honeypot — do not remove
-  await fetch(MAILCHIMP_URL, { method: "POST", body: data, mode: "no-cors" });
-}
 
 const SONGS = [
   "Al Green – Let's Stay Together",
@@ -168,9 +146,17 @@ const PHIL_SONGS = new Set([
 ]);
 
 const TIP_AMOUNTS = [5, 10, 20];
-
-// STRIPE PAYMENT LINK — replace with your actual Stripe Payment Link URL
 const STRIPE_PAYMENT_LINK_URL = "https://buy.stripe.com/YOUR_PAYMENT_LINK";
+const MAILCHIMP_URL =
+  "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
+
+async function subscribeToMailchimp(email: string, name?: string) {
+  const data = new FormData();
+  data.append("EMAIL", email);
+  if (name) data.append("FNAME", name.split(" ")[0]);
+  data.append("b_90a8ab0567da6cacd07d0ffc6_7e20313e43", "");
+  await fetch(MAILCHIMP_URL, { method: "POST", body: data, mode: "no-cors" });
+}
 
 export default function RequestPage() {
   const [search, setSearch] = useState("");
@@ -178,10 +164,12 @@ export default function RequestPage() {
   const [selectedSong, setSelectedSong] = useState("");
   const [tipAmount, setTipAmount] = useState<number | null>(null);
   const [customTip, setCustomTip] = useState("");
-  const [tipNote, setTipNote] = useState("");
-  const [requestNote, setRequestNote] = useState("");
-  const [requestSubmitted, setRequestSubmitted] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [note, setNote] = useState("");
   const [notifyChecked, setNotifyChecked] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const filtered = useMemo(() => {
     const base = filter === "phil" ? SONGS.filter((s) => PHIL_SONGS.has(s)) : SONGS;
@@ -192,25 +180,72 @@ export default function RequestPage() {
 
   const effectiveTip = tipAmount ?? (customTip ? parseFloat(customTip) : null);
 
-  function handleTipPay() {
-    if (!effectiveTip || effectiveTip < 1) return;
-    window.open(STRIPE_PAYMENT_LINK_URL, "_blank");
-  }
-
-  async function handleRequestSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (notifyChecked) {
-      const form = e.currentTarget;
-      const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-      const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+    setSubmitting(true);
+
+    // Submit song request to Formspree
+    if (selectedSong || note) {
+      await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, song: selectedSong, note }),
+      }).catch(() => {}); // silent fail — don't block the user
+    }
+
+    // Subscribe to Mailchimp if opted in
+    if (notifyChecked && email) {
       await subscribeToMailchimp(email, name);
     }
-    setRequestSubmitted(true);
+
+    // Open Stripe for tip
+    if (effectiveTip && effectiveTip >= 1) {
+      window.open(STRIPE_PAYMENT_LINK_URL, "_blank");
+    }
+
+    setSubmitted(true);
+    setSubmitting(false);
+  }
+
+  if (submitted) {
+    return (
+      <main className="min-h-screen bg-[#1c1a17] flex items-center justify-center px-5">
+        <div className="text-center max-w-sm">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="h-px w-8 bg-[#b8832a]/40" />
+            <div className="w-1.5 h-1.5 rounded-full bg-[#b8832a]" />
+            <div className="h-px w-8 bg-[#b8832a]/40" />
+          </div>
+          <p className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-3xl mb-3">
+            Thanks{name ? `, ${name.split(" ")[0]}` : ""}!
+          </p>
+          <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base italic mb-8">
+            {selectedSong
+              ? `Request for "${selectedSong.split(" – ")[1]}" sent. Brian will do his best to work it in.`
+              : "You're all set."}
+          </p>
+          <button
+            onClick={() => {
+              setSubmitted(false);
+              setSelectedSong("");
+              setSearch("");
+              setNote("");
+              setTipAmount(null);
+              setCustomTip("");
+            }}
+            className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#b8832a] hover:underline"
+          >
+            Submit another
+          </button>
+        </div>
+      </main>
+    );
   }
 
   return (
     <main className="min-h-screen bg-[#1c1a17] pt-20 pb-16">
       <div className="max-w-lg mx-auto px-5">
+
         {/* Header */}
         <div className="py-10 text-center">
           <Link
@@ -225,168 +260,190 @@ export default function RequestPage() {
             <div className="h-px w-8 bg-[#b8832a]/40" />
           </div>
           <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/40 text-sm italic">
-            Live at the show? Request a song or leave a tip.
+            Request a song or leave a tip — or both.
           </p>
         </div>
 
-        {/* ── Song Request ──────────────────────────────────────────── */}
-        <section className="mb-10">
-          <div className="mb-5">
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
-              Request a Song
-            </h2>
-            <div className="w-8 h-px bg-[#b8832a]" />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-10">
 
-          {requestSubmitted ? (
-            <div className="bg-[#8aaa9e]/20 border border-[#8aaa9e]/40 p-6 text-center">
-              <p className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-xl mb-2">
-                Request sent!
+          {/* ── 1. Tip (optional) ─────────────────────────────────── */}
+          <section>
+            <div className="mb-5">
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
+                Leave a Tip
+              </h2>
+              <div className="w-8 h-px bg-[#b8832a]" />
+            </div>
+            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
+              Optional — skip if you just want to request a song.
+            </p>
+
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              {TIP_AMOUNTS.map((amount) => (
+                <button
+                  key={amount}
+                  type="button"
+                  onClick={() => { setTipAmount(tipAmount === amount ? null : amount); setCustomTip(""); }}
+                  className={`py-4 font-[family-name:var(--font-playfair)] text-2xl transition-all border ${
+                    tipAmount === amount
+                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                      : "border-[#ede8de]/15 bg-[#252220] text-[#ede8de]/60 hover:border-[#b8832a]/40"
+                  }`}
+                >
+                  ${amount}
+                </button>
+              ))}
+            </div>
+
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">
+                $
+              </span>
+              <input
+                type="number"
+                min="1"
+                step="1"
+                value={customTip}
+                onChange={(e) => { setCustomTip(e.target.value); setTipAmount(null); }}
+                placeholder="Other amount"
+                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 pl-8 pr-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+              />
+            </div>
+
+            {effectiveTip && effectiveTip >= 1 ? (
+              <p className="mt-3 font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
+                ✓ ${effectiveTip} tip selected · paid via Stripe on submit
               </p>
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-sm italic">
-                Brian will do his best to work it in.
-              </p>
+            ) : null}
+          </section>
+
+          {/* ── 2. Song Request ───────────────────────────────────── */}
+          <section>
+            <div className="mb-5">
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
+                Request a Song
+              </h2>
+              <div className="w-8 h-px bg-[#b8832a]" />
+            </div>
+            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
+              Optional — skip if you just want to leave a tip.
+            </p>
+
+            {/* Filter toggle */}
+            <div className="flex gap-2 mb-3">
               <button
-                onClick={() => {
-                  setRequestSubmitted(false);
-                  setSelectedSong("");
-                  setSearch("");
-                  setRequestNote("");
-                }}
-                className="mt-4 font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#b8832a] hover:underline"
+                type="button"
+                onClick={() => { setFilter("all"); setSelectedSong(""); setSearch(""); }}
+                className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
+                  filter === "all"
+                    ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                    : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
+                }`}
               >
-                Request another
+                Mr. Kind Solo
+              </button>
+              <button
+                type="button"
+                onClick={() => { setFilter("phil"); setSelectedSong(""); setSearch(""); }}
+                className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
+                  filter === "phil"
+                    ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                    : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
+                }`}
+              >
+                With Phil on Keys
               </button>
             </div>
-          ) : (
-            <form
-              action="https://formspree.io/f/YOUR_FORM_ID"
-              method="POST"
-              onSubmit={handleRequestSubmit}
-              className="space-y-4"
-            >
-              <input type="hidden" name="song_request" value={selectedSong} />
 
-              {/* Name + Email */}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your name"
-                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-                  />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setSelectedSong(""); }}
+              placeholder="Filter by artist or song…"
+              className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors mb-3"
+              autoComplete="off"
+            />
+
+            <div className="h-64 overflow-y-auto border border-[#ede8de]/10 bg-[#181614] mb-3">
+              {filtered.length === 0 ? (
+                <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/25 text-xs py-10">
+                  No matches
+                </p>
+              ) : (
+                <div className="grid grid-cols-2 gap-px bg-[#ede8de]/5">
+                  {filtered.map((song) => {
+                    const [artist, title] = song.split(" – ");
+                    return (
+                      <button
+                        key={song}
+                        type="button"
+                        onClick={() => { setSelectedSong(song); setSearch(song); }}
+                        className={`text-left px-3 py-2.5 transition-colors bg-[#181614] ${
+                          selectedSong === song
+                            ? "bg-[#b8832a]/20 border-l-2 border-[#b8832a]"
+                            : "hover:bg-[#252220]"
+                        }`}
+                      >
+                        <p className={`font-[family-name:var(--font-dm-sans)] text-[10px] tracking-widest uppercase truncate leading-tight mb-0.5 ${selectedSong === song ? "text-[#b8832a]" : "text-[#8aaa9e]"}`}>
+                          {artist}
+                        </p>
+                        <p className={`font-[family-name:var(--font-source-sans)] text-xs truncate leading-snug ${selectedSong === song ? "text-[#b8832a]" : "text-[#ede8de]/70"}`}>
+                          {title}
+                        </p>
+                      </button>
+                    );
+                  })}
                 </div>
-                <div>
-                  <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="your@email.com"
-                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-                  />
-                </div>
-              </div>
+              )}
+            </div>
 
-              {/* Filter toggle */}
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => { setFilter("all"); setSelectedSong(""); setSearch(""); }}
-                  className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
-                    filter === "all"
-                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
-                      : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
-                  }`}
-                >
-                  Mr. Kind Solo
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setFilter("phil"); setSelectedSong(""); setSearch(""); }}
-                  className={`flex-1 py-2.5 text-xs font-[family-name:var(--font-dm-sans)] tracking-widest uppercase transition-all border ${
-                    filter === "phil"
-                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
-                      : "border-[#ede8de]/15 text-[#ede8de]/40 hover:border-[#ede8de]/30"
-                  }`}
-                >
-                  With Phil on Keys
-                </button>
-              </div>
+            {selectedSong && (
+              <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center mb-3">
+                ✓ {selectedSong}
+              </p>
+            )}
 
-              {/* Search */}
+            <div>
+              <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
+                Note for Brian{" "}
+                <span className="normal-case tracking-normal text-[#ede8de]/25">(optional)</span>
+              </label>
+              <textarea
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                rows={3}
+                placeholder="Any other request, key preference, or just a hello…"
+                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
+              />
+            </div>
+          </section>
+
+          {/* ── 3. Your Info ──────────────────────────────────────── */}
+          <section>
+            <div className="mb-5">
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
+                Your Info
+              </h2>
+              <div className="w-8 h-px bg-[#b8832a]" />
+            </div>
+
+            <div className="space-y-3">
               <input
                 type="text"
-                value={search}
-                onChange={(e) => { setSearch(e.target.value); setSelectedSong(""); }}
-                placeholder="Filter by artist or song…"
-                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-                autoComplete="off"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name (optional)"
+                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+              />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email (optional)"
+                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
               />
 
-              {/* Browsable song grid */}
-              <div className="h-64 overflow-y-auto border border-[#ede8de]/10 bg-[#181614]">
-                {filtered.length === 0 ? (
-                  <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/25 text-xs py-10">
-                    No matches
-                  </p>
-                ) : (
-                  <div className="grid grid-cols-2 gap-px bg-[#ede8de]/5">
-                    {filtered.map((song) => {
-                      const [artist, title] = song.split(" – ");
-                      return (
-                        <button
-                          key={song}
-                          type="button"
-                          onClick={() => { setSelectedSong(song); setSearch(song); }}
-                          className={`text-left px-3 py-2.5 transition-colors bg-[#181614] ${
-                            selectedSong === song
-                              ? "bg-[#b8832a]/20 border-l-2 border-[#b8832a]"
-                              : "hover:bg-[#252220]"
-                          }`}
-                        >
-                          <p className={`font-[family-name:var(--font-dm-sans)] text-[10px] tracking-widest uppercase truncate leading-tight mb-0.5 ${selectedSong === song ? "text-[#b8832a]" : "text-[#8aaa9e]"}`}>
-                            {artist}
-                          </p>
-                          <p className={`font-[family-name:var(--font-source-sans)] text-xs truncate leading-snug ${selectedSong === song ? "text-[#b8832a]" : "text-[#ede8de]/70"}`}>
-                            {title}
-                          </p>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              {selectedSong && (
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
-                  ✓ {selectedSong}
-                </p>
-              )}
-
-              {/* Note */}
-              <div>
-                <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-                  Note for Brian{" "}
-                  <span className="normal-case tracking-normal text-[#ede8de]/25">(optional)</span>
-                </label>
-                <textarea
-                  name="note"
-                  value={requestNote}
-                  onChange={(e) => setRequestNote(e.target.value)}
-                  rows={3}
-                  placeholder="Any other request, key preference, or just a hello…"
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
-                />
-              </div>
-
-              {/* Notify opt-in */}
-              <label className="flex items-start gap-3 cursor-pointer group">
+              <label className="flex items-start gap-3 cursor-pointer group pt-1">
                 <div className="relative mt-0.5 shrink-0">
                   <input
                     type="checkbox"
@@ -406,118 +463,39 @@ export default function RequestPage() {
                   Get notified about upcoming shows and house concert dates
                 </span>
               </label>
+            </div>
+          </section>
 
-              <button
-                type="submit"
-                className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200 disabled:opacity-40"
+          {/* ── Submit ────────────────────────────────────────────── */}
+          <div className="pb-4">
+            <button
+              type="submit"
+              disabled={submitting || (!selectedSong && !note && !(effectiveTip && effectiveTip >= 1))}
+              className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              {submitting
+                ? "Sending…"
+                : effectiveTip && effectiveTip >= 1
+                ? `Send${selectedSong ? " Request" : ""} & Tip $${effectiveTip} →`
+                : "Send Request →"}
+            </button>
+            <p className="mt-3 text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
+              {effectiveTip && effectiveTip >= 1
+                ? "Tip paid securely via Stripe · Apple Pay & Google Pay accepted"
+                : "Nothing to pay — just hit send"}
+            </p>
+
+            <div className="text-center pt-6">
+              <Link
+                href="/"
+                className="font-[family-name:var(--font-dm-sans)] text-xs text-[#ede8de]/25 hover:text-[#ede8de]/50 tracking-widest uppercase transition-colors"
               >
-                Send Request
-              </button>
-            </form>
-          )}
-        </section>
-
-        {/* Divider */}
-        <div className="flex items-center gap-4 mb-10">
-          <div className="h-px flex-1 bg-[#ede8de]/10" />
-          <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs tracking-widest uppercase">
-            or
-          </span>
-          <div className="h-px flex-1 bg-[#ede8de]/10" />
-        </div>
-
-        {/* ── Tip / Support ─────────────────────────────────────────── */}
-        <section className="mb-10">
-          <div className="mb-5">
-            <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
-              Leave a Tip
-            </h2>
-            <div className="w-8 h-px bg-[#b8832a]" />
-          </div>
-
-          <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-6">
-            Enjoyed the show? Tips go directly to Brian. Apple Pay and Google Pay accepted.
-          </p>
-
-          {/* Tip amount selector */}
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            {TIP_AMOUNTS.map((amount) => (
-              <button
-                key={amount}
-                type="button"
-                onClick={() => { setTipAmount(amount); setCustomTip(""); }}
-                className={`py-4 font-[family-name:var(--font-playfair)] text-2xl transition-all border ${
-                  tipAmount === amount
-                    ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
-                    : "border-[#ede8de]/15 bg-[#252220] text-[#ede8de]/60 hover:border-[#b8832a]/40"
-                }`}
-              >
-                ${amount}
-              </button>
-            ))}
-          </div>
-
-          {/* Custom amount */}
-          <div className="mb-4">
-            <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-              Custom Amount
-            </label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">
-                $
-              </span>
-              <input
-                type="number"
-                min="1"
-                step="1"
-                value={customTip}
-                onChange={(e) => { setCustomTip(e.target.value); setTipAmount(null); }}
-                placeholder="Other amount"
-                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 pl-8 pr-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-              />
+                ← Back to mrkindmusic.com
+              </Link>
             </div>
           </div>
 
-          {/* Tip note */}
-          <div className="mb-5">
-            <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-              Leave a note{" "}
-              <span className="normal-case tracking-normal text-[#ede8de]/25">(optional)</span>
-            </label>
-            <input
-              type="text"
-              value={tipNote}
-              onChange={(e) => setTipNote(e.target.value)}
-              placeholder="Say something nice…"
-              className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-            />
-          </div>
-
-          <button
-            type="button"
-            onClick={handleTipPay}
-            disabled={!effectiveTip || effectiveTip < 1}
-            className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
-          >
-            {effectiveTip && effectiveTip >= 1
-              ? `Tip $${effectiveTip} →`
-              : "Select an Amount"}
-          </button>
-
-          <p className="mt-3 text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
-            Powered by Stripe · Apple Pay &amp; Google Pay accepted
-          </p>
-        </section>
-
-        {/* Back link */}
-        <div className="text-center pt-4">
-          <Link
-            href="/"
-            className="font-[family-name:var(--font-dm-sans)] text-xs text-[#ede8de]/25 hover:text-[#ede8de]/50 tracking-widest uppercase transition-colors"
-          >
-            ← Back to mrkindmusic.com
-          </Link>
-        </div>
+        </form>
       </div>
     </main>
   );
