@@ -7,9 +7,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "STRIPE_SECRET_KEY is not set" }, { status: 500 });
   }
 
-  // Temporary diagnostic — remove after debugging
-  const keyDiag = `len=${key.length} start=${key.slice(0, 8)} end=${key.slice(-4)}`;
-
   const stripe = new Stripe(key);
 
   try {
@@ -33,6 +30,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Payment setup failed";
-    return NextResponse.json({ error: message, keyDiag }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
