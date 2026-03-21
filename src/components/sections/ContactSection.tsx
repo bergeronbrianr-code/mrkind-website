@@ -87,7 +87,7 @@ export default function ContactSection() {
           {/* Right: form */}
           <div>
             <form
-              action="https://formspree.io/f/YOUR_FORM_ID"
+              action="https://formspree.io/f/mbdzejjy"
               method="POST"
               onSubmit={handleSubmit}
               className="space-y-5"
@@ -144,19 +144,6 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              <div>
-                <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
-                  Message *
-                </label>
-                <textarea
-                  name="message"
-                  rows={6}
-                  required
-                  placeholder="What's on your mind?"
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
-                />
-              </div>
-
               {/* Mailing list opt-in */}
               <label className="flex items-start gap-3 cursor-pointer group">
                 <div className="relative mt-0.5 shrink-0">
@@ -178,6 +165,18 @@ export default function ContactSection() {
                   Keep me posted on upcoming shows and house concerts
                 </span>
               </label>
+
+              <div>
+                <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  rows={6}
+                  placeholder="What's on your mind?"
+                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
+                />
+              </div>
 
               <button
                 type="submit"
