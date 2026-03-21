@@ -98,18 +98,25 @@ export default function ContactSection() {
                 <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
                   Inquiry Type *
                 </label>
-                <select
-                  name="inquiry"
-                  required
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de]/70 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-                >
-                  <option value="">Select a topic…</option>
-                  <option value="general">General</option>
-                  <option value="book-a-show">Book a Show</option>
-                  <option value="house-concert">House Concert</option>
-                  <option value="corporate-private-event">Corporate / Private Event</option>
-                  <option value="press">Press</option>
-                </select>
+                <div className="relative">
+                  <select
+                    name="inquiry"
+                    required
+                    className="w-full appearance-none bg-[#252220] border border-[#ede8de]/10 text-[#ede8de]/70 px-4 py-3 pr-10 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors cursor-pointer"
+                  >
+                    <option value="">Select a topic…</option>
+                    <option value="general">General</option>
+                    <option value="book-a-show">Book a Show</option>
+                    <option value="house-concert">House Concert</option>
+                    <option value="corporate-private-event">Corporate / Private Event</option>
+                    <option value="press">Press</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+                    <svg className="w-3.5 h-3.5 text-[#b8832a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               <div>
