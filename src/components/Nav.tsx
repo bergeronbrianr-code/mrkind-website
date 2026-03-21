@@ -9,7 +9,6 @@ const navLinks = [
   { label: "Shows", href: "#shows" },
   { label: "House Concerts", href: "#house-concerts" },
   { label: "Events", href: "#events" },
-  { label: "Press", href: "#press" },
 ];
 
 export default function Nav() {
