@@ -86,7 +86,7 @@ export default function MusicSection() {
             <iframe
               src="https://open.spotify.com/embed/artist/1XvF6CpuKjhuvUEbI8B8AZ?utm_source=generator&theme=0"
               width="100%"
-              height="352"
+              height="500"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
               loading="lazy"
               className="border-0"
