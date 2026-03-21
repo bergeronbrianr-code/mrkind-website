@@ -36,6 +36,10 @@ export const metadata: Metadata = {
     "DMV musician",
     "DC singer songwriter",
   ],
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
