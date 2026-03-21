@@ -15,7 +15,7 @@ export default function AboutSection() {
             </h2>
             <div className="w-12 h-px bg-[#b8832a] mb-8" />
 
-            <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#1c1a17]/75 text-[1.05rem] leading-relaxed">
+            <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#1c1a17]/75 text-lg leading-relaxed">
               <p>
                 Mr. Kind is Brian Bergeron — singer, songwriter, guitarist, and the kind of performer
                 who makes a living room feel like a music hall.

@@ -25,7 +25,7 @@ export default function EventsSection() {
               actually elevates the room.
             </p>
 
-            <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#1c1a17]/70 text-[1.05rem] leading-relaxed mb-10">
+            <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#1c1a17]/70 text-lg leading-relaxed mb-10">
               <p>
                 With a repertoire of 100+ songs spanning five decades, Brian brings a polished,
                 professional performance to corporate functions, cocktail hours, and private
@@ -58,7 +58,7 @@ export default function EventsSection() {
                 {highlights.map((item) => (
                   <li key={item} className="flex items-start gap-3">
                     <span className="text-[#b8832a] shrink-0 mt-0.5">—</span>
-                    <span className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-sm leading-relaxed">
+                    <span className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-base leading-relaxed">
                       {item}
                     </span>
                   </li>

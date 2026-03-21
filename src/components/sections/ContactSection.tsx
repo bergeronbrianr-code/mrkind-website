@@ -148,6 +148,43 @@ export default function ContactSection() {
                 </a>
               </p>
             </form>
+
+            {/* ── Stay in the Loop signup ───────────────────────────── */}
+            {/* EMAIL LIST: replace action with your Mailchimp/ConvertKit/Formspree endpoint */}
+            {/* TEXT LIST: wire phone field to SimpleTexting, EZTexting, or similar SMS service */}
+            <div className="mt-10 pt-10 border-t border-[#ede8de]/10">
+              <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] tracking-[0.2em] uppercase text-xs mb-2">
+                Stay in the Loop
+              </p>
+              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/40 text-sm mb-5 leading-relaxed">
+                Get notified about upcoming shows and house concert dates.
+              </p>
+              <form
+                action="https://formspree.io/f/YOUR_LIST_FORM_ID"
+                method="POST"
+                className="space-y-3"
+              >
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="your@email.com"
+                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone number (for text updates, optional)"
+                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+                />
+                <button
+                  type="submit"
+                  className="w-full py-3 border border-[#b8832a] text-[#b8832a] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-xs hover:bg-[#b8832a] hover:text-[#1c1a17] transition-colors duration-200"
+                >
+                  Sign Me Up
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

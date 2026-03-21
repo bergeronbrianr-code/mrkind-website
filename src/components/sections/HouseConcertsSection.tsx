@@ -11,7 +11,6 @@ const showDetails = [
 export default function HouseConcertsSection() {
   return (
     <section id="house-concerts" className="py-28 px-6 bg-[#1c1a17]">
-      {/* Subtle grain on this section */}
       <div className="relative max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-6">
@@ -25,17 +24,16 @@ export default function HouseConcertsSection() {
           <div className="w-12 h-px bg-[#b8832a] mb-10" />
         </div>
 
-        {/* Opening hook — large, prominent */}
+        {/* Opening hook */}
         <div className="mb-14 max-w-3xl">
           <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#ede8de] leading-relaxed italic">
-            You don&apos;t pay anything up front. Send your friends a link — they each pay $25
-            directly. When 10 people confirm, the show is on.
+            You don&apos;t pay anything up front. Invite your people — when 10 confirm, the show is on.
           </p>
         </div>
 
         {/* Pitch */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
-          <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-[1.05rem] leading-relaxed">
+          <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-lg leading-relaxed">
             <p>
               A house concert isn&apos;t background music at a party. It&apos;s an actual show —
               60 minutes of live indie rock and folk-Americana, in your living room or backyard, for
@@ -57,7 +55,7 @@ export default function HouseConcertsSection() {
               {showDetails.map((detail) => (
                 <li key={detail} className="flex items-start gap-3">
                   <span className="text-[#b8832a] mt-0.5 shrink-0">—</span>
-                  <span className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-sm leading-relaxed">
+                  <span className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-base leading-relaxed">
                     {detail}
                   </span>
                 </li>
@@ -73,35 +71,25 @@ export default function HouseConcertsSection() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Card A: Guests Pay — recommended, gold border */}
-            <div className="relative border border-[#b8832a]/60 bg-[#252220] p-8 flex flex-col">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-2xl">
-                  Guests Pay
-                </h3>
-                <span className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-widest uppercase bg-[#b8832a] text-[#1c1a17] px-2 py-1">
-                  Recommended
-                </span>
-              </div>
+            {/* Card A: Guests Pay */}
+            <div className="border border-[#b8832a]/60 bg-[#252220] p-8 flex flex-col">
+              <h3 className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-2xl mb-4">
+                Guests Pay
+              </h3>
 
-              <p className="font-[family-name:var(--font-playfair)] text-[#b8832a] text-4xl mb-4">
-                $25 / guest
-              </p>
-
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-sm leading-relaxed mb-6">
-                Brian sends you a shareable payment link. Your guests each pay $25 directly before
-                the show.
+              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base leading-relaxed mb-6">
+                Your guests cover it directly. Brian brings a QR code the night of the show — no awkward money handling for you.
               </p>
 
               <ul className="space-y-2.5 mb-8 flex-1">
                 {[
-                  "You pay nothing up front",
-                  "Best for hosts who want zero financial risk",
-                  "Requires 10 confirmed guests before show date",
+                  "You pay nothing",
+                  "Zero financial risk for the host",
+                  "Guests pay the night of the show",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <span className="text-[#b8832a] shrink-0 mt-0.5 text-sm">✓</span>
-                    <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/55 text-sm">
+                    <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/55 text-base">
                       {item}
                     </span>
                   </li>
@@ -118,30 +106,23 @@ export default function HouseConcertsSection() {
 
             {/* Card B: Host Pays */}
             <div className="border border-[#ede8de]/15 bg-[#201e1b] p-8 flex flex-col">
-              <div className="mb-4">
-                <h3 className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-2xl">
-                  Host Pays
-                </h3>
-              </div>
+              <h3 className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-2xl mb-4">
+                Host Pays
+              </h3>
 
-              <p className="font-[family-name:var(--font-playfair)] text-[#8aaa9e] text-4xl mb-4">
-                $250
-              </p>
-
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-sm leading-relaxed mb-6">
-                You pay a $250 guarantee upfront. Guests reimburse you however you like — or you
-                cover it as a gift.
+              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base leading-relaxed mb-6">
+                You cover the cost as a flat fee — ideal when you want to gift the experience to your guests or keep things simple.
               </p>
 
               <ul className="space-y-2.5 mb-8 flex-1">
                 {[
-                  "Guaranteed regardless of final headcount",
-                  "Best for hosts who want full control of the guest experience",
-                  "Ideal for milestone events where you're covering costs",
+                  "Guaranteed regardless of headcount",
+                  "Best for milestone events or gifts",
+                  "Flexible — split it, charge at the door, or cover it yourself",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <span className="text-[#8aaa9e] shrink-0 mt-0.5 text-sm">✓</span>
-                    <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/55 text-sm">
+                    <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/55 text-base">
                       {item}
                     </span>
                   </li>
@@ -169,10 +150,10 @@ export default function HouseConcertsSection() {
         {/* Song request link */}
         <div className="pt-8 border-t border-[#ede8de]/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
-            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/60 text-sm italic mb-1">
+            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/60 text-base italic mb-1">
               Want to request songs for your show?
             </p>
-            <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/30 text-xs">
+            <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/30 text-sm">
               Submit your requests in advance and Brian will work them into the setlist.
             </p>
           </div>

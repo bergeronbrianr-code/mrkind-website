@@ -53,7 +53,7 @@ export default function HouseConcertsAccordion() {
 
           {open === i && (
             <div className="pb-4 pl-9">
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/60 text-sm leading-relaxed">
+              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/60 text-base leading-relaxed">
                 {step.body}
               </p>
             </div>
