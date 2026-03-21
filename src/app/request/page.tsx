@@ -346,8 +346,8 @@ export default function RequestPage() {
         if (data.error) throw new Error(data.error);
         setClientSecret(data.clientSecret);
         setPhase("payment");
-      } catch {
-        setSubmitError("Couldn't set up payment. Try again.");
+      } catch (err) {
+        setSubmitError(err instanceof Error ? err.message : "Couldn't set up payment. Try again.");
       } finally {
         setLoadingPayment(false);
       }

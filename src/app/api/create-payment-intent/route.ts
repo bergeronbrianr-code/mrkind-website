@@ -22,7 +22,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret });
-  } catch {
-    return NextResponse.json({ error: "Payment setup failed" }, { status: 500 });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Payment setup failed";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
