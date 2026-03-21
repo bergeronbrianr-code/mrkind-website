@@ -16,6 +16,7 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
+    <>
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#1c1a17]/90 backdrop-blur-sm border-b border-[#b8832a]/20">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
         {/* Logo */}
@@ -64,6 +65,7 @@ export default function Nav() {
           />
         </button>
       </div>
+    </header>
 
       {/* Mobile full-screen overlay nav */}
       <div
@@ -87,6 +89,6 @@ export default function Nav() {
           Request / Tip
         </Link>
       </div>
-    </header>
+    </>
   );
 }
