@@ -102,7 +102,7 @@ export default function ContactSection() {
                     name="name"
                     required
                     placeholder="Your name"
-                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors\"
                   />
                 </div>
                 <div>
@@ -114,7 +114,7 @@ export default function ContactSection() {
                     name="email"
                     required
                     placeholder="your@email.com"
-                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors\"
                   />
                 </div>
               </div>
@@ -127,7 +127,7 @@ export default function ContactSection() {
                   <select
                     name="inquiry"
                     required
-                    className="w-full appearance-none bg-[#252220] border border-[#ede8de]/10 text-[#ede8de]/70 px-4 py-3 pr-10 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors cursor-pointer"
+                    className="w-full appearance-none bg-[#252220] border border-[#ede8de]/10 text-[#ede8de]/70 px-4 py-3 pr-10 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors cursor-pointer"
                   >
                     <option value="">Select a topic…</option>
                     <option value="general">General</option>
@@ -153,7 +153,7 @@ export default function ContactSection() {
                   rows={6}
                   required
                   placeholder="What's on your mind?"
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-sm font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
+                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
                 />
               </div>
 

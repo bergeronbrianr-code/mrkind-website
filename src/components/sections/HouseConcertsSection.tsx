@@ -1,11 +1,11 @@
 import HouseConcertsAccordion from "@/components/HouseConcertsAccordion";
 
 const showDetails = [
-  "60-minute set — originals and covers, tailored to your crowd",
-  "Song requests welcome in advance",
+  "Up to 90 minutes of indie and folk-Americana — covers and originals",
+  "Minimum 10 guests",
   "Compact sound system provided — no venue required",
-  "Based in Kensington, MD — available throughout the DMV",
-  "Every guest receives a custom 3D-printed souvenir 🎸",
+  "Song requests welcome in advance",
+  "Every guest receives a custom souvenir (it's a surprise)",
 ];
 
 export default function HouseConcertsSection() {
@@ -18,31 +18,25 @@ export default function HouseConcertsSection() {
             House Concerts
           </p>
           <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-7xl text-[#ede8de] leading-tight mb-4">
-            Your Home.{" "}
-            <span className="text-[#b8832a]">A Real Concert.</span>
+            A real concert{" "}
+            <span className="text-[#b8832a]">in your home.</span>
           </h2>
-          <div className="w-12 h-px bg-[#b8832a] mb-10" />
-        </div>
-
-        {/* Opening hook */}
-        <div className="mb-14 max-w-3xl">
-          <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#ede8de] leading-relaxed italic">
-            You don&apos;t pay anything up front. Invite your people — when 10 confirm, the show is on.
+          <div className="w-12 h-px bg-[#b8832a] mb-6" />
+          <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#ede8de]/70 italic">
+            Invite your friends for an intimate performance you&apos;ll never forget.
           </p>
         </div>
 
         {/* Pitch */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mt-14 mb-16">
           <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#ede8de]/65 text-lg leading-relaxed">
             <p>
-              A house concert isn&apos;t background music at a party. It&apos;s an actual show —
-              60 minutes of live indie rock and folk-Americana, in your living room or backyard, for
-              20–50 of your people. Intimate in a way that no venue can replicate.
+              Up to 90 minutes of indie and folk-Americana — a mix of covers and originals.
+              Minimum 10 guests.
             </p>
             <p>
-              Brian has done hundreds of these. He brings the sound system, the setlist, and a
-              custom 3D-printed souvenir for every guest. You bring the space and your favorite
-              people. That&apos;s the whole deal.
+              Brian has performed in over 1,000 venues of all shapes and sizes, and loves these
+              intimate settings most. Every guest receives a custom souvenir — it&apos;s a surprise.
             </p>
           </div>
 
@@ -76,26 +70,9 @@ export default function HouseConcertsSection() {
               <h3 className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-2xl mb-4">
                 Guests Pay
               </h3>
-
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base leading-relaxed mb-6">
-                Your guests cover it directly. Brian brings a QR code the night of the show — no awkward money handling for you.
+              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base leading-relaxed flex-1 mb-8">
+                Brian sets a suggested contribution per guest. He&apos;ll bring a QR code the night of the show.
               </p>
-
-              <ul className="space-y-2.5 mb-8 flex-1">
-                {[
-                  "You pay nothing",
-                  "Zero financial risk for the host",
-                  "Guests pay the night of the show",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5">
-                    <span className="text-[#b8832a] shrink-0 mt-0.5 text-sm">✓</span>
-                    <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/55 text-base">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
               <a
                 href="#contact"
                 className="block text-center font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-6 py-3 bg-[#b8832a] text-[#1c1a17] hover:bg-[#a8721a] transition-colors"
@@ -109,26 +86,9 @@ export default function HouseConcertsSection() {
               <h3 className="font-[family-name:var(--font-playfair)] text-[#ede8de] text-2xl mb-4">
                 Host Pays
               </h3>
-
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base leading-relaxed mb-6">
-                You cover the cost as a flat fee — ideal when you want to gift the experience to your guests or keep things simple.
+              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-base leading-relaxed flex-1 mb-8">
+                A flat guarantee paid in advance. Brian can collect payment via QR code the night of the show, or you can pay in advance.
               </p>
-
-              <ul className="space-y-2.5 mb-8 flex-1">
-                {[
-                  "Guaranteed regardless of headcount",
-                  "Best for milestone events or gifts",
-                  "Flexible — split it, charge at the door, or cover it yourself",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5">
-                    <span className="text-[#8aaa9e] shrink-0 mt-0.5 text-sm">✓</span>
-                    <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/55 text-base">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
               <a
                 href="#contact"
                 className="block text-center font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-6 py-3 border border-[#ede8de]/20 text-[#ede8de]/60 hover:border-[#b8832a] hover:text-[#b8832a] transition-colors"
