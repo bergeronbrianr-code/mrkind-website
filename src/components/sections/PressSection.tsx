@@ -129,10 +129,10 @@ export default function PressSection() {
                 Press Contact
               </p>
               <a
-                href="mailto:bergeron.brian.r@gmail.com"
+                href="mailto:info@mrkindmusic.com"
                 className="font-[family-name:var(--font-source-sans)] text-[#1c1a17]/70 hover:text-[#b8832a] transition-colors"
               >
-                bergeron.brian.r@gmail.com
+                info@mrkindmusic.com
               </a>
             </div>
           </div>

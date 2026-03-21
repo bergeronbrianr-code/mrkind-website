@@ -25,10 +25,10 @@ export default function ContactSection() {
               <div>
                 <p className="text-xs tracking-widest uppercase text-[#8aaa9e] mb-1">Direct Email</p>
                 <a
-                  href="mailto:bergeron.brian.r@gmail.com"
+                  href="mailto:info@mrkindmusic.com"
                   className="text-[#ede8de]/70 hover:text-[#b8832a] transition-colors"
                 >
-                  bergeron.brian.r@gmail.com
+                  info@mrkindmusic.com
                 </a>
               </div>
             </div>
@@ -135,10 +135,10 @@ export default function ContactSection() {
               <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs text-center">
                 Or email directly:{" "}
                 <a
-                  href="mailto:bergeron.brian.r@gmail.com"
+                  href="mailto:info@mrkindmusic.com"
                   className="text-[#ede8de]/30 hover:text-[#b8832a] transition-colors"
                 >
-                  bergeron.brian.r@gmail.com
+                  info@mrkindmusic.com
                 </a>
               </p>
             </form>
