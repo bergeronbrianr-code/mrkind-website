@@ -109,7 +109,7 @@ export default function HouseConcertsSection() {
               </ul>
 
               <a
-                href="#contact?inquiry=house-concert"
+                href="#contact"
                 className="block text-center font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-6 py-3 bg-[#b8832a] text-[#1c1a17] hover:bg-[#a8721a] transition-colors"
               >
                 I Want to Host →
@@ -149,7 +149,7 @@ export default function HouseConcertsSection() {
               </ul>
 
               <a
-                href="#contact?inquiry=house-concert"
+                href="#contact"
                 className="block text-center font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-6 py-3 border border-[#ede8de]/20 text-[#ede8de]/60 hover:border-[#b8832a] hover:text-[#b8832a] transition-colors"
               >
                 I Want to Host →
