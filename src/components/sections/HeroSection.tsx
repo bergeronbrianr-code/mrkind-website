@@ -34,16 +34,16 @@ export default function HeroSection() {
         </div>
 
         <p className="font-[family-name:var(--font-source-sans)] text-lg md:text-xl text-[#ede8de]/70 italic mb-10 max-w-2xl mx-auto leading-relaxed">
-          Indie rock. Folk-Americana. Originals and covers that get under your skin.
+          Indie rock. Folk-Americana. Originals and covers.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
-            href="#contact"
+            href="/request"
             className="px-8 py-3.5 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200"
           >
-            Book a Show →
+            Request a Song →
           </a>
           <a
             href="https://open.spotify.com/artist/1XvF6CpuKjhuvUEbI8B8AZ"

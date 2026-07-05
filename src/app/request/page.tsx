@@ -21,6 +21,7 @@ const stripePromise = loadStripe(
 const SONGS = [
   "Al Green – Let's Stay Together",
   "Amy Winehouse – Valerie",
+  "Andrew Bird – Measuring Cups",
   "Beck – The Golden Age",
   "Bill Withers – Ain't No Sunshine",
   "Bill Withers – Lean on Me",
@@ -34,23 +35,25 @@ const SONGS = [
   "Dave Matthews Band – Ants Marching",
   "David Gray – Babylon",
   "Death Cab for Cutie – I Will Follow You Into the Dark",
-  "Donnie Hathaway – Jealous Guy",
+  "Donny Hathaway – Jealous Guy",
   "Dr. Dog – Shadow People",
   "Eagles – Hotel California",
   "Edward Sharpe & The Magnetic Zeros – Home",
   "Elton John – Tiny Dancer",
-  "Elton John – Your Song",
+  "Elton John – Your Song (Eb)",
   "Elvis Presley – Can't Help Falling In Love With You",
   "Eric Clapton – Lay Down Sally",
   "Eric Clapton – Layla",
   "Father John Misty – I'm Writing A Novel",
   "Feist – 1, 2, 3, 4",
   "Fleetwood Mac – Landslide",
+  "Flock of Dimes – Awake for the Sunrise",
+  "Foo Fighters – Everlong",
   "Geese – Cobra",
   "Goo Goo Dolls – Slide",
   "Hall & Oates – You Make My Dreams Come True",
   "Jack Johnson – Better Together",
-  "Jackson Browne – These Days",
+  "James Taylor – Fire and Rain",
   "James Taylor – How Sweet It Is",
   "Jason Mraz – I'm Yours",
   "Jeff Buckley – Hallelujah",
@@ -65,10 +68,9 @@ const SONGS = [
   "Journey – Don't Stop Believin'",
   "Judy Garland – Somewhere Over the Rainbow",
   "Kings of Leon – Use Somebody",
-  "Leonard Cohen – Hallelujah",
   "Lumineers – Ho Hey",
   "Matchbox 20 – 3AM",
-  "MGMT – Fated to Pretend",
+  "MGMT – Time to Pretend",
   "Modern English – Melt with You",
   "Mumford & Sons – I Will Wait",
   "Neil Diamond – Sweet Caroline",
@@ -78,7 +80,6 @@ const SONGS = [
   "Oasis – Wonderwall",
   "Old Crow Medicine Show – Wagon Wheel",
   "Otis Redding – Sittin' On The Dock of the Bay",
-  "Paul Simon – The Sound of Silence",
   "Pearl Jam – Betterman",
   "Radiohead – Creep",
   "Radiohead – Fake Plastic Trees",
@@ -86,15 +87,20 @@ const SONGS = [
   "Ray LaMontagne – You Are the Best Thing",
   "REM – Losing My Religion",
   "Roy Orbison – Pretty Woman",
+  "Sam Cooke – Wonderful World",
   "Sheryl Crow – Strong Enough",
   "Simon & Garfunkel – Me and Julio Down by the Schoolyard",
+  "Simon & Garfunkel – The Sound of Silence",
   "Spoon – The Underdog",
   "Stealers Wheel – Stuck in the Middle With You",
+  "Tears for Fears – Everybody Wants to Rule the World",
   "The Band – The Weight",
   "The Beatles – Come Together",
   "The Beatles – Here Comes The Sun",
   "The Beatles – In My Life",
+  "The Beatles – Norwegian Wood",
   "The Beatles – Yellow Submarine",
+  "The Flaming Lips – Yoshimi Battles the Pink Robots",
   "The National – Fake Empire",
   "The Postal Service – The District Sleeps Alone Tonight",
   "The Rolling Stones – Wild Horses",
@@ -102,6 +108,7 @@ const SONGS = [
   "Tom Petty – Free Fallin'",
   "Tom Petty – I Won't Back Down",
   "Tom Petty – Wildflowers",
+  "Tom Petty – You Don't Know How It Feels",
   "Tracy Chapman – Gimme One Reason",
   "Vampire Weekend – I Stand Corrected",
   "Van Morrison – Brown Eyed Girl",
@@ -117,20 +124,29 @@ const PHIL_SONGS = new Set([
   "Beck – The Golden Age",
   "Bon Iver – Skinny Love",
   "Bruce Springsteen – Dancing in the Dark",
-  "Donnie Hathaway – Jealous Guy",
-  "Elton John – Your Song",
+  "Donny Hathaway – Jealous Guy",
+  "Elton John – Your Song (Eb)",
+  "Flock of Dimes – Awake for the Sunrise",
   "Geese – Cobra",
   "Kings of Leon – Use Somebody",
+  "MGMT – Time to Pretend",
   "Neil Young – Harvest Moon",
   "Radiohead – Fake Plastic Trees",
   "Sheryl Crow – Strong Enough",
+  "Simon & Garfunkel – The Sound of Silence",
   "The Beatles – Come Together",
+  "The Beatles – Norwegian Wood",
+  "The Flaming Lips – Yoshimi Battles the Pink Robots",
   "The Rolling Stones – Wild Horses",
-  "Wilco – Jesus, etc.",
-  "Wilco – Kamera",
+  "Tears for Fears – Everybody Wants to Rule the World",
+  "The Postal Service – The District Sleeps Alone Tonight",
+  "Tom Petty – Wildflowers",
+  "Tom Petty – You Don't Know How It Feels",
 ]);
 
 const TIP_AMOUNTS = [5, 10, 20];
+
+const VENMO_URL = "https://www.venmo.com/u/MrKindMusic";
 
 const MAILCHIMP_URL =
   "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
@@ -266,6 +282,17 @@ function PaymentForm({
       <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
         Secured by Stripe · Apple Pay &amp; Google Pay accepted
       </p>
+      <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/30 text-xs">
+        Prefer Venmo?{" "}
+        <a
+          href={VENMO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#b8832a] hover:underline"
+        >
+          Send ${amount} directly →
+        </a>
+      </p>
     </form>
   );
 }
@@ -275,7 +302,7 @@ export default function RequestPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "phil">("all");
   const [selectedSong, setSelectedSong] = useState("");
-  const [tipAmount, setTipAmount] = useState<number | null>(null);
+  const [tipAmount, setTipAmount] = useState<number | null>(5);
   const [customTip, setCustomTip] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -426,54 +453,7 @@ export default function RequestPage() {
 
         <form onSubmit={handleSubmit} className="space-y-10">
 
-          {/* ── 1. Tip ──────────────────────────────────────────────── */}
-          <section>
-            <div className="mb-5">
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Leave a Tip</h2>
-              <div className="w-8 h-px bg-[#b8832a]" />
-            </div>
-            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
-              Optional — skip if you just want to request a song.
-            </p>
-
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              {TIP_AMOUNTS.map((amount) => (
-                <button
-                  key={amount}
-                  type="button"
-                  onClick={() => { setTipAmount(tipAmount === amount ? null : amount); setCustomTip(""); }}
-                  className={`py-4 font-[family-name:var(--font-playfair)] text-2xl transition-all border ${
-                    tipAmount === amount
-                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
-                      : "border-[#ede8de]/15 bg-[#252220] text-[#ede8de]/60 hover:border-[#b8832a]/40"
-                  }`}
-                >
-                  ${amount}
-                </button>
-              ))}
-            </div>
-
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">$</span>
-              <input
-                type="number"
-                min="1"
-                step="1"
-                value={customTip}
-                onChange={(e) => { setCustomTip(e.target.value); setTipAmount(null); }}
-                placeholder="Other amount"
-                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 pl-8 pr-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-              />
-            </div>
-
-            {hasTip && (
-              <p className="mt-3 font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
-                ✓ ${effectiveTip} tip selected
-              </p>
-            )}
-          </section>
-
-          {/* ── 2. Song Request ─────────────────────────────────────── */}
+          {/* ── 1. Song Request ─────────────────────────────────────── */}
           <section>
             <div className="mb-5">
               <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Request a Song</h2>
@@ -556,6 +536,53 @@ export default function RequestPage() {
                 className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
               />
             </div>
+          </section>
+
+          {/* ── 2. Tip ──────────────────────────────────────────────── */}
+          <section>
+            <div className="mb-5">
+              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Leave a Tip</h2>
+              <div className="w-8 h-px bg-[#b8832a]" />
+            </div>
+            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
+              Tip $5 and move your request to the front of the line.
+            </p>
+
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              {TIP_AMOUNTS.map((amount) => (
+                <button
+                  key={amount}
+                  type="button"
+                  onClick={() => { setTipAmount(tipAmount === amount ? null : amount); setCustomTip(""); }}
+                  className={`py-4 font-[family-name:var(--font-playfair)] text-2xl transition-all border ${
+                    tipAmount === amount
+                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                      : "border-[#ede8de]/15 bg-[#252220] text-[#ede8de]/60 hover:border-[#b8832a]/40"
+                  }`}
+                >
+                  ${amount}
+                </button>
+              ))}
+            </div>
+
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">$</span>
+              <input
+                type="number"
+                min="1"
+                step="1"
+                value={customTip}
+                onChange={(e) => { setCustomTip(e.target.value); setTipAmount(null); }}
+                placeholder="Other amount"
+                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 pl-8 pr-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+              />
+            </div>
+
+            {hasTip && (
+              <p className="mt-3 font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
+                ✓ ${effectiveTip} tip selected
+              </p>
+            )}
           </section>
 
           {/* ── 3. Your Info ────────────────────────────────────────── */}
