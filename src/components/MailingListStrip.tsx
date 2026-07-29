@@ -8,7 +8,6 @@ const MAILCHIMP_URL =
 export default function MailingListStrip() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [showPhone, setShowPhone] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -61,23 +60,13 @@ export default function MailingListStrip() {
               </button>
             </div>
 
-            {showPhone ? (
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Phone number"
-                className="w-full sm:w-72 bg-[#1c1a17] text-[#ede8de] placeholder-[#ede8de]/30 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none"
-              />
-            ) : (
-              <button
-                type="button"
-                onClick={() => setShowPhone(true)}
-                className="font-[family-name:var(--font-dm-sans)] text-[#1c1a17]/70 hover:text-[#1c1a17] text-xs tracking-widest uppercase underline"
-              >
-                + Add phone for text alerts
-              </button>
-            )}
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Phone number (optional, for text alerts)"
+              className="w-full sm:w-72 bg-[#1c1a17] text-[#ede8de] placeholder-[#ede8de]/30 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none"
+            />
             <p className="font-[family-name:var(--font-dm-sans)] text-[#1c1a17]/50 text-[11px] leading-snug max-w-72">
               By adding your number you agree to receive occasional text alerts from Mr. Kind. Msg &amp; data rates may apply. Reply STOP to unsubscribe.
             </p>
