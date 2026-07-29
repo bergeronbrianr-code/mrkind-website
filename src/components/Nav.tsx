@@ -42,7 +42,7 @@ export default function Nav() {
         {/* Request / Tip CTA */}
         <Link
           href="/request"
-          className="hidden lg:inline-flex text-xs px-5 py-2 border border-[#b8832a] text-[#b8832a] hover:bg-[#b8832a] hover:text-[#1c1a17] transition-all duration-200 tracking-widest uppercase font-[family-name:var(--font-dm-sans)] shrink-0"
+          className="inline-flex text-xs px-5 py-2 border border-[#b8832a] text-[#b8832a] hover:bg-[#b8832a] hover:text-[#1c1a17] transition-all duration-200 tracking-widest uppercase font-[family-name:var(--font-dm-sans)] shrink-0"
         >
           Request / Tip
         </Link>

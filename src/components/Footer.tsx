@@ -71,12 +71,20 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-            <Link
-              href="/request"
-              className="inline-block font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-5 py-2 border border-[#b8832a]/40 text-[#b8832a]/70 hover:border-[#b8832a] hover:text-[#b8832a] transition-colors"
-            >
-              Request / Tip
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/request"
+                className="inline-block font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-5 py-2 border border-[#b8832a]/40 text-[#b8832a]/70 hover:border-[#b8832a] hover:text-[#b8832a] transition-colors"
+              >
+                Request / Tip
+              </Link>
+              <a
+                href="#mailing-list"
+                className="inline-block font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-5 py-2 border border-[#b8832a]/40 text-[#b8832a]/70 hover:border-[#b8832a] hover:text-[#b8832a] transition-colors"
+              >
+                Email &amp; Text List
+              </a>
+            </div>
           </div>
         </div>
 
