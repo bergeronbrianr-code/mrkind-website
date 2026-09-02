@@ -17,25 +17,25 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1c1a17] border-t border-[#ede8de]/10 py-14 px-6">
-      <div className="max-w-6xl mx-auto">
+    <footer className="bg-[#f3f0e8] border-t border-[#292a20]/15 py-14 px-5 md:px-8">
+      <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
           {/* Brand */}
           <div>
             <Link
               href="/"
-              className="font-[family-name:var(--font-playfair)] text-2xl text-[#b8832a] block mb-2"
+              className="focus-ring font-[family-name:var(--font-dm-sans)] text-base font-semibold tracking-[0.18em] uppercase text-[#292a20] block mb-2"
             >
               Mr. Kind
             </Link>
-            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/40 text-sm italic leading-relaxed">
+            <p className="font-[family-name:var(--font-source-sans)] text-[#292a20]/60 text-sm italic leading-relaxed">
               Heartfelt indie rock, folk-Americana storytelling.
             </p>
           </div>
 
           {/* Nav */}
           <div>
-            <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/30 text-xs tracking-widest uppercase mb-4">
+            <p className="font-[family-name:var(--font-dm-sans)] text-[#292a20]/45 text-[10px] tracking-[0.16em] uppercase mb-4">
               Navigate
             </p>
             <ul className="space-y-2">
@@ -43,7 +43,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="font-[family-name:var(--font-dm-sans)] text-sm text-[#ede8de]/40 hover:text-[#b8832a] transition-colors"
+                    className="focus-ring font-[family-name:var(--font-dm-sans)] text-sm text-[#292a20]/65 hover:text-[#b9771c] transition-colors"
                   >
                     {link.label}
                   </a>
@@ -54,7 +54,7 @@ export default function Footer() {
 
           {/* Socials + Request */}
           <div>
-            <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/30 text-xs tracking-widest uppercase mb-4">
+            <p className="font-[family-name:var(--font-dm-sans)] text-[#292a20]/45 text-[10px] tracking-[0.16em] uppercase mb-4">
               Follow
             </p>
             <ul className="space-y-2 mb-6">
@@ -64,7 +64,7 @@ export default function Footer() {
                     href={s.href}
                     target={s.href.startsWith("http") ? "_blank" : undefined}
                     rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="font-[family-name:var(--font-dm-sans)] text-sm text-[#ede8de]/40 hover:text-[#b8832a] transition-colors"
+                    className="focus-ring font-[family-name:var(--font-dm-sans)] text-sm text-[#292a20]/65 hover:text-[#b9771c] transition-colors"
                   >
                     {s.label}
                   </a>
@@ -73,7 +73,7 @@ export default function Footer() {
             </ul>
             <Link
               href="/request"
-              className="inline-block font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-5 py-2 border border-[#b8832a]/40 text-[#b8832a]/70 hover:border-[#b8832a] hover:text-[#b8832a] transition-colors"
+              className="focus-ring inline-block font-[family-name:var(--font-dm-sans)] text-[11px] tracking-[0.16em] uppercase px-5 py-2 bg-[#b9771c] text-[#f3f0e8] hover:bg-[#292a20] transition-colors"
             >
               Request / Tip
             </Link>
@@ -81,11 +81,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-[#ede8de]/8 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
-            © 2025 Brian Bergeron / Mr. Kind. All rights reserved.
+        <div className="pt-8 border-t border-[#292a20]/12 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="font-[family-name:var(--font-dm-sans)] text-[#292a20]/40 text-xs">
+            © 2026 Brian Bergeron / Mr. Kind. All rights reserved.
           </p>
-          <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/15 text-xs">
+          <p className="font-[family-name:var(--font-dm-sans)] text-[#292a20]/35 text-xs">
             mrkindmusic.com
           </p>
         </div>

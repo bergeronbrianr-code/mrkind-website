@@ -52,7 +52,7 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${sourceSans.variable} ${dmSans.variable}`}
     >
-      <body className="antialiased">
+      <body className="antialiased site-shell">
         <Nav />
         {children}
       </body>

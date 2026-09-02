@@ -1,67 +1,60 @@
+import Image from "next/image";
+
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#1c1a17]">
-      {/* Hero photo placeholder — warm amber fill at landscape ratio */}
-      <div className="absolute inset-0 bg-[#b8832a]/10">
-        {/* HERO PHOTO HERE — dark stage / warm backlighting, landscape, high-res */}
-      </div>
+    <section className="relative min-h-[720px] overflow-hidden bg-[#f3f0e8] pt-28 pb-16 md:min-h-[820px] md:pt-36 md:pb-24">
+      <div className="paper-grain absolute inset-0 opacity-30 pointer-events-none" />
+      <div className="absolute -left-24 bottom-4 h-64 w-[44rem] -rotate-[25deg] bg-[#b9d3c8]/40 md:h-80" />
+      <div className="absolute right-[7%] top-24 hidden h-32 w-32 bg-[#b9771c]/15 md:block" />
 
-      {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#1c1a17]/60 via-[#1c1a17]/30 to-[#1c1a17]" />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#1c1a17]/60 via-transparent to-[#1c1a17]/60" />
-
-      {/* Grain texture overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.08] pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-        }}
-      />
-
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        <h1 className="font-[family-name:var(--font-playfair)] text-5xl md:text-7xl lg:text-8xl font-semibold text-[#ede8de] leading-tight mb-6">
-          Twenty Years of Stories.{" "}
-          <em className="not-italic text-[#b8832a]">Every Show Feels Like the First.</em>
-        </h1>
-
-        {/* Thin gold rule */}
-        <div className="flex items-center justify-center gap-4 mb-6">
-          <div className="h-px flex-1 max-w-[80px] bg-[#b8832a]/40" />
-          <div className="w-1.5 h-1.5 rounded-full bg-[#b8832a]" />
-          <div className="h-px flex-1 max-w-[80px] bg-[#b8832a]/40" />
-        </div>
-
-        <p className="font-[family-name:var(--font-source-sans)] text-lg md:text-xl text-[#ede8de]/70 italic mb-10 max-w-2xl mx-auto leading-relaxed">
-          Indie rock. Folk-Americana. Originals and covers.
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-5 md:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
+        <div className="relative z-10 max-w-2xl">
+          <p className="mb-7 font-[family-name:var(--font-dm-sans)] text-[11px] font-medium tracking-[0.24em] text-[#b9771c] uppercase">
+            Songs for rooms of every size
+          </p>
+          <h1 className="font-[family-name:var(--font-playfair)] text-5xl leading-[0.98] text-[#292a20] md:text-7xl lg:text-[5.5rem]">
+            Mr. Kind
+            <span className="mt-3 block text-[#7da89e] italic">is Brian Bergeron.</span>
+          </h1>
+          <div className="my-8 h-px w-20 bg-[#b9771c]" />
+          <p className="max-w-lg font-[family-name:var(--font-source-sans)] text-xl leading-relaxed text-[#292a20]/70 md:text-2xl">
+            Indie rock and folk-Americana for listening rooms, house concerts, and nights worth remembering.
+          </p>
+          <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
           <a
             href="/request"
-            className="px-8 py-3.5 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200"
+            className="focus-ring px-7 py-3.5 bg-[#b9771c] text-[#f3f0e8] font-[family-name:var(--font-dm-sans)] font-medium tracking-[0.16em] uppercase text-xs hover:bg-[#292a20] transition-colors duration-200"
           >
-            Request a Song →
+            Request a Song
           </a>
           <a
             href="https://open.spotify.com/artist/1XvF6CpuKjhuvUEbI8B8AZ"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-8 py-3.5 border border-[#ede8de]/30 text-[#ede8de]/80 font-[family-name:var(--font-dm-sans)] font-medium tracking-widest uppercase text-sm hover:border-[#b8832a] hover:text-[#b8832a] transition-colors duration-200"
+            className="focus-ring px-7 py-3.5 border border-[#292a20]/25 text-[#292a20] font-[family-name:var(--font-dm-sans)] font-medium tracking-[0.16em] uppercase text-xs hover:border-[#b9771c] hover:text-[#b9771c] transition-colors duration-200"
           >
-            Listen on Spotify →
+            Listen on Spotify
           </a>
         </div>
-      </div>
+        </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-        <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de] text-xs tracking-widest uppercase">
-          Scroll
-        </span>
-        <div className="w-px h-10 bg-[#ede8de] animate-pulse" />
+        <div className="relative mx-auto w-full max-w-[660px] lg:ml-auto">
+          <div className="absolute -left-6 top-[18%] h-[68%] w-[24%] bg-[#7da89e]/20" />
+          <div className="absolute -right-6 bottom-[7%] h-[30%] w-[46%] bg-[#b9771c]/15" />
+          <div className="relative aspect-square overflow-hidden shadow-[18px_22px_0_rgba(41,42,32,0.10)]">
+            <Image
+              src="/Photos/Mr Kind - Front Text-Free.png"
+              alt="Abstract Mr. Kind artwork in ochre and teal"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 52vw"
+              className="object-cover"
+            />
+          </div>
+          <p className="absolute -bottom-8 right-0 font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.17em] text-[#292a20]/45 uppercase">
+            2011 — now · DMV / Oakland
+          </p>
+        </div>
       </div>
     </section>
   );

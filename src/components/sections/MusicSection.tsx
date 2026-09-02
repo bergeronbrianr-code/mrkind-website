@@ -33,24 +33,27 @@ const mrKindEPs = [
 
 export default function MusicSection() {
   return (
-    <section id="music" className="py-28 px-6 bg-[#1c1a17]">
-      <div className="max-w-6xl mx-auto">
+    <section id="music" className="relative overflow-hidden py-28 px-5 md:px-8 bg-[#292a20]">
+      <div className="paper-grain absolute inset-0 opacity-[0.12] pointer-events-none" />
+      <div className="absolute -left-16 top-20 h-40 w-[45%] -rotate-[18deg] bg-[#7da89e]/20" />
+      <div className="relative max-w-7xl mx-auto">
         {/* Section header */}
         <div className="mb-16">
-          <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] tracking-[0.3em] uppercase text-xs mb-3">
+          <p className="font-[family-name:var(--font-dm-sans)] text-[#e6c48c] tracking-[0.24em] uppercase text-[11px] mb-4">
             Discography
           </p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#ede8de]">
+          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#f3f0e8]">
             The Music
           </h2>
-          <div className="mt-4 w-12 h-px bg-[#b8832a]" />
+          <div className="mt-4 w-16 h-px bg-[#b9771c]" />
         </div>
 
         {/* ── Mr. Kind (Band) ─────────────────────────────────────── */}
-        <div className="mb-20">
+        <div className="mb-20 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-16">
+          <div>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <h3 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
+              <h3 className="font-[family-name:var(--font-playfair)] text-3xl text-[#f3f0e8] mb-1">
                 Mr. Kind
               </h3>
               <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic">
@@ -61,14 +64,14 @@ export default function MusicSection() {
               href="https://open.spotify.com/artist/1XvF6CpuKjhuvUEbI8B8AZ"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/50 hover:text-[#b8832a] transition-colors border border-[#ede8de]/20 hover:border-[#b8832a] px-4 py-2 self-start sm:self-auto"
+              className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.16em] uppercase text-[#f3f0e8]/65 hover:text-[#e6c48c] transition-colors border border-[#f3f0e8]/25 hover:border-[#b9771c] px-4 py-2 self-start sm:self-auto"
             >
               Open in Spotify
             </a>
           </div>
 
           {/* Band photo */}
-          <div className="relative w-full aspect-[16/7] overflow-hidden mb-10">
+          <div className="relative w-full aspect-[16/7] overflow-hidden mb-10 border border-[#f3f0e8]/10">
             <Image
               src="/Photos/4.jpg"
               alt="Mr. Kind recording in the studio"
@@ -76,7 +79,7 @@ export default function MusicSection() {
               sizes="(max-width: 1200px) 100vw, 1200px"
               className="object-cover object-center"
             />
-            <p className="absolute bottom-3 right-4 font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-[10px] tracking-widest uppercase">
+            <p className="absolute bottom-3 right-4 font-[family-name:var(--font-dm-sans)] text-[#f3f0e8]/60 text-[10px] tracking-[0.16em] uppercase">
               Mr. Kind · Studio Session
             </p>
           </div>
@@ -98,7 +101,7 @@ export default function MusicSection() {
             {mrKindEPs.map((ep) => (
               <div key={ep.title} className="group">
                 {/* Album art */}
-                <div className="relative aspect-square mb-3 overflow-hidden border border-[#ede8de]/5 group-hover:border-[#b8832a]/40 transition-colors duration-300">
+                <div className="relative aspect-square mb-3 overflow-hidden border border-[#f3f0e8]/10 group-hover:border-[#b9771c]/80 transition-colors duration-300">
                   <Image
                     src={ep.img}
                     alt={`${ep.title} album art`}
@@ -108,10 +111,10 @@ export default function MusicSection() {
                   />
                 </div>
 
-                <h4 className="font-[family-name:var(--font-source-sans)] text-[#ede8de] text-sm leading-snug mb-1">
+                <h4 className="font-[family-name:var(--font-source-sans)] text-[#f3f0e8] text-sm leading-snug mb-1">
                   {ep.title}
                 </h4>
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#8aaa9e] text-xs tracking-widest mb-2">
+                <p className="font-[family-name:var(--font-dm-sans)] text-[#b9d3c8] text-[10px] tracking-[0.16em] mb-2">
                   {ep.year}
                 </p>
 
@@ -122,7 +125,7 @@ export default function MusicSection() {
                       href={`https://open.spotify.com/album/${ep.spotifyId}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-widest uppercase text-[#ede8de]/30 hover:text-[#b8832a] transition-colors"
+                      className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
                     >
                       Spotify
                     </a>
@@ -131,7 +134,7 @@ export default function MusicSection() {
                     href={ep.bandcampUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-widest uppercase text-[#ede8de]/30 hover:text-[#b8832a] transition-colors"
+                    className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
                   >
                     Bandcamp
                   </a>
@@ -139,15 +142,32 @@ export default function MusicSection() {
               </div>
             ))}
           </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-[280px] self-start lg:mt-14">
+            <div className="absolute -right-4 -top-4 h-2/3 w-2/3 bg-[#b9771c]/35" />
+            <div className="relative aspect-square overflow-hidden border border-[#f3f0e8]/20">
+              <Image
+                src="/Photos/Mr Kind - Front Text-Free.png"
+                alt="Mr. Kind compilation artwork"
+                fill
+                sizes="280px"
+                className="object-cover"
+              />
+            </div>
+            <p className="mt-4 font-[family-name:var(--font-dm-sans)] text-[10px] leading-relaxed tracking-[0.14em] text-[#f3f0e8]/45 uppercase">
+              A 2011–2016 collection of the Mr. Kind catalog.
+            </p>
+          </div>
         </div>
 
         {/* Thin rule */}
-        <div className="h-px w-full bg-[#ede8de]/10 mb-16" />
+        <div className="h-px w-full bg-[#f3f0e8]/15 mb-16" />
 
         {/* ── Solo Work ───────────────────────────────────────────── */}
         <div>
           <div className="mb-8">
-            <h3 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">
+            <h3 className="font-[family-name:var(--font-playfair)] text-3xl text-[#f3f0e8] mb-1">
               Brian Bergeron
             </h3>
             <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic">
@@ -158,7 +178,7 @@ export default function MusicSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl">
             {/* We've Got To Find An Easier Way */}
             <div className="flex flex-row gap-5 items-start">
-              <div className="relative aspect-square w-32 shrink-0 overflow-hidden border border-[#ede8de]/5">
+              <div className="relative aspect-square w-32 shrink-0 overflow-hidden border border-[#f3f0e8]/10">
                 <Image
                   src="https://f4.bcbits.com/img/a3149445310_10.jpg"
                   alt="We've Got To Find An Easier Way album art"
@@ -168,17 +188,17 @@ export default function MusicSection() {
                 />
               </div>
               <div className="pt-1">
-                <h4 className="font-[family-name:var(--font-source-sans)] text-[#ede8de] text-base leading-snug mb-1">
+                <h4 className="font-[family-name:var(--font-source-sans)] text-[#f3f0e8] text-base leading-snug mb-1">
                   We&apos;ve Got To Find An Easier Way
                 </h4>
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#8aaa9e] text-xs tracking-widest mb-4">
+                <p className="font-[family-name:var(--font-dm-sans)] text-[#b9d3c8] text-[10px] tracking-[0.16em] mb-4">
                   2009 · Debut album
                 </p>
                 <a
                   href="https://brianbergeron.bandcamp.com/album/weve-got-to-find-an-easier-way"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/30 hover:text-[#b8832a] transition-colors"
+                  className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
                 >
                   Listen on Bandcamp →
                 </a>
@@ -187,7 +207,7 @@ export default function MusicSection() {
 
             {/* Hourglass */}
             <div className="flex flex-row gap-5 items-start">
-              <div className="relative aspect-square w-32 shrink-0 overflow-hidden border border-[#ede8de]/5">
+              <div className="relative aspect-square w-32 shrink-0 overflow-hidden border border-[#f3f0e8]/10">
                 <Image
                   src="https://f4.bcbits.com/img/a2683240432_10.jpg"
                   alt="Hourglass EP album art"
@@ -197,17 +217,17 @@ export default function MusicSection() {
                 />
               </div>
               <div className="pt-1">
-                <h4 className="font-[family-name:var(--font-source-sans)] text-[#ede8de] text-base leading-snug mb-1">
+                <h4 className="font-[family-name:var(--font-source-sans)] text-[#f3f0e8] text-base leading-snug mb-1">
                   Hourglass EP
                 </h4>
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#8aaa9e] text-xs tracking-widest mb-4">
+                <p className="font-[family-name:var(--font-dm-sans)] text-[#b9d3c8] text-[10px] tracking-[0.16em] mb-4">
                   2011
                 </p>
                 <a
                   href="https://brianbergeron.bandcamp.com/album/hourglass-ep"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/30 hover:text-[#b8832a] transition-colors"
+                  className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
                 >
                   Listen on Bandcamp →
                 </a>

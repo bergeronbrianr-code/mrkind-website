@@ -2,20 +2,21 @@ import Image from "next/image";
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-28 px-6 bg-[#f5f0e8]">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+    <section id="about" className="relative overflow-hidden py-28 px-5 md:px-8">
+      <div className="absolute right-0 top-24 hidden h-64 w-[38%] bg-[#b9d3c8]/30 lg:block" />
+      <div className="relative max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left: text */}
           <div>
-            <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] tracking-[0.3em] uppercase text-xs mb-3">
+            <p className="font-[family-name:var(--font-dm-sans)] text-[#b9771c] tracking-[0.24em] uppercase text-[11px] mb-4">
               About
             </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#1c1a17] mb-4 leading-tight">
+            <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#292a20] mb-4 leading-tight">
               The Story So Far
             </h2>
-            <div className="w-12 h-px bg-[#b8832a] mb-8" />
+            <div className="w-16 h-px bg-[#b9771c] mb-8" />
 
-            <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#1c1a17]/75 text-lg leading-relaxed">
+            <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#292a20]/75 text-lg leading-relaxed">
               <p>
                 Mr. Kind is Brian Bergeron — singer, songwriter, guitarist, and the kind of performer
                 who makes a living room feel like a music hall.
@@ -41,17 +42,17 @@ export default function AboutSection() {
             </div>
 
             {/* Stats */}
-            <div className="mt-12 grid grid-cols-3 gap-6 pt-10 border-t border-[#1c1a17]/10">
+            <div className="mt-12 grid grid-cols-3 gap-6 pt-10 border-t border-[#292a20]/15">
               {[
                 { value: "20+", label: "Years Performing" },
                 { value: "1,000+", label: "Shows Played" },
                 { value: "6+", label: "Musical Releases" },
               ].map((stat) => (
                 <div key={stat.label}>
-                  <p className="font-[family-name:var(--font-playfair)] text-[#b8832a] text-3xl mb-1">
+                  <p className="font-[family-name:var(--font-playfair)] text-[#b9771c] text-3xl mb-1">
                     {stat.value}
                   </p>
-                  <p className="font-[family-name:var(--font-dm-sans)] text-[#1c1a17]/40 text-xs tracking-widest uppercase leading-snug">
+                  <p className="font-[family-name:var(--font-dm-sans)] text-[#292a20]/45 text-[10px] tracking-[0.14em] uppercase leading-snug">
                     {stat.label}
                   </p>
                 </div>
@@ -62,8 +63,9 @@ export default function AboutSection() {
           {/* Right: photo + pull quote */}
           <div className="flex flex-col gap-8">
             {/* Artist photo */}
-            <div className="relative">
-              <div className="aspect-[3/4] overflow-hidden">
+            <div className="relative max-w-[35rem] lg:ml-auto">
+              <div className="absolute -left-5 -top-5 h-[42%] w-[48%] bg-[#b9771c]/15" />
+              <div className="relative aspect-[3/4] overflow-hidden">
                 <Image
                   src="/Photos/Artist Photo.png"
                   alt="Brian Bergeron"
@@ -74,15 +76,15 @@ export default function AboutSection() {
                 />
               </div>
               {/* Offset accent border */}
-              <div className="absolute -bottom-3 -right-3 w-full h-full border border-[#b8832a]/30 -z-10" />
+              <div className="absolute -bottom-4 -right-4 w-full h-full border border-[#7da89e]/70 -z-10" />
             </div>
 
             {/* Pull quote */}
-            <blockquote className="border-l-2 border-[#b8832a] pl-6 py-1">
-              <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#1c1a17] italic leading-snug mb-3">
+            <blockquote className="border-l-2 border-[#b9771c] pl-6 py-1">
+              <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#292a20] italic leading-snug mb-3">
                 &ldquo;Dreamy, at times psychedelic.&rdquo;
               </p>
-              <footer className="font-[family-name:var(--font-dm-sans)] text-[#8aaa9e] text-xs tracking-widest uppercase">
+              <footer className="font-[family-name:var(--font-dm-sans)] text-[#7da89e] text-[10px] tracking-[0.16em] uppercase">
                 — San Francisco Chronicle
               </footer>
             </blockquote>

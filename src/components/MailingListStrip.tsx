@@ -23,19 +23,20 @@ export default function MailingListStrip() {
   }
 
   return (
-    <div className="bg-[#b8832a] px-6 py-12">
-      <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+    <div className="relative overflow-hidden bg-[#b9771c] px-5 py-12 md:px-8">
+      <div className="absolute inset-y-0 right-[11%] w-24 -skew-x-[34deg] bg-[#f3f0e8]/15" />
+      <div className="relative max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="text-center sm:text-left">
-          <p className="font-[family-name:var(--font-playfair)] text-[#1c1a17] text-2xl mb-1">
+          <p className="font-[family-name:var(--font-playfair)] text-[#292a20] text-3xl mb-1">
             Stay in the loop.
           </p>
-          <p className="font-[family-name:var(--font-source-sans)] text-[#1c1a17]/70 text-base">
+          <p className="font-[family-name:var(--font-source-sans)] text-[#292a20]/75 text-base">
             Shows, house concerts, and the occasional update.
           </p>
         </div>
 
         {submitted ? (
-          <p className="font-[family-name:var(--font-dm-sans)] text-[#1c1a17] tracking-widest uppercase text-sm">
+          <p className="font-[family-name:var(--font-dm-sans)] text-[#292a20] tracking-[0.16em] uppercase text-xs">
             You&apos;re on the list ✓
           </p>
         ) : (
@@ -46,12 +47,12 @@ export default function MailingListStrip() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
-              className="flex-1 sm:w-72 bg-[#1c1a17] text-[#ede8de] placeholder-[#ede8de]/30 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none"
+              className="focus:ring-2 focus:ring-[#292a20] flex-1 sm:w-72 bg-[#f3f0e8] text-[#292a20] placeholder-[#292a20]/35 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none"
             />
             <button
               type="submit"
               disabled={loading}
-              className="bg-[#1c1a17] text-[#b8832a] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-xs px-6 py-3 hover:bg-[#252220] transition-colors border-l border-[#ede8de]/10 whitespace-nowrap disabled:opacity-50"
+              className="bg-[#292a20] text-[#f3f0e8] font-[family-name:var(--font-dm-sans)] font-medium tracking-[0.16em] uppercase text-[11px] px-6 py-3 hover:bg-[#7da89e] transition-colors whitespace-nowrap disabled:opacity-50"
             >
               {loading ? "…" : "Sign Up"}
             </button>

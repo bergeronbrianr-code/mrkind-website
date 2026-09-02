@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-dark: #1c1a17;
-  --color-gold: #b8832a;
-  --color-sage: #8aaa9e;
-  --color-light-bg: #f5f0e8;
-  --color-light-text: #ede8de;
+  --color-dark: #292a20;
+  --color-gold: #b9771c;
+  --color-sage: #7da89e;
+  --color-light-bg: #f3f0e8;
+  --color-light-text: #f3f0e8;
 
   --font-display: var(--font-playfair);
   --font-body: var(--font-source-sans);
@@ -14,10 +14,31 @@
 
 html {
   scroll-behavior: smooth;
+  background: #f3f0e8;
 }
 
 body {
-  background-color: #1c1a17;
-  color: #ede8de;
+  background-color: #f3f0e8;
+  color: #292a20;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: #b9771c;
+  color: #f3f0e8;
+}
+
+.paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+
+.site-shell {
+  background-color: #f3f0e8;
+  background-image: linear-gradient(rgba(41, 42, 32, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(41, 42, 32, 0.02) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid #b9771c;
+  outline-offset: 4px;
 }

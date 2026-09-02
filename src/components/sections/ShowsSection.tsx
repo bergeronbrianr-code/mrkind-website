@@ -2,17 +2,19 @@ import Script from "next/script";
 
 export default function ShowsSection() {
   return (
-    <section id="shows" className="py-28 px-6 bg-[#f5f0e8]">
-      <div className="max-w-6xl mx-auto">
+    <section id="shows" className="relative overflow-hidden py-28 px-5 md:px-8 bg-[#dfe9e2]/60">
+      <div className="paper-grain absolute inset-0 opacity-25 pointer-events-none" />
+      <div className="absolute -right-20 bottom-0 h-44 w-[62%] -skew-y-12 bg-[#b9771c]/15" />
+      <div className="relative max-w-7xl mx-auto">
         {/* Section header */}
         <div className="mb-12">
-          <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] tracking-[0.3em] uppercase text-xs mb-3">
+          <p className="font-[family-name:var(--font-dm-sans)] text-[#b9771c] tracking-[0.24em] uppercase text-[11px] mb-4">
             Live
           </p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#1c1a17]">
+          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#292a20]">
             Upcoming Shows
           </h2>
-          <div className="mt-4 w-12 h-px bg-[#b8832a]" />
+          <div className="mt-4 w-16 h-px bg-[#b9771c]" />
         </div>
 
         {/* Bandsintown widget */}
@@ -30,12 +32,12 @@ export default function ShowsSection() {
 
         {/* Sub-CTA */}
         <div className="text-center">
-          <p className="font-[family-name:var(--font-source-sans)] text-[#1c1a17]/60 text-sm italic mb-4">
+          <p className="font-[family-name:var(--font-source-sans)] text-[#292a20]/60 text-sm italic mb-4">
             Don&apos;t see your city?
           </p>
           <a
             href="#contact"
-            className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase px-6 py-3 border border-[#1c1a17] text-[#1c1a17] hover:bg-[#1c1a17] hover:text-[#f5f0e8] transition-colors duration-200 inline-block"
+            className="focus-ring font-[family-name:var(--font-dm-sans)] text-[11px] tracking-[0.16em] uppercase px-6 py-3 bg-[#292a20] text-[#f3f0e8] hover:bg-[#b9771c] transition-colors duration-200 inline-block"
           >
             Book a Private Show →
           </a>

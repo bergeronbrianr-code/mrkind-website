@@ -30,29 +30,31 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-28 px-6 bg-[#1c1a17]">
-      <div className="max-w-6xl mx-auto">
+    <section id="contact" className="relative overflow-hidden py-28 px-5 md:px-8 bg-[#292a20]">
+      <div className="paper-grain absolute inset-0 opacity-[0.12] pointer-events-none" />
+      <div className="absolute -left-20 bottom-0 h-48 w-[58%] -skew-y-12 bg-[#7da89e]/25" />
+      <div className="relative max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Left: info */}
           <div>
-            <p className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] tracking-[0.3em] uppercase text-xs mb-3">
+            <p className="font-[family-name:var(--font-dm-sans)] text-[#e6c48c] tracking-[0.24em] uppercase text-[11px] mb-4">
               Reach Out
             </p>
-            <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#ede8de] leading-tight mb-4">
+            <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#f3f0e8] leading-tight mb-4">
               Let&apos;s Make Something Happen
             </h2>
-            <div className="w-12 h-px bg-[#b8832a] mb-8" />
+            <div className="w-16 h-px bg-[#b9771c] mb-8" />
 
-            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/55 text-lg italic mb-10 leading-relaxed">
+            <p className="font-[family-name:var(--font-source-sans)] text-[#f3f0e8]/65 text-lg italic mb-10 leading-relaxed">
               Booking, house concerts, private events, press, or just to say hello.
             </p>
 
             <div className="space-y-6 font-[family-name:var(--font-dm-sans)] mb-12">
               <div>
-                <p className="text-xs tracking-widest uppercase text-[#8aaa9e] mb-1">Direct Email</p>
+                <p className="text-[10px] tracking-[0.16em] uppercase text-[#b9d3c8] mb-1">Direct Email</p>
                 <a
                   href="mailto:info@mrkindmusic.com"
-                  className="text-[#ede8de]/70 hover:text-[#b8832a] transition-colors"
+                  className="focus-ring text-[#f3f0e8]/80 hover:text-[#e6c48c] transition-colors"
                 >
                   info@mrkindmusic.com
                 </a>
@@ -60,8 +62,8 @@ export default function ContactSection() {
             </div>
 
             {/* Social */}
-            <div className="pt-8 border-t border-[#ede8de]/10">
-              <p className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#8aaa9e] mb-5">
+            <div className="pt-8 border-t border-[#f3f0e8]/15">
+              <p className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.16em] uppercase text-[#b9d3c8] mb-5">
                 Follow Along
               </p>
               <div className="flex flex-wrap gap-5">
@@ -75,7 +77,7 @@ export default function ContactSection() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-[family-name:var(--font-dm-sans)] text-sm text-[#ede8de]/40 hover:text-[#b8832a] transition-colors"
+                    className="focus-ring font-[family-name:var(--font-dm-sans)] text-sm text-[#f3f0e8]/55 hover:text-[#e6c48c] transition-colors"
                   >
                     {social.label}
                   </a>
@@ -94,7 +96,7 @@ export default function ContactSection() {
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
+                  <label className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.16em] uppercase text-[#f3f0e8]/50 block mb-2">
                     Name *
                   </label>
                   <input
@@ -102,11 +104,11 @@ export default function ContactSection() {
                     name="name"
                     required
                     placeholder="Your name"
-                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors\"
+                    className="w-full bg-[#f3f0e8]/8 border border-[#f3f0e8]/20 text-[#f3f0e8] placeholder-[#f3f0e8]/35 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#e6c48c] transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
+                  <label className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.16em] uppercase text-[#f3f0e8]/50 block mb-2">
                     Email *
                   </label>
                   <input
@@ -114,20 +116,20 @@ export default function ContactSection() {
                     name="email"
                     required
                     placeholder="your@email.com"
-                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors\"
+                    className="w-full bg-[#f3f0e8]/8 border border-[#f3f0e8]/20 text-[#f3f0e8] placeholder-[#f3f0e8]/35 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#e6c48c] transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
+                <label className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.16em] uppercase text-[#f3f0e8]/50 block mb-2">
                   Inquiry Type *
                 </label>
                 <div className="relative">
                   <select
                     name="inquiry"
                     required
-                    className="w-full appearance-none bg-[#252220] border border-[#ede8de]/10 text-[#ede8de]/70 px-4 py-3 pr-10 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors cursor-pointer"
+                    className="w-full appearance-none bg-[#f3f0e8]/8 border border-[#f3f0e8]/20 text-[#f3f0e8]/80 px-4 py-3 pr-10 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#e6c48c] transition-colors cursor-pointer"
                   >
                     <option value="">Select a topic…</option>
                     <option value="general">General</option>
@@ -137,7 +139,7 @@ export default function ContactSection() {
                     <option value="press">Press</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-                    <svg className="w-3.5 h-3.5 text-[#b8832a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5 text-[#e6c48c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -153,43 +155,43 @@ export default function ContactSection() {
                     onChange={(e) => setSubscribeChecked(e.target.checked)}
                     className="sr-only"
                   />
-                  <div className={`w-4 h-4 border transition-colors ${subscribeChecked ? "border-[#b8832a] bg-[#b8832a]" : "border-[#ede8de]/20 bg-[#252220] group-hover:border-[#ede8de]/40"}`}>
+                  <div className={`w-4 h-4 border transition-colors ${subscribeChecked ? "border-[#b9771c] bg-[#b9771c]" : "border-[#f3f0e8]/30 bg-[#f3f0e8]/8 group-hover:border-[#f3f0e8]/60"}`}>
                     {subscribeChecked && (
-                      <svg className="w-4 h-4 text-[#1c1a17]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-[#f3f0e8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     )}
                   </div>
                 </div>
-                <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-xs leading-relaxed group-hover:text-[#ede8de]/60 transition-colors">
+                <span className="font-[family-name:var(--font-dm-sans)] text-[#f3f0e8]/50 text-xs leading-relaxed group-hover:text-[#f3f0e8]/75 transition-colors">
                   Keep me posted on upcoming shows and house concerts
                 </span>
               </label>
 
               <div>
-                <label className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/40 block mb-2">
+                <label className="font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.16em] uppercase text-[#f3f0e8]/50 block mb-2">
                   Message
                 </label>
                 <textarea
                   name="message"
                   rows={6}
                   placeholder="What's on your mind?"
-                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors resize-none"
+                  className="w-full bg-[#f3f0e8]/8 border border-[#f3f0e8]/20 text-[#f3f0e8] placeholder-[#f3f0e8]/35 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#e6c48c] transition-colors resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200"
+                className="focus-ring w-full py-4 bg-[#b9771c] text-[#f3f0e8] font-[family-name:var(--font-dm-sans)] font-medium tracking-[0.16em] uppercase text-xs hover:bg-[#7da89e] transition-colors duration-200"
               >
                 Send Message
               </button>
 
-              <p className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs text-center">
+              <p className="font-[family-name:var(--font-dm-sans)] text-[#f3f0e8]/35 text-xs text-center">
                 Or email directly:{" "}
                 <a
                   href="mailto:info@mrkindmusic.com"
-                  className="text-[#ede8de]/30 hover:text-[#b8832a] transition-colors"
+                  className="text-[#f3f0e8]/50 hover:text-[#e6c48c] transition-colors"
                 >
                   info@mrkindmusic.com
                 </a>

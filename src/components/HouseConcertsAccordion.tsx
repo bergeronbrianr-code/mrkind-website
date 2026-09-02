@@ -29,7 +29,7 @@ export default function HouseConcertsAccordion() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <div className="divide-y divide-[#ede8de]/10">
+    <div className="divide-y divide-[#292a20]/15">
       {steps.map((step, i) => (
         <div key={step.title}>
           <button
@@ -37,15 +37,15 @@ export default function HouseConcertsAccordion() {
             className="w-full flex items-center justify-between py-4 text-left group"
           >
             <div className="flex items-center gap-4">
-              <span className="font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tabular-nums w-5">
+              <span className="font-[family-name:var(--font-dm-sans)] text-[#b9771c] text-[11px] tracking-[0.12em] tabular-nums w-5">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de] text-sm tracking-wide group-hover:text-[#b8832a] transition-colors">
+              <span className="font-[family-name:var(--font-dm-sans)] text-[#292a20] text-sm tracking-wide group-hover:text-[#b9771c] transition-colors">
                 {step.title}
               </span>
             </div>
             <span
-              className={`text-[#b8832a] text-lg leading-none transition-transform duration-200 ${open === i ? "rotate-45" : ""}`}
+              className={`text-[#b9771c] text-lg leading-none transition-transform duration-200 ${open === i ? "rotate-45" : ""}`}
             >
               +
             </span>
@@ -53,7 +53,7 @@ export default function HouseConcertsAccordion() {
 
           {open === i && (
             <div className="pb-4 pl-9">
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/60 text-base leading-relaxed">
+              <p className="font-[family-name:var(--font-source-sans)] text-[#292a20]/70 text-base leading-relaxed">
                 {step.body}
               </p>
             </div>
