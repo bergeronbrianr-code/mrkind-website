@@ -4,7 +4,7 @@ export default function AboutSection() {
   return (
     <section id="about" className="relative overflow-hidden py-28 px-5 md:px-8">
       <div className="absolute right-0 top-24 hidden h-64 w-[38%] bg-[#b9d3c8]/30 lg:block" />
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           {/* Left: text */}
           <div>
@@ -63,9 +63,9 @@ export default function AboutSection() {
           {/* Right: photo + pull quote */}
           <div className="flex flex-col gap-8">
             {/* Artist photo */}
-            <div className="relative max-w-[35rem] lg:ml-auto">
+            <div className="relative z-10 max-w-[35rem] lg:ml-auto">
               <div className="absolute -left-5 -top-5 h-[42%] w-[48%] bg-[#b9771c]/15" />
-              <div className="relative aspect-[3/4] overflow-hidden">
+              <div className="relative z-10 aspect-[3/4] overflow-hidden bg-[#292a20]">
                 <Image
                   src="/Photos/Artist Photo.png"
                   alt="Brian Bergeron"
@@ -80,7 +80,7 @@ export default function AboutSection() {
             </div>
 
             {/* Pull quote */}
-            <blockquote className="border-l-2 border-[#b9771c] pl-6 py-1">
+            <blockquote className="relative z-10 border-l-2 border-[#b9771c] pl-6 py-1">
               <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#292a20] italic leading-snug mb-3">
                 &ldquo;Dreamy, at times psychedelic.&rdquo;
               </p>
