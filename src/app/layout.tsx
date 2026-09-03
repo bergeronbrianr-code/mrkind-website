@@ -38,8 +38,9 @@ export const metadata: Metadata = {
     "DC singer songwriter",
   ],
   icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/favicon-mr-kind.png",
+    shortcut: "/favicon-mr-kind.png",
+    apple: "/favicon-mr-kind.png",
   },
 };
 
