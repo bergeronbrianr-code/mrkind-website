@@ -15,6 +15,7 @@
 html {
   scroll-behavior: smooth;
   background: #f3f0e8;
+  scroll-padding-top: 5rem;
 }
 
 body {

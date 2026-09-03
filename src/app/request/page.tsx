@@ -149,7 +149,7 @@ const TIP_AMOUNTS = [5, 10, 20];
 const VENMO_URL = "https://www.venmo.com/u/MrKindMusic";
 
 const MAILCHIMP_URL =
-  "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
+  "https://mrkindmusic.us22.list-manage.com/subscribe/post?u=66488e430c5058f0f9ead5921&id=be89dc2db0&f_id=0071c2e1f0";
 
 const STRIPE_APPEARANCE = {
   theme: "night" as const,
@@ -173,11 +173,12 @@ const STRIPE_APPEARANCE = {
   },
 };
 
-async function subscribeToMailchimp(email: string, name?: string) {
+async function subscribeToMailchimp(email: string, name?: string, phone?: string) {
   const data = new FormData();
   data.append("EMAIL", email);
   if (name) data.append("FNAME", name.split(" ")[0]);
-  data.append("b_90a8ab0567da6cacd07d0ffc6_7e20313e43", "");
+  if (phone) data.append("PHONE", phone);
+  data.append("b_66488e430c5058f0f9ead5921_be89dc2db0", "");
   await fetch(MAILCHIMP_URL, { method: "POST", body: data, mode: "no-cors" });
 }
 
@@ -187,6 +188,7 @@ function PaymentForm({
   song,
   name,
   email,
+  phone,
   note,
   notifyChecked,
   onSuccess,
@@ -196,6 +198,7 @@ function PaymentForm({
   song: string;
   name: string;
   email: string;
+  phone: string;
   note: string;
   notifyChecked: boolean;
   onSuccess: () => void;
@@ -230,7 +233,7 @@ function PaymentForm({
 
     // Mailchimp opt-in
     if (notifyChecked && email) {
-      subscribeToMailchimp(email, name).catch(() => {});
+      subscribeToMailchimp(email, name, phone).catch(() => {});
     }
 
     const { error: confirmErr } = await stripe.confirmPayment({
@@ -306,6 +309,7 @@ export default function RequestPage() {
   const [customTip, setCustomTip] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [note, setNote] = useState("");
   const [notifyChecked, setNotifyChecked] = useState(false);
 
@@ -363,11 +367,11 @@ export default function RequestPage() {
         }).catch(() => {});
       }
       if (notifyChecked && email) {
-        subscribeToMailchimp(email, name).catch(() => {});
+        subscribeToMailchimp(email, name, phone).catch(() => {});
       }
       setPhase("success");
     }
-  }, [hasTip, effectiveTip, selectedSong, name, email, note, notifyChecked, hasRequest]);
+  }, [hasTip, effectiveTip, selectedSong, name, email, phone, note, notifyChecked, hasRequest]);
 
   // ── Success screen
   if (phase === "success") {
@@ -421,6 +425,7 @@ export default function RequestPage() {
               song={selectedSong}
               name={name}
               email={email}
+              phone={phone}
               note={note}
               notifyChecked={notifyChecked}
               onSuccess={() => setPhase("success")}
@@ -623,9 +628,18 @@ export default function RequestPage() {
                   </div>
                 </div>
                 <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-xs leading-relaxed group-hover:text-[#ede8de]/60 transition-colors">
-                  Get notified about upcoming shows and house concert dates
+                  Get email &amp; text alerts about upcoming shows and house concert dates
                 </span>
               </label>
+              {notifyChecked && (
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Phone for text alerts (optional)"
+                  className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+                />
+              )}
             </div>
           </section>
 

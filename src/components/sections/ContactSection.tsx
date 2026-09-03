@@ -6,13 +6,13 @@
 import { useState } from "react";
 
 const MAILCHIMP_URL =
-  "https://mrkindmusic.us17.list-manage.com/subscribe/post?u=90a8ab0567da6cacd07d0ffc6&id=7e20313e43&f_id=0000c2e1f0";
+  "https://mrkindmusic.us22.list-manage.com/subscribe/post?u=66488e430c5058f0f9ead5921&id=be89dc2db0&f_id=0071c2e1f0";
 
 async function subscribeToMailchimp(email: string, name?: string) {
   const data = new FormData();
   data.append("EMAIL", email);
   if (name) data.append("FNAME", name.split(" ")[0]);
-  data.append("b_90a8ab0567da6cacd07d0ffc6_7e20313e43", ""); // honeypot — do not remove
+  data.append("b_66488e430c5058f0f9ead5921_be89dc2db0", ""); // honeypot — do not remove
   await fetch(MAILCHIMP_URL, { method: "POST", body: data, mode: "no-cors" });
 }
 

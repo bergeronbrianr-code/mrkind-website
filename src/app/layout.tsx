@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Source_Sans_3, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
+import HashScrollFix from "@/components/HashScrollFix";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -54,6 +55,7 @@ export default function RootLayout({
     >
       <body className="antialiased site-shell">
         <Nav />
+        <HashScrollFix />
         {children}
       </body>
     </html>
