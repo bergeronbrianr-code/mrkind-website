@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "f4.bcbits.com",
         pathname: "/img/**",
       },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+        pathname: "/vi/**",
+      },
     ],
   },
 };

@@ -1,3 +1,5 @@
+import LiteYouTube from "@/components/LiteYouTube";
+
 const highlights = [
   "100+ song repertoire spanning classic rock, folk, indie, soul, and pop",
   "Professional compact setup — suitable for offices, rooftops, private venues",
@@ -69,7 +71,17 @@ export default function EventsSection() {
               </ul>
             </div>
 
-            {/* PERFORMANCE PHOTO — add when ready */}
+            {/* Cover medley — proof of the repertoire claimed above */}
+            <div>
+              <p className="mb-4 font-[family-name:var(--font-dm-sans)] text-[11px] uppercase tracking-[0.18em] text-[#b9771c]">
+                Hear the Repertoire
+              </p>
+              <LiteYouTube
+                id="lD5WKJGGoFE"
+                title="Mr. Kind — Cover Medley (Live Performance)"
+                caption="A sample of the live cover set"
+              />
+            </div>
           </div>
         </div>
       </div>
