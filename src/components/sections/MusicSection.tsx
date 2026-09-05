@@ -158,6 +158,9 @@ export default function MusicSection() {
             <p className="mt-4 font-[family-name:var(--font-dm-sans)] text-[10px] leading-relaxed tracking-[0.14em] text-[#f3f0e8]/45 uppercase">
               A 2011–2016 collection of the Mr. Kind catalog.
             </p>
+            <p className="mt-2 font-[family-name:var(--font-dm-sans)] text-[10px] leading-relaxed tracking-[0.14em] text-[#e6c48c] uppercase">
+              Vinyl release coming soon
+            </p>
           </div>
         </div>
 
@@ -171,7 +174,7 @@ export default function MusicSection() {
               Brian Bergeron
             </h3>
             <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic">
-              Solo · folk / indie rock (2009–2011)
+              Solo · folk / indie rock (2004–2011)
             </p>
           </div>
 
