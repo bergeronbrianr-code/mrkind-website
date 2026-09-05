@@ -63,7 +63,7 @@ export default function AboutSection() {
           {/* Right: photo + pull quote */}
           <div className="flex flex-col gap-8">
             {/* Artist photo */}
-            <div className="relative z-10 max-w-[35rem] lg:ml-auto">
+            <div className="relative z-10 w-full max-w-[35rem] lg:ml-auto">
               <div className="absolute -left-5 -top-5 h-[42%] w-[48%] bg-[#b9771c]/15" />
               <div className="relative z-10 aspect-[3/4] overflow-hidden bg-[#292a20]">
                 <Image
