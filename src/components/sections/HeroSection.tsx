@@ -51,9 +51,6 @@ export default function HeroSection() {
               className="object-cover"
             />
           </div>
-          <p className="absolute -bottom-8 right-0 font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.17em] text-[#292a20]/45 uppercase">
-            2011 — now · DMV / Oakland
-          </p>
         </div>
       </div>
     </section>
