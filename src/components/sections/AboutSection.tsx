@@ -67,7 +67,7 @@ export default function AboutSection() {
               <div className="absolute -left-5 -top-5 h-[42%] w-[48%] bg-[#b9771c]/15" />
               <div className="relative z-10 aspect-[3/4] overflow-hidden bg-[#292a20]">
                 <Image
-                  src="/Photos/Artist Photo.png"
+                  src="/Photos/Artist Photo 2.png"
                   alt="Brian Bergeron"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
