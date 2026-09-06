@@ -17,6 +17,7 @@ const videos: Video[] = [
   { id: "qrsYATQ89Io", title: "The Girl with the Golden Eyes" },
   { id: "U3JuFS-kdhE", title: "Homeostasis" },
   { id: "iXC1bR4oQh4", title: "You're OK" },
+  { id: "djHXYHVABlY", title: "Live Performance" },
   // Fifth video slot — add the next original here:
   // { id: "", title: "" },
 ];
@@ -42,7 +43,7 @@ export default function VideoSection() {
             Watch
           </p>
           <h2 className="font-[family-name:var(--font-playfair)] text-5xl text-[#292a20] md:text-6xl">
-            Live &amp; In the Room
+            Live Originals
           </h2>
           <div className="mt-4 h-px w-16 bg-[#b9771c]" />
           <p className="mt-6 max-w-xl font-[family-name:var(--font-source-sans)] text-lg italic leading-relaxed text-[#292a20]/65">

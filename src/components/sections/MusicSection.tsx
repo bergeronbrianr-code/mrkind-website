@@ -1,242 +1,56 @@
 import Image from "next/image";
 
-const mrKindEPs = [
-  {
-    title: "The Wild EP",
-    year: "2016",
-    img: "https://f4.bcbits.com/img/a3432710114_10.jpg",
-    spotifyId: "6XHtvMqjuWxChmloW9KevO",
-    bandcampUrl: "https://meetmrkind.bandcamp.com/album/the-wild-ep",
-  },
-  {
-    title: "Wide Awake | Open Hands",
-    year: "2014",
-    img: "https://f4.bcbits.com/img/a2481742921_10.jpg",
-    spotifyId: "7iMT2nWSBQwz6csW0JwD6G",
-    bandcampUrl: "https://meetmrkind.bandcamp.com/album/wide-awake-open-hands",
-  },
-  {
-    title: "Mr. Kind EP",
-    year: "2013",
-    img: "https://f4.bcbits.com/img/a3833324749_10.jpg",
-    spotifyId: "2rcEHb8avW3Vr4OdnJ9Wox",
-    bandcampUrl: "https://meetmrkind.bandcamp.com/album/mr-kind",
-  },
-  {
-    title: "OK",
-    year: "2012",
-    img: "https://f4.bcbits.com/img/a1705133179_10.jpg",
-    spotifyId: null,
-    bandcampUrl: "https://meetmrkind.bandcamp.com/album/ok",
-  },
+const releases = [
+  { artist: "Mr. Kind", title: "The Wild EP", year: "2016", img: "https://f4.bcbits.com/img/a3432710114_10.jpg", spotifyUrl: "https://open.spotify.com/album/6XHtvMqjuWxChmloW9KevO", bandcampUrl: "https://meetmrkind.bandcamp.com/album/the-wild-ep" },
+  { artist: "Mr. Kind", title: "Wide Awake | Open Hands", year: "2014", img: "https://f4.bcbits.com/img/a2481742921_10.jpg", spotifyUrl: "https://open.spotify.com/album/7iMT2nWSBQwz6csW0JwD6G", bandcampUrl: "https://meetmrkind.bandcamp.com/album/wide-awake-open-hands" },
+  { artist: "Mr. Kind", title: "Mr. Kind EP", year: "2013", img: "https://f4.bcbits.com/img/a3833324749_10.jpg", spotifyUrl: "https://open.spotify.com/album/2rcEHb8avW3Vr4OdnJ9Wox", bandcampUrl: "https://meetmrkind.bandcamp.com/album/mr-kind" },
+  { artist: "Mr. Kind", title: "OK", year: "2012", img: "https://f4.bcbits.com/img/a1705133179_10.jpg", bandcampUrl: "https://meetmrkind.bandcamp.com/album/ok" },
+  { artist: "Brian Bergeron", title: "We've Got To Find An Easier Way", year: "2009", img: "https://f4.bcbits.com/img/a3149445310_10.jpg", bandcampUrl: "https://brianbergeron.bandcamp.com/album/weve-got-to-find-an-easier-way" },
+  { artist: "Brian Bergeron", title: "Hourglass EP", year: "2011", img: "https://f4.bcbits.com/img/a2683240432_10.jpg", bandcampUrl: "https://brianbergeron.bandcamp.com/album/hourglass-ep" },
 ];
 
 export default function MusicSection() {
   return (
-    <section id="music" className="relative overflow-hidden py-28 px-5 md:px-8 bg-[#292a20]">
-      <div className="paper-grain absolute inset-0 opacity-[0.12] pointer-events-none" />
+    <section id="music" className="relative overflow-hidden bg-[#292a20] px-5 py-28 md:px-8">
+      <div className="paper-grain pointer-events-none absolute inset-0 opacity-[0.12]" />
       <div className="absolute -left-16 top-20 h-40 w-[45%] -rotate-[18deg] bg-[#7da89e]/20" />
-      <div className="relative max-w-7xl mx-auto">
-        {/* Section header */}
-        <div className="mb-16">
-          <p className="font-[family-name:var(--font-dm-sans)] text-[#e6c48c] tracking-[0.24em] uppercase text-[11px] mb-4">
-            Discography
-          </p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-[#f3f0e8]">
-            The Music
-          </h2>
-          <div className="mt-4 w-16 h-px bg-[#b9771c]" />
+      <div className="relative mx-auto max-w-7xl">
+        <div className="mb-14">
+          <p className="mb-4 font-[family-name:var(--font-dm-sans)] text-[11px] uppercase tracking-[0.24em] text-[#e6c48c]">Discography</p>
+          <h2 className="font-[family-name:var(--font-playfair)] text-5xl text-[#f3f0e8] md:text-6xl">The Music</h2>
+          <div className="mt-4 h-px w-16 bg-[#b9771c]" />
         </div>
 
-        {/* ── Mr. Kind (Band) ─────────────────────────────────────── */}
-        <div className="mb-20 grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-16">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-14">
           <div>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-            <div>
-              <h3 className="font-[family-name:var(--font-playfair)] text-3xl text-[#f3f0e8] mb-1">
-                Mr. Kind
-              </h3>
-              <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic">
-                Oakland indie / electro-Americana · 4 EPs (2012–2016)
-              </p>
+            <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+              <div>
+                <h3 className="mb-1 font-[family-name:var(--font-playfair)] text-3xl text-[#f3f0e8]">Mr. Kind</h3>
+                <p className="font-[family-name:var(--font-source-sans)] text-sm italic text-[#ede8de]/50">Oakland indie / electro-Americana · 2012–2016</p>
+              </div>
+              <a href="https://open.spotify.com/artist/1XvF6CpuKjhuvUEbI8B8AZ" target="_blank" rel="noopener noreferrer" className="focus-ring self-start border border-[#f3f0e8]/25 px-4 py-2 font-[family-name:var(--font-dm-sans)] text-[10px] uppercase tracking-[0.16em] text-[#f3f0e8]/65 transition-colors hover:border-[#b9771c] hover:text-[#e6c48c] sm:self-auto">Open in Spotify</a>
             </div>
-            <a
-              href="https://open.spotify.com/artist/1XvF6CpuKjhuvUEbI8B8AZ"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.16em] uppercase text-[#f3f0e8]/65 hover:text-[#e6c48c] transition-colors border border-[#f3f0e8]/25 hover:border-[#b9771c] px-4 py-2 self-start sm:self-auto"
-            >
-              Open in Spotify
-            </a>
+            <iframe title="Mr. Kind on Spotify" src="https://open.spotify.com/embed/artist/1XvF6CpuKjhuvUEbI8B8AZ?utm_source=generator&theme=0" width="100%" height="500" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" className="border-0" />
           </div>
 
-          {/* Band photo */}
-          <div className="relative w-full aspect-[16/7] overflow-hidden mb-10 border border-[#f3f0e8]/10">
-            <Image
-              src="/Photos/4.jpg"
-              alt="Mr. Kind recording in the studio"
-              fill
-              sizes="(max-width: 1200px) 100vw, 1200px"
-              className="object-cover object-center"
-            />
-            <p className="absolute bottom-3 right-4 font-[family-name:var(--font-dm-sans)] text-[#f3f0e8]/60 text-[10px] tracking-[0.16em] uppercase">
-              Mr. Kind · Studio Session
-            </p>
-          </div>
-
-          {/* Single artist-level Spotify embed — includes Follow button */}
-          <div className="mb-10">
-            <iframe
-              src="https://open.spotify.com/embed/artist/1XvF6CpuKjhuvUEbI8B8AZ?utm_source=generator&theme=0"
-              width="100%"
-              height="500"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              className="border-0"
-            />
-          </div>
-
-          {/* EP art grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {mrKindEPs.map((ep) => (
-              <div key={ep.title} className="group">
-                {/* Album art */}
-                <div className="relative aspect-square mb-3 overflow-hidden border border-[#f3f0e8]/10 group-hover:border-[#b9771c]/80 transition-colors duration-300">
-                  <Image
-                    src={ep.img}
-                    alt={`${ep.title} album art`}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-
-                <h4 className="font-[family-name:var(--font-source-sans)] text-[#f3f0e8] text-sm leading-snug mb-1">
-                  {ep.title}
-                </h4>
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#b9d3c8] text-[10px] tracking-[0.16em] mb-2">
-                  {ep.year}
-                </p>
-
-                {/* Links */}
-                <div className="flex items-center gap-3">
-                  {ep.spotifyId && (
-                    <a
-                      href={`https://open.spotify.com/album/${ep.spotifyId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
-                    >
-                      Spotify
-                    </a>
-                  )}
-                  <a
-                    href={ep.bandcampUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
-                  >
-                    Bandcamp
+          <aside className="lg:pt-1" aria-label="Releases">
+            <p className="mb-5 font-[family-name:var(--font-dm-sans)] text-[11px] uppercase tracking-[0.18em] text-[#e6c48c]">Releases</p>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-2">
+              {releases.map((release) => (
+                <article key={`${release.artist}-${release.title}`} className="group">
+                  <a href={release.bandcampUrl} target="_blank" rel="noopener noreferrer" aria-label={`Listen to ${release.title} by ${release.artist} on Bandcamp`} className="focus-ring relative block aspect-square overflow-hidden border border-[#f3f0e8]/10 transition-colors duration-300 group-hover:border-[#b9771c]/80">
+                    <Image src={release.img} alt={`${release.title} album art`} fill sizes="(max-width: 640px) 45vw, (max-width: 1024px) 28vw, 152px" className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   </a>
-                </div>
-              </div>
-            ))}
-          </div>
-          </div>
-
-          <div className="relative mx-auto w-full max-w-[280px] self-start lg:mt-14">
-            <div className="absolute -right-4 -top-4 h-2/3 w-2/3 bg-[#b9771c]/35" />
-            <div className="relative aspect-square overflow-hidden border border-[#f3f0e8]/20">
-              <Image
-                src="/Photos/Mr Kind - Front Text-Free.png"
-                alt="Mr. Kind compilation artwork"
-                fill
-                sizes="280px"
-                className="object-cover"
-              />
+                  <p className="mt-2 font-[family-name:var(--font-source-sans)] text-sm leading-snug text-[#f3f0e8]">{release.title}</p>
+                  <p className="mt-1 font-[family-name:var(--font-dm-sans)] text-[9px] uppercase tracking-[0.13em] text-[#b9d3c8]">{release.artist} · {release.year}</p>
+                  <div className="mt-2 flex gap-3 font-[family-name:var(--font-dm-sans)] text-[9px] uppercase tracking-[0.13em]">
+                    {release.spotifyUrl && <a href={release.spotifyUrl} target="_blank" rel="noopener noreferrer" className="focus-ring text-[#f3f0e8]/45 transition-colors hover:text-[#e6c48c]">Spotify</a>}
+                    <a href={release.bandcampUrl} target="_blank" rel="noopener noreferrer" className="focus-ring text-[#f3f0e8]/45 transition-colors hover:text-[#e6c48c]">Bandcamp</a>
+                  </div>
+                </article>
+              ))}
             </div>
-            <p className="mt-4 font-[family-name:var(--font-dm-sans)] text-[10px] leading-relaxed tracking-[0.14em] text-[#f3f0e8]/45 uppercase">
-              A 2011–2016 collection of the Mr. Kind catalog.
-            </p>
-            <p className="mt-2 font-[family-name:var(--font-dm-sans)] text-[10px] leading-relaxed tracking-[0.14em] text-[#e6c48c] uppercase">
-              Vinyl release coming soon
-            </p>
-          </div>
-        </div>
-
-        {/* Thin rule */}
-        <div className="h-px w-full bg-[#f3f0e8]/15 mb-16" />
-
-        {/* ── Solo Work ───────────────────────────────────────────── */}
-        <div>
-          <div className="mb-8">
-            <h3 className="font-[family-name:var(--font-playfair)] text-3xl text-[#f3f0e8] mb-1">
-              Brian Bergeron
-            </h3>
-            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic">
-              Solo · folk / indie rock (2004–2011)
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl">
-            {/* We've Got To Find An Easier Way */}
-            <div className="flex flex-row gap-5 items-start">
-              <div className="relative aspect-square w-32 shrink-0 overflow-hidden border border-[#f3f0e8]/10">
-                <Image
-                  src="https://f4.bcbits.com/img/a3149445310_10.jpg"
-                  alt="We've Got To Find An Easier Way album art"
-                  fill
-                  sizes="128px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="pt-1">
-                <h4 className="font-[family-name:var(--font-source-sans)] text-[#f3f0e8] text-base leading-snug mb-1">
-                  We&apos;ve Got To Find An Easier Way
-                </h4>
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#b9d3c8] text-[10px] tracking-[0.16em] mb-4">
-                  2009 · Debut album
-                </p>
-                <a
-                  href="https://brianbergeron.bandcamp.com/album/weve-got-to-find-an-easier-way"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
-                >
-                  Listen on Bandcamp →
-                </a>
-              </div>
-            </div>
-
-            {/* Hourglass */}
-            <div className="flex flex-row gap-5 items-start">
-              <div className="relative aspect-square w-32 shrink-0 overflow-hidden border border-[#f3f0e8]/10">
-                <Image
-                  src="https://f4.bcbits.com/img/a2683240432_10.jpg"
-                  alt="Hourglass EP album art"
-                  fill
-                  sizes="128px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="pt-1">
-                <h4 className="font-[family-name:var(--font-source-sans)] text-[#f3f0e8] text-base leading-snug mb-1">
-                  Hourglass EP
-                </h4>
-                <p className="font-[family-name:var(--font-dm-sans)] text-[#b9d3c8] text-[10px] tracking-[0.16em] mb-4">
-                  2011
-                </p>
-                <a
-                  href="https://brianbergeron.bandcamp.com/album/hourglass-ep"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="focus-ring font-[family-name:var(--font-dm-sans)] text-[10px] tracking-[0.14em] uppercase text-[#f3f0e8]/45 hover:text-[#e6c48c] transition-colors"
-                >
-                  Listen on Bandcamp →
-                </a>
-              </div>
-            </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>
