@@ -20,8 +20,8 @@ const steps = [
     body: "7pm doors → 8pm music → 9pm hang out + merch time.",
   },
   {
-    title: "Payment",
-    body: "Brian sends a link or QR code. Guests pay directly. You're done.",
+    title: "After You Inquire",
+    body: "We’ll sort the details when you reach out — there’s no upfront cost to host.",
   },
 ];
 

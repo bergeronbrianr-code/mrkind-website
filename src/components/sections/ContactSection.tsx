@@ -3,10 +3,14 @@
 // Form powered by Formspree — replace YOUR_FORM_ID with your actual form ID.
 // Get a free form ID at https://formspree.io
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 const MAILCHIMP_URL =
   "https://mrkindmusic.us22.list-manage.com/subscribe/post?u=66488e430c5058f0f9ead5921&id=be89dc2db0&f_id=0071c2e1f0";
+
+const subscribeToLocation = () => () => {};
+const getInquiryFromLocation = () => new URLSearchParams(window.location.search).get("inquiry") ?? "";
+const getServerInquiry = () => "";
 
 async function subscribeToMailchimp(email: string, name?: string) {
   const data = new FormData();
@@ -18,6 +22,8 @@ async function subscribeToMailchimp(email: string, name?: string) {
 
 export default function ContactSection() {
   const [subscribeChecked, setSubscribeChecked] = useState(false);
+  const [inquiryType, setInquiryType] = useState<string | null>(null);
+  const inquiryFromUrl = useSyncExternalStore(subscribeToLocation, getInquiryFromLocation, getServerInquiry);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     if (subscribeChecked) {
@@ -129,6 +135,8 @@ export default function ContactSection() {
                   <select
                     name="inquiry"
                     required
+                    value={inquiryType ?? inquiryFromUrl}
+                    onChange={(e) => setInquiryType(e.target.value)}
                     className="w-full appearance-none bg-[#f3f0e8]/8 border border-[#f3f0e8]/20 text-[#f3f0e8]/80 px-4 py-3 pr-10 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#e6c48c] transition-colors cursor-pointer"
                   >
                     <option value="">Select a topic…</option>

@@ -9,7 +9,7 @@ const navLinks = [
   { label: "Watch", href: "#video" },
   { label: "Shows", href: "#shows" },
   { label: "House Concerts", href: "#house-concerts" },
-  { label: "Events", href: "#events" },
+  { label: "Private Events", href: "#events" },
 ];
 
 export default function Nav() {

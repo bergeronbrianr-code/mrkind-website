@@ -31,7 +31,7 @@ export default function EventsSection() {
 
             <div className="space-y-5 font-[family-name:var(--font-source-sans)] text-[#292a20]/75 text-lg leading-relaxed mb-10">
               <p>
-                With a repertoire of 100+ songs spanning five decades, Brian brings a polished,
+                With a repertoire of 100+ songs spanning eight decades, Brian brings a polished,
                 professional performance to corporate functions, cocktail hours, and private
                 celebrations. Setup is compact and self-contained — no soundcheck drama, no rider
                 demands.
@@ -81,6 +81,30 @@ export default function EventsSection() {
                 title="Mr. Kind — Cover Medley (Live Performance)"
                 caption="A sample of the live cover set"
               />
+              <div className="mt-5 border-t border-[#292a20]/15 pt-5">
+                <p className="font-[family-name:var(--font-dm-sans)] text-[10px] uppercase tracking-[0.16em] text-[#292a20]/55">
+                  Jump to a song
+                </p>
+                <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 font-[family-name:var(--font-source-sans)] text-sm text-[#292a20]/70">
+                  {[
+                    ["Wonderwall", "58"],
+                    ["Skinny Love", "147"],
+                    ["Ring of Fire", "218"],
+                    ["The Weight", "263"],
+                    ["Dock of the Bay", "310"],
+                  ].map(([song, seconds]) => (
+                    <a key={song} href={`https://www.youtube.com/watch?v=lD5WKJGGoFE&t=${seconds}s`} target="_blank" rel="noopener noreferrer" className="focus-ring transition-colors hover:text-[#b9771c]">
+                      {song}
+                    </a>
+                  ))}
+                </div>
+                <p className="mt-5 font-[family-name:var(--font-dm-sans)] text-[10px] uppercase tracking-[0.14em] text-[#292a20]/45">
+                  More private-event samples: {" "}
+                  <a href="https://www.youtube.com/watch?v=2b1hs8c5_QU" target="_blank" rel="noopener noreferrer" className="focus-ring transition-colors hover:text-[#b9771c]">Performance one</a>
+                  {" · "}
+                  <a href="https://youtu.be/cwvKEk2f09w" target="_blank" rel="noopener noreferrer" className="focus-ring transition-colors hover:text-[#b9771c]">Performance two</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
