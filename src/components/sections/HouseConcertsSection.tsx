@@ -27,6 +27,12 @@ export default function HouseConcertsSection() {
           <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl text-[#292a20]/70 italic">
             Invite your friends. Brian brings the songs, the sound, and the night — you just open the door.
           </p>
+          <Link
+            href="/?inquiry=house-concert#contact"
+            className="focus-ring mt-8 inline-block bg-[#292a20] px-8 py-3.5 font-[family-name:var(--font-dm-sans)] text-[11px] uppercase tracking-[0.16em] text-[#f3f0e8] transition-colors duration-200 hover:bg-[#b9771c]"
+          >
+            Host a House Concert
+          </Link>
         </div>
 
         {/* Pitch */}
@@ -55,17 +61,8 @@ export default function HouseConcertsSection() {
           </div>
         </div>
 
-        <div className="mb-16">
-          <Link
-            href="/?inquiry=house-concert#contact"
-            className="focus-ring inline-block bg-[#292a20] px-8 py-3.5 font-[family-name:var(--font-dm-sans)] text-[11px] uppercase tracking-[0.16em] text-[#f3f0e8] transition-colors duration-200 hover:bg-[#b9771c]"
-          >
-            Host a House Concert
-          </Link>
-        </div>
-
         {/* Hosting Guide Accordion */}
-        <div className="border-t border-[#292a20]/15 pt-12 mb-14">
+        <div className="border-t border-[#292a20]/15 pt-12">
           <p className="font-[family-name:var(--font-dm-sans)] text-[#b9771c] tracking-[0.18em] uppercase text-[11px] mb-6">
             The Hosting Guide
           </p>
