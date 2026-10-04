@@ -111,7 +111,7 @@ export default function EpkPage() {
         <div className="mx-auto max-w-7xl">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-[#986014]">Hear the set</p>
           <h2 id="epk-watch" className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl">Watch Mr. Kind live.</h2>
-          <p className="mt-5 max-w-2xl font-[family-name:var(--font-source-sans)] text-lg text-[#292a20]/70">Hear a live original now. A booking reel and short cover sampler are on the way.</p>
+          <p className="mt-5 max-w-2xl font-[family-name:var(--font-source-sans)] text-lg text-[#292a20]/70">Hear a live original and a five-song cover medley. A short booking reel is on the way.</p>
           <div className="mt-12 flex flex-col justify-between gap-5 border-l-2 border-[#b9771c] bg-[#f3f0e8] p-7 sm:flex-row sm:items-center">
             <div>
               <p className="text-[11px] uppercase tracking-[0.2em] text-[#986014]">01 · Booking reel</p>
@@ -124,12 +124,10 @@ export default function EpkPage() {
               <p className="mb-4 text-[11px] uppercase tracking-[0.2em] text-[#986014]">02 · Live original</p>
               <LiteYouTube id="qrsYATQ89Io" title="Mr. Kind — The Girl with the Golden Eyes (live)" caption="The Girl with the Golden Eyes · live original" />
             </div>
-            <aside className="border-t-2 border-[#b9771c] bg-[#f3f0e8] p-8 lg:p-10">
-              <p className="text-[11px] uppercase tracking-[0.2em] text-[#986014]">03 · Cover sampler</p>
-              <h3 className="mt-5 font-[family-name:var(--font-playfair)] text-3xl">A short look at the cover set.</h3>
-              <p className="mt-5 font-[family-name:var(--font-source-sans)] text-base leading-relaxed text-[#292a20]/70">A shorter cover sampler is on its way. For now, you can hear the full live set.</p>
-              <a href="https://www.youtube.com/watch?v=lD5WKJGGoFE" target="_blank" rel="noopener noreferrer" className="focus-ring mt-8 inline-block border-b border-[#b9771c] pb-1 text-xs uppercase tracking-[0.14em] text-[#292a20] hover:text-[#986014]">Watch the existing full cover set ↗</a>
-            </aside>
+            <div>
+              <p className="mb-4 text-[11px] uppercase tracking-[0.2em] text-[#986014]">03 · Cover sampler</p>
+              <LiteYouTube id="crZaMQwg2L8" title="Mr. Kind — Five-Song Cover Medley (Live Performance)" caption="Five-song cover medley · live performance · 2:12" />
+            </div>
           </div>
         </div>
       </section>
