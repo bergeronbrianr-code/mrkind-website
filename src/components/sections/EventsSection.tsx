@@ -4,7 +4,7 @@ const highlights = [
   "100+ song repertoire spanning classic rock, folk, indie, soul, and pop",
   "Professional compact setup — suitable for offices, rooftops, private venues",
   "Available solo or with additional musicians",
-  "Cocktail hours and corporate events (wedding cocktail hours considered on a case-by-case basis)",
+  "Cocktail hours, company gatherings, and private parties",
 ];
 
 export default function EventsSection() {

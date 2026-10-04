@@ -1,12 +1,13 @@
 import Link from "next/link";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Music", href: "#music" },
-  { label: "Shows", href: "#shows" },
-  { label: "House Concerts", href: "#house-concerts" },
-  { label: "Events", href: "#events" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Music", href: "/#music" },
+  { label: "Shows", href: "/#shows" },
+  { label: "House Concerts", href: "/#house-concerts" },
+  { label: "Events", href: "/#events" },
+  { label: "EPK / Press", href: "/epk" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const socials = [
@@ -15,7 +16,10 @@ const socials = [
   { label: "Facebook", href: "https://www.facebook.com/meetmrkind" },
 ];
 
-export default function Footer() {
+export default function Footer({ bookerFocused = false }: { bookerFocused?: boolean }) {
+  const links = bookerFocused
+    ? [{ label: "Home", href: "/" }, { label: "Watch", href: "#watch" }, { label: "Reviews", href: "#epk-reviews" }, { label: "Contact", href: "#contact" }]
+    : navLinks;
   return (
     <footer className="bg-[#f3f0e8] border-t border-[#292a20]/15 py-14 px-5 md:px-8">
       <div className="max-w-7xl mx-auto">
@@ -39,14 +43,14 @@ export default function Footer() {
               Navigate
             </p>
             <ul className="space-y-2">
-              {navLinks.map((link) => (
+              {links.map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
                     className="focus-ring font-[family-name:var(--font-dm-sans)] text-sm text-[#292a20]/65 hover:text-[#b9771c] transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -71,20 +75,20 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-            <div className="flex flex-wrap gap-3">
+            {!bookerFocused && <div className="flex flex-wrap gap-3">
               <Link
                 href="/request"
                 className="focus-ring inline-block font-[family-name:var(--font-dm-sans)] text-[11px] tracking-[0.16em] uppercase px-5 py-2 bg-[#b9771c] text-[#f3f0e8] hover:bg-[#292a20] transition-colors"
               >
                 Request / Tip
               </Link>
-              <a
-                href="#mailing-list"
+              <Link
+                href="/#mailing-list"
                 className="focus-ring inline-block font-[family-name:var(--font-dm-sans)] text-[11px] tracking-[0.16em] uppercase px-5 py-2 border border-[#292a20]/25 text-[#292a20] hover:border-[#b9771c] hover:text-[#b9771c] transition-colors"
               >
                 Email &amp; Text List
-              </a>
-            </div>
+              </Link>
+            </div>}
           </div>
         </div>
 
