@@ -20,8 +20,8 @@ const reviews = [
     source: "https://unilocal.es/estados-unidos/san-francisco/ivy-hill-entertainment",
   },
   {
-    quote: "He needed no direction.",
-    name: "Bao V.",
+    quote: "I would absolutely recommend him for any event.",
+    name: "Matt L.",
     source: "https://unilocal.es/estados-unidos/san-francisco/ivy-hill-entertainment",
   },
   {
@@ -57,8 +57,9 @@ export default function EpkPage() {
             </h1>
             <div className="my-8 h-px w-20 bg-[#b9771c]" />
             <p className="max-w-xl font-[family-name:var(--font-source-sans)] text-xl leading-relaxed text-[#292a20]/75 md:text-2xl">
-              Indie rock and folk-Americana for corporate gatherings and private parties across DC, Maryland, and Virginia.
+              Indie rock and folk-Americana for corporate gatherings, holiday parties, and private events across DC, Maryland, and Virginia.
             </p>
+            <p className="mt-5 text-xs font-medium uppercase tracking-[0.16em] text-[#986014]">Booking holiday events</p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href={inquiryHref} className="focus-ring bg-[#b9771c] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-[#f3f0e8] transition-colors hover:bg-[#292a20]">Book Mr. Kind</Link>
               <a href="#watch" className="focus-ring border border-[#292a20]/25 px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] transition-colors hover:border-[#b9771c] hover:text-[#b9771c]">Watch live</a>
@@ -94,7 +95,7 @@ export default function EpkPage() {
             <h2 id="epk-bio" className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl">A song first kind of set.</h2>
             <div className="mt-8 space-y-5 font-[family-name:var(--font-source-sans)] text-lg leading-relaxed text-[#292a20]/75">
               <p>Mr. Kind is Brian Bergeron, a singer, songwriter, and guitarist now performing across the DC, Maryland, and Virginia area. His set moves between heartfelt indie rock originals and familiar songs reshaped for voice and guitar, giving guests something to listen to without taking over the room.</p>
-              <p>Before returning to the DMV, Brian fronted Oakland indie band Mr. Kind and performed throughout the Bay Area. His musical roots go back to Boston&apos;s folk-rock scene, and songs from his earlier catalog reached television audiences through <em>The Voice</em>, <em>The Young and the Restless</em>, <em>Keeping Up with the Kardashians</em>, and <em>The Real World</em>.</p>
+              <p>Before returning to the DMV, Brian fronted Oakland indie band Mr. Kind and founded Ivy Hill Entertainment, a Bay Area-based events company. His musical roots go back to Boston&apos;s folk-rock scene, and songs from his earlier catalog reached television audiences through <em>The Voice</em>, <em>The Young and the Restless</em>, <em>Keeping Up with the Kardashians</em>, and <em>The Real World</em>.</p>
               <p>For planners and hosts, he brings a compact setup, a broad mix of covers and originals, and a straightforward load-in. He can shape the music around a company gathering, milestone party, or intimate reception.</p>
             </div>
           </div>
@@ -111,24 +112,18 @@ export default function EpkPage() {
         <div className="mx-auto max-w-7xl">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-[#986014]">Hear the set</p>
           <h2 id="epk-watch" className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl">Watch Mr. Kind live.</h2>
-          <p className="mt-5 max-w-2xl font-[family-name:var(--font-source-sans)] text-lg text-[#292a20]/70">Hear a live original and a five-song cover medley. A short booking reel is on the way.</p>
-          <div className="mt-12 flex flex-col justify-between gap-5 border-l-2 border-[#b9771c] bg-[#f3f0e8] p-7 sm:flex-row sm:items-center">
+          <p className="mt-5 max-w-2xl font-[family-name:var(--font-source-sans)] text-lg text-[#292a20]/70">Hear a live original and a five-song cover medley.</p>
+          <div className="mt-12 grid gap-10 lg:grid-cols-[1.25fr_0.75fr]">
             <div>
-              <p className="text-[11px] uppercase tracking-[0.2em] text-[#986014]">01 · Booking reel</p>
-              <h3 className="mt-2 font-[family-name:var(--font-playfair)] text-2xl">A quick look at the live show.</h3>
-            </div>
-            <span className="text-xs uppercase tracking-[0.14em] text-[#292a20]/55">60–90 seconds · Coming soon</span>
-          </div>
-          <div className="mt-6 grid gap-10 lg:grid-cols-[1.25fr_0.75fr]">
-            <div>
-              <p className="mb-4 text-[11px] uppercase tracking-[0.2em] text-[#986014]">02 · Live original</p>
+              <p className="mb-4 text-[11px] uppercase tracking-[0.2em] text-[#986014]">01 · Live original</p>
               <LiteYouTube id="qrsYATQ89Io" title="Mr. Kind — The Girl with the Golden Eyes (live)" caption="The Girl with the Golden Eyes · live original" />
             </div>
             <div>
-              <p className="mb-4 text-[11px] uppercase tracking-[0.2em] text-[#986014]">03 · Cover sampler</p>
+              <p className="mb-4 text-[11px] uppercase tracking-[0.2em] text-[#986014]">02 · Cover sampler</p>
               <LiteYouTube id="crZaMQwg2L8" title="Mr. Kind — Five-Song Cover Medley (Live Performance)" caption="Five-song cover medley · live performance · 2:12" />
             </div>
           </div>
+          <Link href="/repertoire" className="focus-ring mt-8 inline-block border-b border-[#986014] pb-1 text-xs font-medium uppercase tracking-[0.14em] text-[#292a20] hover:text-[#986014]">Browse the cover repertoire ↗</Link>
         </div>
       </section>
 
@@ -148,7 +143,7 @@ export default function EpkPage() {
         <div className="mx-auto max-w-7xl">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-[#e6c48c]">From past clients</p>
           <h2 id="epk-reviews" className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl">What people remember.</h2>
-          <p className="mt-5 max-w-2xl font-[family-name:var(--font-source-sans)] text-base text-[#f3f0e8]/65">These reviews name Brian and come from his earlier Oakland performances through Ivy Hill Entertainment. Read the full context at each source.</p>
+          <p className="mt-5 max-w-2xl font-[family-name:var(--font-source-sans)] text-base text-[#f3f0e8]/65">These reviews name Brian and come from earlier Bay Area events booked through Ivy Hill Entertainment, the company he founded. Read the full context at each source.</p>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
             {reviews.map((review) => (
               <figure key={review.name} className="border-l-2 border-[#b9771c] bg-[#f3f0e8]/5 p-7">
@@ -179,7 +174,7 @@ export default function EpkPage() {
         <div className="mx-auto max-w-7xl">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-[#986014]">Booking</p>
           <h2 id="epk-contact" className="max-w-3xl font-[family-name:var(--font-playfair)] text-5xl md:text-6xl">Let&apos;s find the right music for your event.</h2>
-          <p className="mt-6 max-w-2xl font-[family-name:var(--font-source-sans)] text-lg text-[#292a20]/75">Corporate gatherings and private parties in the DC area. Rates are quoted by event.</p>
+          <p className="mt-6 max-w-2xl font-[family-name:var(--font-source-sans)] text-lg text-[#292a20]/75">Booking corporate gatherings, holiday parties, and private events in the DC area. Rates are quoted by event.</p>
           <div className="mt-9 flex flex-wrap items-center gap-6">
             <Link href={inquiryHref} className="focus-ring bg-[#292a20] px-7 py-3.5 text-xs font-medium uppercase tracking-[0.16em] text-[#f3f0e8] transition-colors hover:bg-[#b9771c]">Send a booking inquiry</Link>
             <a href="mailto:info@mrkindmusic.com?subject=Private%20event%20booking" className="focus-ring border-b border-[#292a20]/50 pb-1 text-base hover:border-[#b9771c] hover:text-[#986014]">info@mrkindmusic.com</a>
