@@ -18,7 +18,7 @@ const socials = [
 
 export default function Footer({ bookerFocused = false }: { bookerFocused?: boolean }) {
   const links = bookerFocused
-    ? [{ label: "Home", href: "/" }, { label: "Watch", href: "#watch" }, { label: "Reviews", href: "#epk-reviews" }, { label: "Contact", href: "#contact" }]
+    ? [{ label: "Home", href: "/" }, { label: "Watch", href: "/epk#watch" }, { label: "Repertoire", href: "/repertoire" }, { label: "Reviews", href: "/epk#epk-reviews" }, { label: "Contact", href: "/epk#contact" }]
     : navLinks;
   return (
     <footer className="bg-[#f3f0e8] border-t border-[#292a20]/15 py-14 px-5 md:px-8">
