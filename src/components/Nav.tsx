@@ -1,19 +1,30 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navLinks = [
-  { label: "About", href: "#about" },
-  { label: "Music", href: "#music" },
-  { label: "Watch", href: "#video" },
-  { label: "Shows", href: "#shows" },
-  { label: "House Concerts", href: "#house-concerts" },
-  { label: "Private Events", href: "#events" },
+  { label: "About", href: "/#about" },
+  { label: "Music", href: "/#music" },
+  { label: "Watch", href: "/#video" },
+  { label: "Shows", href: "/#shows" },
+  { label: "House Concerts", href: "/#house-concerts" },
+  { label: "Private Events", href: "/#events" },
+];
+
+const bookerLinks = [
+  { label: "Watch", href: "/epk#watch" },
+  { label: "Repertoire", href: "/repertoire" },
+  { label: "Reviews", href: "/epk#epk-reviews" },
+  { label: "Contact", href: "/epk#contact" },
 ];
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isBookerPage = pathname === "/epk" || pathname === "/repertoire";
+  const links = isBookerPage ? bookerLinks : navLinks;
 
   return (
     <>
@@ -29,23 +40,23 @@ export default function Nav() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <a
+          {links.map((link) => (
+            <Link
               key={link.href}
               href={link.href}
               className="focus-ring text-[11px] font-[family-name:var(--font-dm-sans)] text-[#292a20]/65 hover:text-[#b9771c] transition-colors duration-200 tracking-[0.16em] uppercase whitespace-nowrap"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         {/* Request / Tip CTA */}
         <Link
-          href="/request"
+          href={isBookerPage ? "/?inquiry=corporate-private-event#contact" : "/request"}
           className="focus-ring hidden lg:inline-flex text-[11px] px-5 py-2.5 bg-[#b9771c] text-[#f3f0e8] hover:bg-[#292a20] transition-colors duration-200 tracking-[0.16em] uppercase font-[family-name:var(--font-dm-sans)] shrink-0"
         >
-          Request / Tip
+          {isBookerPage ? "Book Mr. Kind" : "Request / Tip"}
         </Link>
 
         {/* Mobile hamburger */}
@@ -71,22 +82,22 @@ export default function Nav() {
       <div
         className={`lg:hidden fixed inset-0 bg-[#f3f0e8] z-40 flex flex-col items-center justify-center gap-8 transition-all duration-300 ${menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       >
-        {navLinks.map((link) => (
-          <a
+        {links.map((link) => (
+          <Link
             key={link.href}
             href={link.href}
             onClick={() => setMenuOpen(false)}
             className="focus-ring font-[family-name:var(--font-playfair)] text-4xl text-[#292a20] hover:text-[#b9771c] transition-colors"
           >
             {link.label}
-          </a>
+          </Link>
         ))}
         <Link
-          href="/request"
+          href={isBookerPage ? "/?inquiry=corporate-private-event#contact" : "/request"}
           onClick={() => setMenuOpen(false)}
           className="focus-ring mt-4 text-xs px-8 py-3 bg-[#b9771c] text-[#f3f0e8] tracking-[0.16em] uppercase font-[family-name:var(--font-dm-sans)]"
         >
-          Request / Tip
+          {isBookerPage ? "Book Mr. Kind" : "Request / Tip"}
         </Link>
       </div>
     </>
