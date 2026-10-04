@@ -13,16 +13,18 @@ const navLinks = [
   { label: "Private Events", href: "/#events" },
 ];
 
-const epkLinks = [
-  { label: "Watch", href: "#watch" },
-  { label: "Reviews", href: "#epk-reviews" },
-  { label: "Contact", href: "#contact" },
+const bookerLinks = [
+  { label: "Watch", href: "/epk#watch" },
+  { label: "Repertoire", href: "/repertoire" },
+  { label: "Reviews", href: "/epk#epk-reviews" },
+  { label: "Contact", href: "/epk#contact" },
 ];
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const isEpk = usePathname() === "/epk";
-  const links = isEpk ? epkLinks : navLinks;
+  const pathname = usePathname();
+  const isBookerPage = pathname === "/epk" || pathname === "/repertoire";
+  const links = isBookerPage ? bookerLinks : navLinks;
 
   return (
     <>
@@ -51,10 +53,10 @@ export default function Nav() {
 
         {/* Request / Tip CTA */}
         <Link
-          href={isEpk ? "/?inquiry=corporate-private-event#contact" : "/request"}
+          href={isBookerPage ? "/?inquiry=corporate-private-event#contact" : "/request"}
           className="focus-ring hidden lg:inline-flex text-[11px] px-5 py-2.5 bg-[#b9771c] text-[#f3f0e8] hover:bg-[#292a20] transition-colors duration-200 tracking-[0.16em] uppercase font-[family-name:var(--font-dm-sans)] shrink-0"
         >
-          {isEpk ? "Book Mr. Kind" : "Request / Tip"}
+          {isBookerPage ? "Book Mr. Kind" : "Request / Tip"}
         </Link>
 
         {/* Mobile hamburger */}
@@ -91,11 +93,11 @@ export default function Nav() {
           </Link>
         ))}
         <Link
-          href={isEpk ? "/?inquiry=corporate-private-event#contact" : "/request"}
+          href={isBookerPage ? "/?inquiry=corporate-private-event#contact" : "/request"}
           onClick={() => setMenuOpen(false)}
           className="focus-ring mt-4 text-xs px-8 py-3 bg-[#b9771c] text-[#f3f0e8] tracking-[0.16em] uppercase font-[family-name:var(--font-dm-sans)]"
         >
-          {isEpk ? "Book Mr. Kind" : "Request / Tip"}
+          {isBookerPage ? "Book Mr. Kind" : "Request / Tip"}
         </Link>
       </div>
     </>
