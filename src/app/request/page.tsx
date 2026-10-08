@@ -329,6 +329,20 @@ export default function RequestPage() {
               ? `Request for "${selectedSong.split(" – ")[1]}" sent.`
               : "You're all set."}
           </p>
+          {!hasTip && hasRequest && (
+            <button
+              onClick={() => {
+                setSelectedSong(""); setSearch(""); setNote("");
+                setPaymentMethod(null); setTipAmount(null); setCustomTip("");
+                setClientSecret(""); setSubmitError(""); setNotifyChecked(false);
+                setPhase("form");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="focus-ring block w-full mb-6 font-[family-name:var(--font-source-sans)] text-base text-[#b8832a] hover:underline"
+            >
+              Leave a tip →
+            </button>
+          )}
           <button
             onClick={() => {
               setPhase("form");
