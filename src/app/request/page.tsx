@@ -7,6 +7,7 @@
 import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { SONGS } from "@/lib/repertoire";
+import { sendSongRequest } from "@/lib/song-request";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -109,6 +110,21 @@ function PaymentForm({
   const [paying, setPaying] = useState(false);
   const [error, setError] = useState("");
 
+  async function handleVenmo() {
+    setPaying(true);
+    setError("");
+    try {
+      await sendSongRequest({ name, email, song, note });
+      if (notifyChecked && email) {
+        subscribeToMailchimp(email, name, phone).catch(() => {});
+      }
+      window.location.assign(VENMO_URL);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Couldn't send your request. Please try again.");
+      setPaying(false);
+    }
+  }
+
   async function handlePay(e: React.FormEvent) {
     e.preventDefault();
     if (!stripe || !elements) return;
@@ -187,14 +203,17 @@ function PaymentForm({
       </p>
       <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/30 text-xs">
         Prefer Venmo?{" "}
-        <a
-          href={VENMO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#b8832a] hover:underline"
+        <button
+          type="button"
+          onClick={handleVenmo}
+          disabled={paying}
+          className="text-[#b8832a] hover:underline disabled:opacity-40"
         >
-          Send ${amount} directly →
-        </a>
+          {song || note ? "Send request & open Venmo →" : "Open Venmo →"}
+        </button>
+      </p>
+      <p className="text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-xs">
+        Choose your tip amount in Venmo.
       </p>
     </form>
   );
@@ -216,6 +235,7 @@ export default function RequestPage() {
   const [phase, setPhase] = useState<"form" | "payment" | "success">("form");
   const [clientSecret, setClientSecret] = useState("");
   const [loadingPayment, setLoadingPayment] = useState(false);
+  const [sendingRequest, setSendingRequest] = useState(false);
   const [submitError, setSubmitError] = useState("");
 
   const filtered = useMemo(() => {
@@ -229,6 +249,29 @@ export default function RequestPage() {
   const hasTip = !!effectiveTip && effectiveTip >= 1;
   const hasRequest = !!selectedSong || !!note;
   const canSubmit = hasTip || hasRequest;
+  const busy = loadingPayment || sendingRequest;
+
+  const handleRequest = useCallback(async (method: "free" | "venmo") => {
+    setSubmitError("");
+    setSendingRequest(true);
+    try {
+      await sendSongRequest({ name, email, song: selectedSong, note });
+      if (notifyChecked && email) {
+        subscribeToMailchimp(email, name, phone).catch(() => {});
+      }
+      if (method === "venmo") {
+        window.location.assign(VENMO_URL);
+      } else {
+        setTipAmount(null);
+        setCustomTip("");
+        setPhase("success");
+      }
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Couldn't send your request. Please try again.");
+    } finally {
+      setSendingRequest(false);
+    }
+  }, [name, email, selectedSong, note, notifyChecked, phone]);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -258,20 +301,9 @@ export default function RequestPage() {
         setLoadingPayment(false);
       }
     } else {
-      // No tip — just submit request and go to success
-      if (hasRequest) {
-        fetch("https://formspree.io/f/mbdzejjy", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, song: selectedSong, note }),
-        }).catch(() => {});
-      }
-      if (notifyChecked && email) {
-        subscribeToMailchimp(email, name, phone).catch(() => {});
-      }
-      setPhase("success");
+      await handleRequest("free");
     }
-  }, [hasTip, effectiveTip, selectedSong, name, email, phone, note, notifyChecked, hasRequest]);
+  }, [hasTip, effectiveTip, selectedSong, name, handleRequest]);
 
   // ── Success screen
   if (phase === "success") {
@@ -354,6 +386,19 @@ export default function RequestPage() {
           <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/40 text-sm italic">
             Request a song or leave a tip — or both.
           </p>
+          {!hasRequest && (
+            <div className="mt-6">
+              <a
+                href={VENMO_URL}
+                className="focus-ring inline-flex w-full items-center justify-center bg-[#b8832a] px-5 py-4 font-[family-name:var(--font-dm-sans)] text-sm font-semibold tracking-widest uppercase text-[#1c1a17] hover:bg-[#a8721a] transition-colors"
+              >
+                Tip with Venmo →
+              </a>
+              <p className="mt-2 font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm">
+                Just here to tip? Go straight to @MrKindMusic.
+              </p>
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
@@ -488,6 +533,17 @@ export default function RequestPage() {
                 ✓ ${effectiveTip} tip selected
               </p>
             )}
+            <button
+              type="button"
+              onClick={() => handleRequest("venmo")}
+              disabled={busy}
+              className="focus-ring mt-5 w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors disabled:opacity-40"
+            >
+              {sendingRequest ? "Sending request…" : hasRequest ? "Send request & open Venmo →" : "Tip with Venmo →"}
+            </button>
+            <p className="mt-2 text-center font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm">
+              Choose your amount in Venmo.{hasRequest ? " We'll send your request first." : ""}
+            </p>
           </section>
 
           {/* ── 3. Your Info ────────────────────────────────────────── */}
@@ -546,16 +602,18 @@ export default function RequestPage() {
           {/* ── Submit ──────────────────────────────────────────────── */}
           <div className="pb-4">
             {submitError && (
-              <p className="font-[family-name:var(--font-dm-sans)] text-[#e07070] text-xs text-center mb-3">
+              <p role="alert" className="font-[family-name:var(--font-dm-sans)] text-[#e07070] text-xs text-center mb-3">
                 {submitError}
               </p>
             )}
             <button
               type="submit"
-              disabled={!canSubmit || loadingPayment}
+              disabled={!canSubmit || busy}
               className="w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
             >
-              {loadingPayment
+              {sendingRequest
+                ? "Sending request…"
+                : loadingPayment
                 ? "Setting up payment…"
                 : hasTip
                 ? `Continue to Pay $${effectiveTip} →`
@@ -564,6 +622,16 @@ export default function RequestPage() {
             <p className="mt-3 text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
               {hasTip ? "Paid securely via Stripe · Apple Pay & Google Pay accepted" : "Nothing to pay — just hit send"}
             </p>
+            {hasRequest && hasTip && (
+              <button
+                type="button"
+                onClick={() => handleRequest("free")}
+                disabled={busy}
+                className="focus-ring mt-5 w-full py-3 border border-[#ede8de]/20 font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#ede8de]/60 hover:text-[#ede8de] disabled:opacity-40"
+              >
+                Request without a tip →
+              </button>
+            )}
             <div className="text-center pt-6">
               <Link href="/" className="font-[family-name:var(--font-dm-sans)] text-xs text-[#ede8de]/25 hover:text-[#ede8de]/50 tracking-widest uppercase transition-colors">
                 ← Back to mrkindmusic.com
