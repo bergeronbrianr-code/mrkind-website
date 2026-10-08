@@ -224,7 +224,8 @@ export default function RequestPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"all" | "phil">("all");
   const [selectedSong, setSelectedSong] = useState("");
-  const [tipAmount, setTipAmount] = useState<number | null>(5);
+  const [paymentMethod, setPaymentMethod] = useState<"stripe" | null>(null);
+  const [tipAmount, setTipAmount] = useState<number | null>(null);
   const [customTip, setCustomTip] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -246,9 +247,9 @@ export default function RequestPage() {
   }, [search, filter]);
 
   const effectiveTip = tipAmount ?? (customTip ? parseFloat(customTip) : null);
-  const hasTip = !!effectiveTip && effectiveTip >= 1;
+  const hasTip = effectiveTip !== null && Number.isFinite(effectiveTip) && effectiveTip >= 1;
   const hasRequest = !!selectedSong || !!note;
-  const canSubmit = hasTip || hasRequest;
+  const canSubmit = paymentMethod === "stripe" ? hasTip : hasRequest;
   const busy = loadingPayment || sendingRequest;
 
   const handleRequest = useCallback(async (method: "free" | "venmo") => {
@@ -276,8 +277,13 @@ export default function RequestPage() {
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitError("");
+    if (paymentMethod === "stripe" && !hasTip) {
+      setSubmitError("Choose a tip amount of at least $1.");
+      return;
+    }
+    if (paymentMethod === null && !hasRequest) return;
 
-    if (hasTip) {
+    if (paymentMethod === "stripe" && hasTip) {
       // Go to Stripe payment screen
       setLoadingPayment(true);
       try {
@@ -303,7 +309,7 @@ export default function RequestPage() {
     } else {
       await handleRequest("free");
     }
-  }, [hasTip, effectiveTip, selectedSong, name, handleRequest]);
+  }, [paymentMethod, hasTip, hasRequest, effectiveTip, selectedSong, name, handleRequest]);
 
   // ── Success screen
   if (phase === "success") {
@@ -327,7 +333,7 @@ export default function RequestPage() {
             onClick={() => {
               setPhase("form");
               setSelectedSong(""); setSearch(""); setNote("");
-              setTipAmount(null); setCustomTip(""); setClientSecret("");
+              setPaymentMethod(null); setTipAmount(null); setCustomTip(""); setClientSecret("");
             }}
             className="font-[family-name:var(--font-dm-sans)] text-xs tracking-widest uppercase text-[#b8832a] hover:underline"
           >
@@ -386,22 +392,105 @@ export default function RequestPage() {
           <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/40 text-sm italic">
             Request a song or leave a tip — or both.
           </p>
-          {!hasRequest && (
-            <div className="mt-6">
-              <a
-                href={VENMO_URL}
-                className="focus-ring inline-flex w-full items-center justify-center bg-[#b8832a] px-5 py-4 font-[family-name:var(--font-dm-sans)] text-sm font-semibold tracking-widest uppercase text-[#1c1a17] hover:bg-[#a8721a] transition-colors"
-              >
-                Tip with Venmo →
-              </a>
-              <p className="mt-2 font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm">
-                Just here to tip? Go straight to @MrKindMusic.
-              </p>
-            </div>
-          )}
+
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-10">
+
+          <section aria-labelledby="tip-heading">
+            <div className="mb-5">
+              <h2 id="tip-heading" className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Leave a Tip</h2>
+              <div className="w-8 h-px bg-[#b8832a]" />
+            </div>
+            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/70 text-base mb-5">
+              Choose how to pay, then choose your amount.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <a
+                href={VENMO_URL}
+                onClick={(e) => {
+                  if (busy) { e.preventDefault(); return; }
+                  if (hasRequest || (notifyChecked && email)) {
+                    e.preventDefault();
+                    if (!busy) handleRequest("venmo");
+                  }
+                }}
+                aria-disabled={busy}
+                className={`focus-ring flex min-h-28 flex-col justify-center border border-[#b8832a]/60 bg-[#252220] px-5 py-4 text-center hover:bg-[#b8832a]/15 transition-colors ${busy ? "pointer-events-none opacity-40" : ""}`}
+              >
+                <span className="font-[family-name:var(--font-dm-sans)] text-lg font-semibold text-[#ede8de]">Venmo →</span>
+                <span className="mt-2 font-[family-name:var(--font-source-sans)] text-sm text-[#ede8de]/70">
+                  {hasRequest ? "Send your request, then open Venmo" : "Go straight to Venmo"}
+                </span>
+                <span className="font-[family-name:var(--font-source-sans)] text-sm text-[#ede8de]/70">Choose your amount there</span>
+              </a>
+              <button
+                type="button"
+                aria-pressed={paymentMethod === "stripe"}
+                aria-controls="card-tip-amount"
+                disabled={busy}
+                onClick={() => setPaymentMethod("stripe")}
+                className={`focus-ring flex min-h-28 flex-col justify-center border px-5 py-4 text-center transition-colors disabled:opacity-40 ${paymentMethod === "stripe" ? "border-[#b8832a] bg-[#b8832a]/15" : "border-[#b8832a]/60 bg-[#252220] hover:bg-[#b8832a]/15"}`}
+              >
+                <span className="font-[family-name:var(--font-dm-sans)] text-lg font-semibold text-[#ede8de]">Card / Apple Pay / Google Pay</span>
+                <span className="mt-2 font-[family-name:var(--font-source-sans)] text-sm text-[#ede8de]/70">Choose your amount here</span>
+              </button>
+            </div>
+            {paymentMethod === "stripe" && (
+              <div id="card-tip-amount" className="mt-6">
+                <p className="mb-3 font-[family-name:var(--font-dm-sans)] text-base text-[#ede8de]">How much would you like to tip?</p>
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  {TIP_AMOUNTS.map((amount) => (
+                    <button
+                      key={amount}
+                      type="button"
+                      onClick={() => { setTipAmount(tipAmount === amount ? null : amount); setCustomTip(""); }}
+                      className={`py-4 font-[family-name:var(--font-playfair)] text-2xl transition-all border ${
+                        tipAmount === amount
+                          ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
+                          : "border-[#ede8de]/15 bg-[#252220] text-[#ede8de]/60 hover:border-[#b8832a]/40"
+                      }`}
+                    >
+                      ${amount}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">$</span>
+                  <input
+                    aria-label="Tip amount in dollars"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={customTip}
+                    onChange={(e) => { setCustomTip(e.target.value); setTipAmount(null); }}
+                    placeholder="Other amount"
+                    className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 pl-8 pr-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
+                  />
+                </div>
+
+                {hasTip && (
+                  <p className="mt-3 font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
+                    ✓ ${effectiveTip} tip selected
+                  </p>
+                )}
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={!hasTip || busy}
+                  className="focus-ring mt-5 w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors disabled:opacity-40"
+                >
+                  {loadingPayment ? "Setting up payment…" : hasTip ? `Continue to Pay $${effectiveTip} →` : "Choose a tip amount"}
+                </button>
+                <p className="mt-2 text-center font-[family-name:var(--font-source-sans)] text-sm text-[#ede8de]/70">Secure checkout through Stripe</p>
+              </div>
+            )}
+            {submitError && (
+              <p role="alert" className="mt-4 font-[family-name:var(--font-dm-sans)] text-[#e07070] text-sm">{submitError}</p>
+            )}
+          </section>
+
 
           {/* ── 1. Song Request ─────────────────────────────────────── */}
           <section>
@@ -488,64 +577,6 @@ export default function RequestPage() {
             </div>
           </section>
 
-          {/* ── 2. Tip ──────────────────────────────────────────────── */}
-          <section>
-            <div className="mb-5">
-              <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-[#ede8de] mb-1">Leave a Tip</h2>
-              <div className="w-8 h-px bg-[#b8832a]" />
-            </div>
-            <p className="font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm italic mb-5">
-              Tip $5 and move your request to the front of the line.
-            </p>
-
-            <div className="grid grid-cols-3 gap-3 mb-4">
-              {TIP_AMOUNTS.map((amount) => (
-                <button
-                  key={amount}
-                  type="button"
-                  onClick={() => { setTipAmount(tipAmount === amount ? null : amount); setCustomTip(""); }}
-                  className={`py-4 font-[family-name:var(--font-playfair)] text-2xl transition-all border ${
-                    tipAmount === amount
-                      ? "border-[#b8832a] bg-[#b8832a]/15 text-[#b8832a]"
-                      : "border-[#ede8de]/15 bg-[#252220] text-[#ede8de]/60 hover:border-[#b8832a]/40"
-                  }`}
-                >
-                  ${amount}
-                </button>
-              ))}
-            </div>
-
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ede8de]/40 font-[family-name:var(--font-dm-sans)]">$</span>
-              <input
-                type="number"
-                min="1"
-                step="1"
-                value={customTip}
-                onChange={(e) => { setCustomTip(e.target.value); setTipAmount(null); }}
-                placeholder="Other amount"
-                className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/20 pl-8 pr-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
-              />
-            </div>
-
-            {hasTip && (
-              <p className="mt-3 font-[family-name:var(--font-dm-sans)] text-[#b8832a] text-xs tracking-widest uppercase text-center">
-                ✓ ${effectiveTip} tip selected
-              </p>
-            )}
-            <button
-              type="button"
-              onClick={() => handleRequest("venmo")}
-              disabled={busy}
-              className="focus-ring mt-5 w-full py-4 bg-[#b8832a] text-[#1c1a17] font-[family-name:var(--font-dm-sans)] font-semibold tracking-widest uppercase text-sm hover:bg-[#a8721a] transition-colors disabled:opacity-40"
-            >
-              {sendingRequest ? "Sending request…" : hasRequest ? "Send request & open Venmo →" : "Tip with Venmo →"}
-            </button>
-            <p className="mt-2 text-center font-[family-name:var(--font-source-sans)] text-[#ede8de]/50 text-sm">
-              Choose your amount in Venmo.{hasRequest ? " We'll send your request first." : ""}
-            </p>
-          </section>
-
           {/* ── 3. Your Info ────────────────────────────────────────── */}
           <section>
             <div className="mb-5">
@@ -567,24 +598,16 @@ export default function RequestPage() {
                 placeholder="Email (optional)"
                 className="w-full bg-[#252220] border border-[#ede8de]/10 text-[#ede8de] placeholder-[#ede8de]/25 px-4 py-3 text-base font-[family-name:var(--font-dm-sans)] focus:outline-none focus:border-[#b8832a]/50 transition-colors"
               />
-              <label className="flex items-start gap-3 cursor-pointer group pt-1">
-                <div className="relative mt-0.5 shrink-0">
-                  <input
-                    type="checkbox"
-                    checked={notifyChecked}
-                    onChange={(e) => setNotifyChecked(e.target.checked)}
-                    className="sr-only"
-                  />
-                  <div className={`w-4 h-4 border transition-colors ${notifyChecked ? "border-[#b8832a] bg-[#b8832a]" : "border-[#ede8de]/20 bg-[#252220] group-hover:border-[#ede8de]/40"}`}>
-                    {notifyChecked && (
-                      <svg className="w-4 h-4 text-[#1c1a17]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                  </div>
-                </div>
-                <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/40 text-xs leading-relaxed group-hover:text-[#ede8de]/60 transition-colors">
-                  Get email &amp; text alerts about upcoming shows and house concert dates
+              <label className={`focus-within:outline-2 focus-within:outline-[#b8832a] flex items-start gap-4 cursor-pointer border p-5 transition-colors ${notifyChecked ? "border-[#b8832a] bg-[#b8832a]/10" : "border-[#ede8de]/25 bg-[#252220] hover:border-[#b8832a]/60"}`}>
+                <input
+                  type="checkbox"
+                  checked={notifyChecked}
+                  onChange={(e) => setNotifyChecked(e.target.checked)}
+                  className="mt-0.5 h-6 w-6 shrink-0 accent-[#b8832a]"
+                />
+                <span className="font-[family-name:var(--font-dm-sans)] text-[#ede8de]/90 leading-relaxed">
+                  <span className="block text-lg font-semibold">Get email &amp; text alerts</span>
+                  <span className="mt-1 block text-base text-[#ede8de]/75">Upcoming shows and house concert dates</span>
                 </span>
               </label>
               {notifyChecked && (
@@ -601,11 +624,6 @@ export default function RequestPage() {
 
           {/* ── Submit ──────────────────────────────────────────────── */}
           <div className="pb-4">
-            {submitError && (
-              <p role="alert" className="font-[family-name:var(--font-dm-sans)] text-[#e07070] text-xs text-center mb-3">
-                {submitError}
-              </p>
-            )}
             <button
               type="submit"
               disabled={!canSubmit || busy}
@@ -615,14 +633,14 @@ export default function RequestPage() {
                 ? "Sending request…"
                 : loadingPayment
                 ? "Setting up payment…"
-                : hasTip
-                ? `Continue to Pay $${effectiveTip} →`
+                : paymentMethod === "stripe"
+                ? hasTip ? `Continue to Pay $${effectiveTip} →` : "Choose a tip amount above"
                 : "Send Request →"}
             </button>
             <p className="mt-3 text-center font-[family-name:var(--font-dm-sans)] text-[#ede8de]/20 text-xs">
-              {hasTip ? "Paid securely via Stripe · Apple Pay & Google Pay accepted" : "Nothing to pay — just hit send"}
+              {paymentMethod === "stripe" ? "Paid securely via Stripe · Apple Pay & Google Pay accepted" : "Requests are free. Tips are always appreciated."}
             </p>
-            {hasRequest && hasTip && (
+            {hasRequest && paymentMethod === "stripe" && (
               <button
                 type="button"
                 onClick={() => handleRequest("free")}
